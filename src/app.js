@@ -17,7 +17,7 @@ store.subscribe(()=>{
 
 const App = () => (
   <Provider store={store}>
-  <MuiThemeProvider theme={theme}>
+  <MuiThemeProvider theme={theme} >
     <Providers />
   </MuiThemeProvider>
   </Provider>
