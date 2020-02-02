@@ -7,6 +7,7 @@ import PrivateRoute from './PrivateRouter';
 
 import Login from '../../screens/Login';
 import FirstLogin from '../../screens/FirstLogin';
+import ForgetPass from '../../screens/ForgetPass';
 import Register from '../../screens/Register';
 import NotFound from '../../screens/NotFound';
 
@@ -18,6 +19,7 @@ const AppRouter = () => (
       {/* Login Related */}
       <PublicRoute path="/" component={Login} exact={true} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
+      <PublicRoute path="/forgetPassword" component={ForgetPass} exact={true} />
 
       {/* Registration page */}
       <PublicRoute path="/register" component={Register} />
