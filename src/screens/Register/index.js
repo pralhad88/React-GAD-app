@@ -36,7 +36,8 @@ const styles = theme => ({
   submit: {
     margin: theme.spacing(1.5, 0, 1),
     backgroundColor: "#eb7134",
-    width: 150
+    width: 150,
+    marginLeft: -45
   },
 });
 
@@ -102,8 +103,8 @@ class Register extends Component {
             <ListOfCountry />
             <Grid style={{ marginLeft: 40 }}>
               <Grid item>
-                <p style={{ alignItems: 'center', marginLeft: 60 }}>By signing up, you agree to our</p>
-                <p style={{ alignItems: 'center', marginLeft: 30 }}><span style={{ color: '#eb7134' }}>Term and conditions</span> and <span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
+                <p style={{ alignItems: 'center', marginLeft: 28,color:'#cfd9df' }}>By signing up, you agree to our</p>
+                <p style={{ alignItems: 'center', marginLeft: 2 }}><span style={{ color: '#eb7134' }}>Term and conditions</span> <span style={{color: '#cfd9df'}}>and </span><span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
                 {/* <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
@@ -121,11 +122,12 @@ class Register extends Component {
               Sign Up
           </Button>
           </Grid>
-          <Grid item>
+          <Grid item >
             <Link href="/" style={{ color: 'black' }}>
-              Already have an account? Login
+              <span style={{color:'#cfd9df', marginLeft: -45}}>Already have an account? Login</span>
             </Link>
           </Grid>
+          <br></br>
         </div>
         {/* <Box mt={5}>
         <Copyright />

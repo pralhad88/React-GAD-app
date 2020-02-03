@@ -115,7 +115,7 @@ class Login extends Component {
           </Button>
           <Grid item>
             <p>
-              <span>Not registered yet?</span>
+              <span style={{color: '#cfd9df'}}>Not registered yet? </span>
               <span>
                 <Link href="/register" variant="body2">
                   Sign Up
@@ -165,7 +165,7 @@ class Login extends Component {
             </Grid>
           </Grid>
           <Typography>
-            <p style={{ alignItems: 'center', marginLeft: 27 }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> and <span style={{ color: '#eb7134' }}>Privacy Policy</span>
+            <p style={{ alignItems: 'center', marginLeft: 27, color: '#cfd9df' }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> <span style={{color:'#cfd9df'}}>and</span> <span style={{ color: '#eb7134' }}>Privacy Policy</span>
           </Typography>
           <br></br>
         </div>
