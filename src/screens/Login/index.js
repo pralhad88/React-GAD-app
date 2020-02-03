@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Image from 'material-ui-image';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import 'font-awesome/css/font-awesome.css'
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-import LinkedIn from "linkedin-login-for-react";
+// import LinkedIn from "linkedin-login-for-react";
+import { LinkedIn } from 'react-linkedin-login-oauth2';
 import { theme } from '../../theme/theme';
+import logo from '../../assets/logo.png'
 
 
 const useStyles = theme => ({
@@ -32,7 +35,10 @@ const useStyles = theme => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 1),
+    backgroundColor: "#eb7134",
+    // marginLeft: 60,
+    width: 150
   },
 });
 const responseGoogle = (response) => {
@@ -46,14 +52,33 @@ const responseLinkedIn = (response) => {
 }
 
 class Login extends Component {
+
+  handleSuccess = (data) => {
+    console.log(data)
+    // this.setState({
+    //   code: data.code,
+    //   errorMessage: '',
+    // });
+  }
+
+  handleFailure = (error) => {
+    console.log(error)
+    // this.setState({
+    //   code: '',
+    //   errorMessage: error.errorMessage,
+    // });
+  }
   render() {
     const { classes } = this.props;
     return (
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
+        <CssBaseline />
         <div className={classes.paper} style={{}}>
-          <Grid item xs={0.15}>
-            <LockOutlinedIcon />
-          </Grid>
+          <Image
+            src={logo}
+            style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
+            imageStyle={{ height: 120, width: 165 }}
+          />
           <Typography component="h1" variant="h5">
             Login
           <hr></hr>
@@ -61,7 +86,7 @@ class Login extends Component {
           <TextField
 
             margin="normal"
-            required
+            // required
             fullWidth
             id="email"
             label="Email Address"
@@ -72,7 +97,7 @@ class Login extends Component {
           <TextField
 
             margin="normal"
-            required
+            // required
             fullWidth
             name="password"
             label="Password"
@@ -82,67 +107,67 @@ class Login extends Component {
           />
           <Button
             type="submit"
-            halfWidth
             variant="contained"
-            justifyContent='center'
             color="primary"
-            className={classes.submit}>
+            className={classes.submit}
+          >
             Login
           </Button>
-          <p>
-            <span>Not registered yet?</span>
-            <span>
-            <Link href="#" variant="body2">
-              Sign Up
+          <Grid item>
+            <p>
+              <span>Not registered yet?</span>
+              <span>
+                <Link href="/register" variant="body2">
+                  Sign Up
             </Link>
-            </span> 
-          </p>
-          <Grid item xs>
-            <Link href="/forgetPassword" variant="body2">
-              Forgot password?
+              </span>
+              <p style={{ marginLeft: 20 }}>
+                <Link href="/forgetPassword" variant="body2">
+                  Forgot password?
               </Link>
+              </p>
+            </p>
           </Grid>
-
-          <FormControlLabel
-            control={<box value="remember" color="primary" />}
-            label={"OR LOGIN WITH"} />
+          <h4><span>OR LOGIN WITH</span></h4>
           <Box style={{ height: theme.spacing(2) }} />
-          <Grid container spacing={2}>
+          <Grid container style={{ marginLeft: 25, width: 270 }}>
             <Grid item xs={4}>
               <GoogleLogin
                 clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
                 buttonText=""
                 className="btnGoogle"
+                theme='dark'
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
-                // style= {{ 
-                //   width: 100,
-                //   height:100,
-                //   borderRadius: '25px',
-                //   border: '0px transparent'
-                // }}
-              ></GoogleLogin>
+              />
             </Grid>
             <Grid item xs={4}>
-            <FacebookLogin
-              appId="1088597931155576"
-              autoLoad={false}
-              fields="name,email,picture"
-              callback={responseFacebook}
-              cssClass= "btnFacebook"
-              icon={<i className="fa fa-facebook" style={{marginLeft:'5px'}}></i>}
-              textButton = "&nbsp;&nbsp;"
-            />
+              <FacebookLogin
+                appId="1088597931155576"
+                autoLoad={false}
+                fields="name,email,picture"
+                callback={responseFacebook}
+                cssClass="btnFacebook"
+                icon={<i className="fa fa-facebook" style={{ marginLeft: '5px' }}></i>}
+                textButton="&nbsp;&nbsp;"
+              />
             </Grid>
             <Grid item xs={4}>
-            <LinkedIn
-              clientId="xxx"
-              callback={responseLinkedIn}
-              className="btnLinkedIn"
-              text="LI"
-              icon={<i class="fab fa-linkedin-in"></i> } />
+              <LinkedIn
+                clientId="81lx5we2omq9xh"
+                onFailure={this.handleFailure}
+                onSuccess={this.handleSuccess}
+                redirectUri="http://localhost:8080"
+                className="btnLinkedIn"
+              >
+                <i className="fa fa-linkedin" ></i>
+              </LinkedIn>
             </Grid>
           </Grid>
+          <Typography>
+            <p style={{ alignItems: 'center', marginLeft: 27 }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> and <span style={{ color: '#eb7134' }}>Privacy Policy</span>
+          </Typography>
+          <br></br>
         </div>
       </Container>
     );

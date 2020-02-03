@@ -10,7 +10,7 @@ import Image from 'material-ui-image';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import { theme } from '../../theme/theme';
-// import logo from '../Login/app_img.png';
+import logo from '../../assets/logo.png';
 
 const useStyles = theme => ({
     container: {
@@ -18,6 +18,10 @@ const useStyles = theme => ({
         flexWrap: 'wrap',
         flexDirection: 'column',
         maxWidth: 500,
+    },
+    submit: {
+        margin: theme.spacing(1.5, 0, 1),
+        backgroundColor: "#eb7134",
     }
 });
 
@@ -57,19 +61,18 @@ class ForgetPass extends Component {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static' }}>
-                            {/* <Image
+                            <Image
                                 color="inherit"
                                 src={logo}
                                 style={{ height: -70, width: -120, paddingTop: 0 }}
-                                imageStyle={{ height: 50, width: 80, top: -10, left: 13 }}
-                            /> */}
+                                imageStyle={{ height: 50, width: 80, top: -10, left: 35 }}
+                            />
                         </Toolbar>
                         <Box style={{ height: theme.spacing(4) }} />
                         <Typography component="h1" variant="h5">Forget Password?</Typography>
-                        {/* <Box style={{ height: theme.spacing(1) }} /> */}
                         <TextField
                             margin="normal"
-                            required
+                            // required
                             fullWidth
                             id="email"
                             label="Email Address"

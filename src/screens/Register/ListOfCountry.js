@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import Modal from '@material-ui/core/Modal';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
 import Image from 'material-ui-image';
 import Toolbar from '@material-ui/core/Toolbar';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 
-function getModalStyle() {
-    const top = 50 // + rand()
-    const left = 49 //+ rand() 
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
 
 const names = [
     'India',
@@ -36,13 +26,11 @@ const names = [
     'Kelly Snyder',
 ];
 const useStyles = theme => ({
-    paper: {
-        position: 'absolute',
-        width: 'auto',
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2),
-        outline: 'none',
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        maxWidth: 500,
     },
     dropdownStyle: {
         backgroundColor: "lightgray" 
@@ -87,7 +75,6 @@ class ListOfCountry extends Component {
     }
     
     render() {
-        const modalStyle = getModalStyle()
         const { classes } = this.props;
         return (<Grid item xs={12}>
             <TextField
@@ -100,10 +87,10 @@ class ListOfCountry extends Component {
                 autoComplete="country"
                 onClick={this.handleOpen}
             />
-            <Modal
+            <Dialog
                 open={this.state.modalOpen}
-            >
-                <Grid container spacing={2} style={modalStyle} className={classes.paper}>
+            >   <DialogContent className={classes.container}>
+                <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Toolbar style={{backgroundColor: '#eb7134',height: 30, position:'static'}}>
                             <Image
@@ -140,7 +127,8 @@ class ListOfCountry extends Component {
                         </Button>
                     </Grid>
                 </Grid>
-            </Modal>
+                </DialogContent>
+            </Dialog>
         </Grid>
         );
     }

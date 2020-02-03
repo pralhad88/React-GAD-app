@@ -34,16 +34,15 @@ const styles = theme => ({
     // marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-    backgroundColor:"#eb7134",
-    marginLeft: 60,
+    margin: theme.spacing(1.5, 0, 1),
+    backgroundColor: "#eb7134",
     width: 150
   },
 });
 
 
 class Register extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -57,18 +56,17 @@ class Register extends Component {
     const { classes } = this.props;
     return (
       <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
+        <CssBaseline />
+        <div className={classes.paper}>
           <Image
             src={logo}
             style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
             imageStyle={{ height: 120, width: 165 }}
           />
-        <Typography component="h1" variant="h5">
-          Sign up
+          <Typography component="h1" variant="h5">
+            Sign up
           <hr></hr>
-        </Typography>
-        <form className={classes.form} noValidate>
+          </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -89,7 +87,6 @@ class Register extends Component {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
-                autoFocus
               />
             </Grid>
             <Grid item xs={12}>
@@ -102,37 +99,38 @@ class Register extends Component {
                 autoComplete="email"
               />
             </Grid>
-             <ListOfCountry />
-            <Grid>
-              <p style={{alignItems: 'center', marginLeft: 60}}>By signing up, you agree to our</p>
-              <p style={{alignItems: 'center', marginLeft: 30}}><span style={{color:'#eb7134'}}>Term and conditions</span> and <span style={{color:'#eb7134'}}>Privacy Policy</span></p>
-              {/* <FormControlLabel
+            <ListOfCountry />
+            <Grid style={{ marginLeft: 40 }}>
+              <Grid item>
+                <p style={{ alignItems: 'center', marginLeft: 60 }}>By signing up, you agree to our</p>
+                <p style={{ alignItems: 'center', marginLeft: 30 }}><span style={{ color: '#eb7134' }}>Term and conditions</span> and <span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
+                {/* <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               /> */}
+              </Grid>
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
+          <Grid item>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
           </Button>
-          <Grid container>
-            <Grid item>
-              <Link href="/login" variant="body2" style={{marginLeft: 30}}>
-                Already have an account? Login
-              </Link>
-            </Grid>
           </Grid>
-        </form>
-      </div>
-      {/* <Box mt={5}>
+          <Grid item>
+            <Link href="/" style={{ color: 'black' }}>
+              Already have an account? Login
+            </Link>
+          </Grid>
+        </div>
+        {/* <Box mt={5}>
         <Copyright />
       </Box> */}
-    </Container>
+      </Container>
     );
   }
 };

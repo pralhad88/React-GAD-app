@@ -16,31 +16,6 @@ body {
   padding-left: 16px;
   padding-top: 16px;
 }
-/* 
-.genderSelect {
-  z-index: 900;
-  width: 30%;
-  float: left;
-  padding-left: 16px;
-  padding-top: 8px;
-}
-
-.stageTitleSelect {
-    z-index: 900;
-    width: 30%;
-    float: left;
-    padding-left: 16px;
-    padding-top: 8px;
-} */
-
-
-.MuiToolbar-regular {
-    min-height: 48px !important;
-}
-
-.MuiAppBar-root.MuiAppBar-positionFixed {
-    z-index: 10000;
-}
 
 /* #app {
     padding-top: 48px;
@@ -173,24 +148,6 @@ a {
   background: #0766b9;
 }
 
-.contact-page-wrapper {
-  /*flex-grow:1*/
-}
-
-.contact-page-paper {
-  text-align: center;
-}
-
-.Topgridcontactpage {}
-
-.loginheaderpart h1 {
-  color: white;
-}
-
-.contact-page-name-list-field {
-  width: 300px;
-}
-
 .loginformgroup {
   margin-top: 0.5em;
   position: relative;
@@ -281,44 +238,55 @@ form {
   color:white;
   border:0px transparent; 
   text-align: center;
-  margin:5px;
-  /* display: inline-block; */
 }
 .btnGoogle { 
-  margin:5px;
   width: 50px;
   height:50px;
-  border-radius: 25px;
-  background: #db3236;
-  color:blue;
-  border:0px transparent;
-  text-align: center;
+  border-radius: 25px !important;
+  border:0px transparent !important;
+  text-align: center !important;
+  background: #4285F4 !important;
+  padding: 5px !important;
 }
 .btnLinkedIn { 
   width: 50px;
   height:50px;  
-  border-radius: 25px;
+  border-radius: 30px;
   background: #2867b2;
   color:white;
   border:0px transparent; 
   text-align: center;
-  margin:5px;
-  /* display: inline-block; */
 }
 .btnFacebook:hover {
   background: #3b5998;
   opacity: 0.6;
 }
 .btnGoogle:hover {
-  background: #db3236;
+  background:#4285F4 !important;
+  opacity: 0.6;
+}
+.btnLinkedIn:hover {
+  background: #2867b2;
   opacity: 0.6;
 }
 
-@media only screen and (max-width : 399px) {
+h4 {
+  width: 78%; 
+  text-align: center; 
+  border-bottom: 1px solid #000; 
+  line-height: 0.1em;
+  margin: 10px 0 20px; 
+}
+
+h4 span { 
+   background:#fff; 
+   padding:0 10px; 
+}
+/* @media only screen and (max-width : 399px) {
   .btnFacebook,.btnGoogle{
     width: 100%
   }
-}
+} */
 
 /* Media query for tablets */
 
