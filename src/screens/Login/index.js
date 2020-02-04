@@ -5,16 +5,16 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Image from 'material-ui-image';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import 'font-awesome/css/font-awesome.css'
-import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-// import LinkedIn from "linkedin-login-for-react";
 import { LinkedIn } from 'react-linkedin-login-oauth2';
+// import PropTypes from 'prop-types';
+import { InputAdornment, withStyles } from '@material-ui/core';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 
@@ -40,7 +40,12 @@ const useStyles = theme => ({
     // marginLeft: 60,
     width: 150
   },
+  eye: {
+    cursor: 'pointer',
+  },
 });
+
+
 const responseGoogle = (response) => {
   console.log(response);
 }
@@ -52,6 +57,21 @@ const responseLinkedIn = (response) => {
 }
 
 class Login extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      password: '',
+      passwordIsMasked: true,
+    };
+  }
+
+  onChange = event => {
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value });
+  };
 
   handleSuccess = (data) => {
     console.log(data)
@@ -68,8 +88,16 @@ class Login extends Component {
     //   errorMessage: error.errorMessage,
     // });
   }
+
+  togglePasswordMask = () => {
+    this.setState(prevState => ({
+      passwordIsMasked: !prevState.passwordIsMasked,
+    }));
+  };
+
   render() {
     const { classes } = this.props;
+    const { password, passwordIsMasked } = this.state;
     return (
       <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
         <CssBaseline />
@@ -94,16 +122,24 @@ class Login extends Component {
             autoComplete="email"
             autoFocus
           />
+          <Box style={{ height: theme.spacing(0.5) }} />
           <TextField
-
-            margin="normal"
-            // required
             fullWidth
-            name="password"
+            type={passwordIsMasked ? 'password' : 'text'}
             label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            name="password"
+            value={password}
+            onChange={this.onChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <VisibilityIcon
+                    className={classes.eye}
+                    onClick={this.togglePasswordMask}
+                  />
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             type="submit"
@@ -115,7 +151,7 @@ class Login extends Component {
           </Button>
           <Grid item>
             <p>
-              <span style={{color: '#cfd9df'}}>Not registered yet? </span>
+              <span style={{ color: '#cfd9df' }}>Not registered yet? </span>
               <span>
                 <Link href="/register" variant="body2">
                   Sign Up
@@ -165,7 +201,7 @@ class Login extends Component {
             </Grid>
           </Grid>
           <Typography>
-            <p style={{ alignItems: 'center', marginLeft: 27, color: '#cfd9df' }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> <span style={{color:'#cfd9df'}}>and</span> <span style={{ color: '#eb7134' }}>Privacy Policy</span>
+            <p style={{ alignItems: 'center', marginLeft: 27, color: '#cfd9df' }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> <span style={{ color: '#cfd9df' }}>and</span> <span style={{ color: '#eb7134' }}>Privacy Policy</span>
           </Typography>
           <br></br>
         </div>
