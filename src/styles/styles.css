@@ -6,6 +6,13 @@ body {
   background-size: cover;
 }
 
+.firstloginLable{
+  margin-top: 15px ;
+  margin-left: -255px;
+  margin-bottom: -10px;
+  color: #eb7134 !important;
+}
+
 .filterSelect {
     z-index: 900;
     width: 23%;
@@ -14,11 +21,10 @@ body {
     padding-top: 8px;
 }
 .filterSelectGlobal {
-  z-index: 905;
-  width: 300px;
-  float: left;
+  width: 350px;
   padding-left: 16px;
-  padding-top: 16px;
+  padding-right: 16px;
+  padding-top: 20px;
 }
 
 /* #app {

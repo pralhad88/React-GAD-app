@@ -4,8 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import InputLabel from '@material-ui/core/InputLabel';
 import Image from 'material-ui-image';
 import Typography from '@material-ui/core/Typography';
+import makeAnimated from 'react-select/animated';
+import Select from 'react-select';
 import 'font-awesome/css/font-awesome.css'
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +18,7 @@ import { InputAdornment, withStyles } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
+const animatedComponents = makeAnimated();
 
 
 const useStyles = theme => ({
@@ -45,20 +49,15 @@ const useStyles = theme => ({
 
 
 class FirstLogin extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //       country: ''
-    //     };
-    //   }
-    // constructor(props) {
-    //     super(props);
+    constructor(props) {
+        super(props);
 
-    //     this.state = {
-    //         password: '',
-    //         passwordIsMasked: true,
-    //     };
-    // }
+        this.state = {
+            Country: '',
+            State: '',
+            City: '',
+        };
+    }
 
     // onChange = event => {
     //     const { name, value } = event.target;
@@ -106,52 +105,41 @@ class FirstLogin extends Component {
                     />
                     <Typography component="h1" variant="h5">
                         First Login
-          <hr></hr>
+                        <hr></hr>
                     </Typography>
-                    <TextField
-
-                        margin="normal"
-                        // required
-                        fullWidth
-                        // id="email"
-                        label="Country"
-                        // name="email"
-                        // autoComplete="email"
-                        autoFocus
-
+                    <InputLabel className={"firstloginLable"}>Country</InputLabel>
+                    <Select
+                        className={"filterSelectGlobal"}
+                        onChange={this.changeStudentStage}
+                        options={[{ value: "requestCallback", label: "Request Callback" },
+                        { value: "softwareCourse", label: "Other Data" }]}
+                        placeholder={"Select Country..."}
+                        isClearable={false}
+                        components={animatedComponents}
+                        closeMenuOnSelect={true}
                     />
-                    <ArrowDropDownIcon />
-                    {/* <SvgIcon>
-
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-                  </SvgIcon> */}
-
-                    <TextField
-
-                        margin="normal"
-                        // required
-                        fullWidth
-                        // id="email"
-                        label="State"
-                        // name="email"
-                        // autoComplete="email"
-                        autoFocus
-                        ArrowDropDownIcon
+                    <InputLabel className={"firstloginLable"}>State</InputLabel>
+                    <Select
+                        className={"filterSelectGlobal"}
+                        onChange={this.changeStudentStage}
+                        options={[{ value: "requestCallback", label: "Request Callback" },
+                        { value: "softwareCourse", label: "Other Data" }]}
+                        placeholder={"Select State..."}
+                        isClearable={false}
+                        components={animatedComponents}
+                        closeMenuOnSelect={true}
                     />
-                    <ArrowDropDownIcon />
-                    <TextField
-
-                        margin="normal"
-                        // required
-                        fullWidth
-                        // id="email"
-                        label="City"
-                        // name="email"
-                        // autoComplete="email"
-                        ArrowDropDownIcon
-                        autoFocus
+                    <InputLabel className={"firstloginLable"}>City</InputLabel>
+                    <Select
+                        className={"filterSelectGlobal"}
+                        onChange={this.changeStudentStage}
+                        options={[{ value: "Jalgaon", label: "Request Callback" },
+                        { value: "Bihar", label: "Other Data" }]}
+                        placeholder={"Select City..."}
+                        isClearable={false}
+                        components={animatedComponents}
+                        closeMenuOnSelect={true}
                     />
-                    <ArrowDropDownIcon />
                     <Button
                         type="submit"
                         halfWidth
