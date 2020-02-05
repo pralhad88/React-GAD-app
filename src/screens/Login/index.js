@@ -15,6 +15,7 @@ import { LinkedIn } from 'react-linkedin-login-oauth2';
 // import PropTypes from 'prop-types';
 import { InputAdornment, withStyles } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 
@@ -133,10 +134,16 @@ class Login extends Component {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <VisibilityIcon
-                    className={classes.eye}
-                    onClick={this.togglePasswordMask}
-                  />
+                  {
+                    passwordIsMasked ?
+                      <VisibilityIcon
+                        className={classes.eye}
+                        onClick={this.togglePasswordMask}
+                      /> : <VisibilityOffIcon
+                        className={classes.eye}
+                        onClick={this.togglePasswordMask}
+                      />
+                  }
                 </InputAdornment>
               ),
             }}
@@ -184,7 +191,7 @@ class Login extends Component {
                 fields="name,email,picture"
                 callback={responseFacebook}
                 cssClass="btnFacebook"
-                icon={<i className="fa fa-facebook" style={{ marginLeft: '5px' }}></i>}
+                icon={<i className="fa fa-facebook" style={{ marginLeft: '5px', fontSize:30 }}></i>}
                 textButton="&nbsp;&nbsp;"
               />
             </Grid>
@@ -196,7 +203,7 @@ class Login extends Component {
                 redirectUri="http://localhost:8080"
                 className="btnLinkedIn"
               >
-                <i className="fa fa-linkedin" ></i>
+                <i className="fa fa-linkedin" style={{ fontSize:30 }}></i>
               </LinkedIn>
             </Grid>
           </Grid>
