@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import InputLabel from '@material-ui/core/InputLabel';
 import Image from 'material-ui-image';
 import Typography from '@material-ui/core/Typography';
@@ -12,11 +8,7 @@ import Select from 'react-select';
 import 'font-awesome/css/font-awesome.css'
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-// import PropTypes from 'prop-types';
-import { InputAdornment, withStyles } from '@material-ui/core';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import { theme } from '../../theme/theme';
+import { withStyles } from '@material-ui/core';
 import logo from '../../assets/logo.png'
 const animatedComponents = makeAnimated();
 
@@ -59,38 +51,16 @@ class FirstLogin extends Component {
         };
     }
 
-    // onChange = event => {
-    //     const { name, value } = event.target;
+    onChange = event => {
+        const { name, value } = event.target;
 
-    //     this.setState({ [name]: value });
-    // };
-
-    handleSuccess = (data) => {
-        console.log(data)
-        // this.setState({
-        //   code: data.code,
-        //   errorMessage: '',
-        // });
-    }
-
-    handleFailure = (error) => {
-        console.log(error)
-        // this.setState({
-        //   code: '',
-        //   errorMessage: error.errorMessage,
-        // });
-    }
-
-    togglePasswordMask = () => {
-        this.setState(prevState => ({
-            passwordIsMasked: !prevState.passwordIsMasked,
-        }));
+        this.setState({ [name]: value });
     };
 
+    onClick = () => {
+        console.log("testing")
+    }
 
-    // const DropdownExampleSearchSelectionTwo = () => (
-    //     <Dropdown placeholder='State' search selection options={stateOptions} />
-    //   )
 
     render() {
         const { classes } = this.props;
@@ -146,6 +116,7 @@ class FirstLogin extends Component {
                         variant="contained"
                         justifyContent='center'
                         color="primary"
+                        onClick={this.onClick}
                         className={classes.submit}>
                         Submit
                     </Button>
