@@ -9,9 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 import ListOfCountry from './ListOfCountry';
+import { withSnackbar } from 'notistack';
 const baseUrl = process.env.API_URL;
 
 const styles = theme => ({
@@ -48,29 +48,57 @@ class Register extends Component {
       Fname: '',
       Lname: '',
       Email: '',
-      country: '',
+      Country_ID: ''
     };
   }
-
-  onChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({ [name]: value });
-  };
-
-  onClick = () => {
-    const { Fname, Lname, Email } = this.state;
-    axios.post(`${baseUrl}app_signup.php`, { 
-      Fname: Fname, 
-      Lname: Lname, 
-      Email: Email, 
-      Country_ID: 101 
-    })
-    .then((res) => {
-        console.log(res, "Pralhad")
+  
+  
+  handleChange = selectedValue => {
+    this.setState({
+      Country_ID: selectedValue
     });
   }
 
+  onChange = async (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+    if ( name === 'Email' && value.length > 10) {
+      axios.post(`${baseUrl}email_check.php`, {
+        Email: value
+      })
+      .then((res) => {
+        const [checkstatus] = res.data.checkstatus;
+        if (checkstatus.status == 1) {
+          this.props.enqueueSnackbar('Email address already exists!', {
+            variant: 'success', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            }
+          });
+        }
+      })
+    }
+  };
+
+  onClick = () => {
+    try {
+      const data = this.state;
+      axios.post(`${baseUrl}app_signup.php`, data)
+        .then((res) => {
+          if (typeof res.data !== 'object') {
+            this.props.enqueueSnackbar('Email address already exists!', {
+              variant: 'success', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'center',
+              }
+            });
+          }
+        });
+    } catch (e) {
+
+    }
+  }
+  
   render() {
     const { classes } = this.props;
     return (
@@ -80,7 +108,7 @@ class Register extends Component {
           <Image
             src={logo}
             style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-            imageStyle={{ height: 120, width: 165 }}
+            imageStyle={{ height: 120, width: 140, left: 13, top: 15 }}
           />
           <Typography component="h1" variant="h5">
             Sign up
@@ -115,15 +143,11 @@ class Register extends Component {
                 onChange={this.onChange}
               />
             </Grid>
-            <ListOfCountry />
+            <ListOfCountry country_Id={this.handleChange} />
             <Grid style={{ marginLeft: 40 }}>
-              <Grid item>
-                <p style={{ alignItems: 'center', marginLeft: 28, color: '#cfd9df' }}>By signing up, you agree to our</p>
-                <p style={{ alignItems: 'center', marginLeft: 2 }}><span style={{ color: '#eb7134' }}>Term and conditions</span> <span style={{ color: '#cfd9df' }}>and </span><span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
-                {/* <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              /> */}
+              <Grid item style={{ marginLeft: 15 }}>
+                <p style={{ alignItems: 'center', marginLeft: 28 }}>By signing up, you agree to our</p>
+                <p style={{ alignItems: 'center', marginLeft: 2 }}><span style={{ color: '#eb7134' }}>Term and conditions</span><span>and </span><span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
               </Grid>
             </Grid>
           </Grid>
@@ -140,17 +164,14 @@ class Register extends Component {
           </Grid>
           <Grid item >
             <Link href="/" style={{ color: 'black' }}>
-              <span style={{ color: '#cfd9df', marginLeft: -45 }}>Already have an account? Login</span>
+              <span style={{ marginLeft: -45 }}>Already have an account? Login</span>
             </Link>
           </Grid>
           <br></br>
         </div>
-        {/* <Box mt={5}>
-        <Copyright />
-      </Box> */}
       </Container>
     );
   }
 };
 
-export default withStyles(styles)(Register);
+export default withSnackbar(withStyles(styles)(Register));

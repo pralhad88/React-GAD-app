@@ -60,12 +60,12 @@ class ForgetPass extends Component {
                 <DialogContent className={classes.container}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static' }}>
+                        <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static', minHeight:50 }}>
                             <Image
                                 color="inherit"
                                 src={logo}
                                 style={{ height: -70, width: -120, paddingTop: 0 }}
-                                imageStyle={{ height: 50, width: 80, top: -10, left: 35 }}
+                                imageStyle={{ height: 50, width: 80, left: 37 }}
                             />
                         </Toolbar>
                         <Box style={{ height: theme.spacing(4) }} />
@@ -81,7 +81,7 @@ class ForgetPass extends Component {
                             autoComplete="email"
                             autoFocus
                         />
-                        <Box style={{ height: theme.spacing(3) }} />
+                        <Box style={{ height: theme.spacing(1) }} />
                         <Grid container item>
                             <Grid item xs={6}>
                                 <Button

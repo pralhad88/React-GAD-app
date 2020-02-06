@@ -106,7 +106,7 @@ class Login extends Component {
           <Image
             src={logo}
             style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-            imageStyle={{ height: 120, width: 165 }}
+            imageStyle={{ height: 120, width: 140, left:13, top: 15 }}
           />
           <Typography component="h1" variant="h5">
             Login
@@ -158,7 +158,7 @@ class Login extends Component {
           </Button>
           <Grid item>
             <p>
-              <span style={{ color: '#cfd9df' }}>Not registered yet? </span>
+              <span >Not registered yet? </span>
               <span>
                 <Link href="/register" variant="body2">
                   Sign Up
@@ -208,7 +208,7 @@ class Login extends Component {
             </Grid>
           </Grid>
           <Typography>
-            <p style={{ alignItems: 'center', marginLeft: 27, color: '#cfd9df' }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> <span style={{ color: '#cfd9df' }}>and</span> <span style={{ color: '#eb7134' }}>Privacy Policy</span>
+            <p style={{ alignItems: 'center', marginLeft: 27 }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> <span >and</span> <span style={{ color: '#eb7134' }}>Privacy Policy</span>
           </Typography>
           <br></br>
         </div>

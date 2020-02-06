@@ -13,6 +13,10 @@ body {
   color: #eb7134 !important;
 }
 
+.filterSelectStage {
+  min-width: 200px;
+}
+
 .filterSelect {
     z-index: 900;
     width: 23%;
@@ -251,12 +255,10 @@ form {
 }
 .btnGoogle { 
   width: 50px;
-  height:50px;
   border-radius: 25px !important;
   border:0px transparent !important;
   text-align: center !important;
-  background: #4285F4 !important;
-  padding: 6px !important;
+  padding: 5px !important;
 }
 .btnLinkedIn { 
   width: 50px;

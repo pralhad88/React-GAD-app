@@ -51,11 +51,9 @@ class FirstLogin extends Component {
         };
     }
 
-    onChange = event => {
-        const { name, value } = event.target;
-
-        this.setState({ [name]: value });
-    };
+    handleChange = selectedValue => {
+        const { value, label } = selectedValue;
+    }
 
     onClick = () => {
         console.log("testing")
@@ -71,7 +69,7 @@ class FirstLogin extends Component {
                     <Image
                         src={logo}
                         style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-                        imageStyle={{ height: 120, width: 165 }}
+                        imageStyle={{ height: 120, width: 140, left: 13, top: 15 }}
                     />
                     <Typography component="h1" variant="h5">
                         First Login
@@ -80,7 +78,7 @@ class FirstLogin extends Component {
                     <InputLabel className={"firstloginLable"}>Country</InputLabel>
                     <Select
                         className={"filterSelectGlobal"}
-                        onChange={this.changeStudentStage}
+                        onChange={this.handleChange}
                         options={[{ value: "requestCallback", label: "Request Callback" },
                         { value: "softwareCourse", label: "Other Data" }]}
                         placeholder={"Select Country..."}
@@ -91,7 +89,7 @@ class FirstLogin extends Component {
                     <InputLabel className={"firstloginLable"}>State</InputLabel>
                     <Select
                         className={"filterSelectGlobal"}
-                        onChange={this.changeStudentStage}
+                        onChange={this.handleChange}
                         options={[{ value: "requestCallback", label: "Request Callback" },
                         { value: "softwareCourse", label: "Other Data" }]}
                         placeholder={"Select State..."}
@@ -102,7 +100,7 @@ class FirstLogin extends Component {
                     <InputLabel className={"firstloginLable"}>City</InputLabel>
                     <Select
                         className={"filterSelectGlobal"}
-                        onChange={this.changeStudentStage}
+                        onChange={this.handleChange}
                         options={[{ value: "Jalgaon", label: "Request Callback" },
                         { value: "Bihar", label: "Other Data" }]}
                         placeholder={"Select City..."}
