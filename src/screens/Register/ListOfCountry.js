@@ -15,7 +15,6 @@ import axios from 'axios';
 import { withSnackbar } from 'notistack';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
-import { minHeight } from '@material-ui/system';
 
 const baseUrl = process.env.API_URL;
 
@@ -27,13 +26,13 @@ const useStyles = theme => ({
         maxWidth: 500,
     },
     dropdownStyle: {
-        backgroundColor: "lightgray" 
-      },
+        backgroundColor: "lightgray"
+    },
     submit: {
-    margin: theme.spacing(3, 0, 2),
-    backgroundColor:"#eb7134",
-    // marginLeft: 60,
-    // width: 150
+        margin: theme.spacing(3, 0, 2),
+        backgroundColor: "#eb7134",
+        // marginLeft: 60,
+        // width: 150
     },
     dropDown: {
         cursor: 'pointer',
@@ -53,17 +52,17 @@ class ListOfCountry extends Component {
     }
 
     fetchCountry = () => {
-        try{
+        try {
             axios.post(`${baseUrl}country_list.php`, {})
-            .then((res) => {
-                console.log(res.data)
-                this.setState({
-                    listOfCountry: res.data.countrydata,
-                    loading: false,
-                    modalOpen: true
+                .then((res) => {
+                    console.log(res.data)
+                    this.setState({
+                        listOfCountry: res.data.countrydata,
+                        loading: false,
+                        modalOpen: true
+                    })
                 })
-            })
-        }catch (e) {
+        } catch (e) {
             this.props.enqueueSnackbar('Internal Server Error', { variant: 'error' });
         }
     }
@@ -79,7 +78,7 @@ class ListOfCountry extends Component {
         })
         await this.fetchCountry();
     };
-    
+
     handleChange = (e) => {
         const { country_Id } = this.props;
         const country = JSON.parse(e.target.value);
@@ -89,7 +88,7 @@ class ListOfCountry extends Component {
             country: country['Cntry_Name']
         });
     }
-    
+
     render() {
         const { classes } = this.props;
         return (<Grid item xs={12} >
@@ -104,16 +103,16 @@ class ListOfCountry extends Component {
                 onClick={this.handleOpen}
                 InputProps={{
                     endAdornment: (
-                      <InputAdornment position="end">
-                          <ArrowDropDownIcon
-                            className={classes.dropDown}
-                            onClick={this.handleOpen}
-                            color='primary'
-                            fontSize='large'
-                          />
-                      </InputAdornment>
+                        <InputAdornment position="end">
+                            <ArrowDropDownIcon
+                                className={classes.dropDown}
+                                onClick={this.handleOpen}
+                                color='primary'
+                                fontSize='large'
+                            />
+                        </InputAdornment>
                     ),
-                  }}
+                }}
             />
             <Dialog
                 open={this.state.loading}
@@ -125,47 +124,48 @@ class ListOfCountry extends Component {
             <Dialog
                 open={this.state.modalOpen}
             >   <DialogContent className={classes.container} >
-                <Grid container spacing={2} >
-                    <Grid item xs={12}>
-                        <Toolbar style={{backgroundColor: '#eb7134',height: 30, position:'static', minHeight: 50}}>
-                            <Image
-                            color="inherit"
-                            src={logo}
-                            style={{  height: -70, width: -120, paddingTop: 0}}
-                            imageStyle={{ height: 50, width: 80, left: 75 }}
-                        />
-                        </Toolbar>
-                        <Box style={{height: theme.spacing(4)}} />
-                        <Select
-                            fullWidth
-                            native
-                            name="value"
-                            onChange={this.handleChange}
-                    >       <option>Select Country</option>
-                            {this.state.listOfCountry.map((country, index) => (
-                            <option key={index} value={JSON.stringify(country)} >
-                                {country.Cntry_Name}
-                            </option>
-                            ))}
-                        </Select>
-                        <Box style={{height: theme.spacing(1)}} />
-                        <Button 
-                            fullWidth
-                            type="submit" 
-                            variant="contained" 
-                            color="primary" 
-                            className={classes.submit}
-                            onClick={this.handleClose}
-                        >
-                            Cancel
+                    <Grid container spacing={2} >
+                        <Grid item xs={12}>
+                            <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static', minHeight: 50 }}>
+                                <Image
+                                    color="inherit"
+                                    src={logo}
+                                    style={{ height: -70, width: -120, paddingTop: 0 }}
+                                    imageStyle={{ height: 50, width: 80, left: 75 }}
+                                />
+                            </Toolbar>
+                            <Box style={{ height: theme.spacing(4) }} />
+                            <Select
+                                fullWidth
+                                native
+                                name="value"
+                                onChange={this.handleChange}
+                            >       
+                              <option>Select Country</option>
+                              {this.state.listOfCountry.map((country, index) => (
+                                <option key={index} value={JSON.stringify(country)} >
+                                    {country.Cntry_Name}
+                                </option>
+                              ))}
+                            </Select>
+                            <Box style={{ height: theme.spacing(1) }} />
+                            <Button
+                                fullWidth
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={this.handleClose}
+                            >
+                                Cancel
                         </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
                 </DialogContent>
             </Dialog>
         </Grid>
         );
     }
-}   
+}
 
 export default withSnackbar(withStyles(useStyles)(ListOfCountry));
