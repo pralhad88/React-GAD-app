@@ -55,7 +55,6 @@ class ListOfCountry extends Component {
         try {
             axios.post(`${baseUrl}country_list.php`, {})
                 .then((res) => {
-                    console.log(res.data)
                     this.setState({
                         listOfCountry: res.data.countrydata,
                         loading: false,

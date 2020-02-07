@@ -291,9 +291,9 @@ h4 {
 }
 
 h4 span { 
-  background: #000;
+  background: #cfd9df;
    padding:0 10px; 
-   color: #cfd9df;
+   color: #eb7134;
 }
 /* @media only screen and (max-width : 399px) {
   .btnFacebook,.btnGoogle{

@@ -8,11 +8,17 @@ import Image from 'material-ui-image';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Box from '@material-ui/core/Box';
 import axios from 'axios';
+import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 import ListOfCountry from './ListOfCountry';
 import { withSnackbar } from 'notistack';
 const baseUrl = process.env.API_URL;
+const payload = new FormData();
 
 const styles = theme => ({
   paper: {
@@ -37,6 +43,12 @@ const styles = theme => ({
     width: 150,
     marginLeft: -45
   },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    maxWidth: 250,
+},
 });
 
 
@@ -48,42 +60,67 @@ class Register extends Component {
       Fname: '',
       Lname: '',
       Email: '',
-      Country_ID: ''
+      Country_ID: '',
+      dailogOpen: false,
     };
   }
-  
-  
+
+
   handleChange = selectedValue => {
     this.setState({
-      Country_ID: selectedValue
+      Country_ID: parseInt(selectedValue)
     });
   }
+  
+  handleClose = () => {
+    this.setState({
+      dailogOpen: false
+    })
+  };
 
+  resendLink = () => {
+    payload.append('email', this.state.Email)
+    axios.post(`${baseUrl}resend_link.php`, payload)
+    .then((res) => {
+      if (res.data.status == 1) {
+        this.props.enqueueSnackbar('successfully sent `Password set` link on Email address!', {
+          variant: 'success', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          }
+        });
+      }
+    })
+  } 
+  
   onChange = async (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
-    if ( name === 'Email' && value.length > 10) {
-      axios.post(`${baseUrl}email_check.php`, {
-        Email: value
-      })
-      .then((res) => {
-        const [checkstatus] = res.data.checkstatus;
-        if (checkstatus.status == 1) {
-          this.props.enqueueSnackbar('Email address already exists!', {
-            variant: 'success', anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'center',
-            }
-          });
-        }
-      })
+    if (name === 'Email' && value.length > 10) {
+      payload.append('Email', value)
+      axios.post(`${baseUrl}email_check.php`, payload)
+        .then((res) => {
+          const [checkstatus] = res.data.checkstatus;
+          if (checkstatus.status == 1) {
+            this.props.enqueueSnackbar('Email address already exists!', {
+              variant: 'success', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'center',
+              }
+            });
+          }
+        })
     }
   };
 
   onClick = () => {
     try {
-      const data = this.state;
-      axios.post(`${baseUrl}app_signup.php`, data)
+      const {Fname, Lname, Email, Country_ID} = this.state;
+      payload.append('Fname', Fname);
+      payload.append('Lname', Lname);
+      payload.append('Email', Email);
+      payload.append('Country_ID', Country_ID);
+      axios.post(`${baseUrl}app_signup.php`, payload)
         .then((res) => {
           if (typeof res.data !== 'object') {
             this.props.enqueueSnackbar('Email address already exists!', {
@@ -92,13 +129,17 @@ class Register extends Component {
                 horizontal: 'center',
               }
             });
+          } else {
+            this.setState({
+              dailogOpen: true
+            })
           }
         });
     } catch (e) {
 
     }
   }
-  
+
   render() {
     const { classes } = this.props;
     return (
@@ -169,6 +210,39 @@ class Register extends Component {
           </Grid>
           <br></br>
         </div>
+        <Dialog
+          open={this.state.dailogOpen}
+        >
+          <DialogContent className={classes.container}>
+            <DialogContentText id="alert-dialog-description">
+              A Registration Completion Link has been sent to {this.state.Email}. Please set your password using that link
+            </DialogContentText>
+            <Box style={{ height: theme.spacing(1) }} />
+            <Grid container item>
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={this.resendLink}
+                  >
+                    Resend
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleClose}
+                  >
+                    OK
+                  </Button>
+                </Grid>
+              </Grid>
+              <Box style={{ height: theme.spacing(2) }} />
+          </DialogContent>
+        </Dialog>
       </Container>
     );
   }
