@@ -16,9 +16,14 @@ import { LinkedIn } from 'react-linkedin-login-oauth2';
 import { InputAdornment, withStyles } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { withSnackbar } from 'notistack';
+import axios from 'axios';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
+import ResendLink from '../ResendLink';
 
+const baseUrl = process.env.API_URL;
+const payload = new FormData();
 
 const useStyles = theme => ({
   paper: {
@@ -63,8 +68,10 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      password: '',
+      Email: '',
+      Password: '',
       passwordIsMasked: true,
+      dailogOpen: false,
     };
   }
 
@@ -74,6 +81,46 @@ class Login extends Component {
     this.setState({ [name]: value });
   };
 
+  onClick = () => {
+    const {Password, Email } = this.state;
+    try {
+      payload.append('Email', Email)
+      payload.append('Password', Password)
+      payload.append('Device_ID', '12')
+      if(Email && Password) {
+        axios.post(`${baseUrl}login.php`, payload)
+        .then((res) => {
+          const [ checkstatus ] = res.data.checkstatus;
+          if (checkstatus.status == 2){
+            this.setState({
+              dailogOpen: true
+            })
+          } else if (checkstatus.status == 4) {
+            this.props.enqueueSnackbar('Wrong Password!', {
+              variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'center',
+              }
+            });
+          } else if (checkstatus.status == 0) {
+            this.props.enqueueSnackbar('Email address not found!', {
+              variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'center',
+              }
+            });
+          } else if (checkstatus.status == 1) {
+
+          }
+        })
+      } else [
+
+      ]
+    } catch (e) {
+
+    }
+  }
+  
   handleSuccess = (data) => {
     console.log(data)
     // this.setState({
@@ -95,10 +142,16 @@ class Login extends Component {
       passwordIsMasked: !prevState.passwordIsMasked,
     }));
   };
+  
+  handleClose = () => {
+    this.setState({
+      dailogOpen: false
+    })
+  };
 
   render() {
     const { classes } = this.props;
-    const { password, passwordIsMasked } = this.state;
+    const { Email, Password, passwordIsMasked } = this.state;
     return (
       <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
         <CssBaseline />
@@ -117,10 +170,11 @@ class Login extends Component {
             margin="normal"
             // required
             fullWidth
-            id="email"
             label="Email Address"
-            name="email"
+            name="Email"
+            value={Email}
             autoComplete="email"
+            onChange={this.onChange}
             autoFocus
           />
           <Box style={{ height: theme.spacing(0.5) }} />
@@ -128,8 +182,8 @@ class Login extends Component {
             fullWidth
             type={passwordIsMasked ? 'password' : 'text'}
             label="Password"
-            name="password"
-            value={password}
+            name="Password"
+            value={Password}
             onChange={this.onChange}
             InputProps={{
               endAdornment: (
@@ -153,6 +207,7 @@ class Login extends Component {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={this.onClick}
           >
             Login
           </Button>
@@ -212,10 +267,15 @@ class Login extends Component {
           </Typography>
           <br></br>
         </div>
+        <ResendLink
+          email={this.state.Email}
+          dailogOpen={this.state.dailogOpen}
+          dailogClose={this.handleClose}
+        />
       </Container>
     );
   }
 }
 
 
-export default withStyles(useStyles)(Login);
+export default withSnackbar(withStyles(useStyles)(Login));

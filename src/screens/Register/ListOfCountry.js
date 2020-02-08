@@ -5,6 +5,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Box from '@material-ui/core/Box';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 import { InputAdornment, withStyles } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import Image from 'material-ui-image';
@@ -23,7 +26,7 @@ const useStyles = theme => ({
         display: 'flex',
         flexWrap: 'wrap',
         flexDirection: 'column',
-        maxWidth: 500,
+        maxWidth: 250,
     },
     dropdownStyle: {
         backgroundColor: "lightgray"
@@ -36,6 +39,10 @@ const useStyles = theme => ({
     },
     dropDown: {
         cursor: 'pointer',
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 184,
     },
 });
 
@@ -130,24 +137,29 @@ class ListOfCountry extends Component {
                                     color="inherit"
                                     src={logo}
                                     style={{ height: -70, width: -120, paddingTop: 0 }}
-                                    imageStyle={{ height: 50, width: 80, left: 75 }}
+                                    imageStyle={{ height: 50, width: 80, left: 38 }}
                                 />
                             </Toolbar>
                             <Box style={{ height: theme.spacing(4) }} />
-                            <Select
-                                fullWidth
-                                native
-                                name="value"
-                                onChange={this.handleChange}
-                            >       
-                              <option>Select Country</option>
-                              {this.state.listOfCountry.map((country, index) => (
-                                <option key={index} value={JSON.stringify(country)} >
-                                    {country.Cntry_Name}
-                                </option>
-                              ))}
-                            </Select>
-                            <Box style={{ height: theme.spacing(1) }} />
+                            <FormControl variant="outlined" className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-outlined-label">
+                                    Select Country
+                                </InputLabel>
+                                <Select
+                                    fullWidth
+                                    labelId="demo-simple-select-outlined-label"
+                                    id="demo-simple-select-outlined"
+                                    name='value'
+                                    onChange={this.handleChange}
+                                    labelWidth={105}
+                                >
+                                    {this.state.listOfCountry.map((country, index) => (
+                                    <MenuItem key={index} value={JSON.stringify(country)} >
+                                        {country.Cntry_Name}
+                                    </MenuItem>
+                                ))}   
+                                </Select>
+                            </FormControl>
                             <Button
                                 fullWidth
                                 type="submit"

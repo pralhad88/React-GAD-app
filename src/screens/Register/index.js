@@ -13,10 +13,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Box from '@material-ui/core/Box';
 import axios from 'axios';
+import { withSnackbar } from 'notistack';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 import ListOfCountry from './ListOfCountry';
-import { withSnackbar } from 'notistack';
+import ResendLink from '../ResendLink';
+
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
 
@@ -77,21 +79,6 @@ class Register extends Component {
       dailogOpen: false
     })
   };
-
-  resendLink = () => {
-    payload.append('email', this.state.Email)
-    axios.post(`${baseUrl}resend_link.php`, payload)
-    .then((res) => {
-      if (res.data.status == 1) {
-        this.props.enqueueSnackbar('successfully sent `Password set` link on Email address!', {
-          variant: 'success', anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center',
-          }
-        });
-      }
-    })
-  } 
   
   onChange = async (event) => {
     const { name, value } = event.target;
@@ -120,7 +107,8 @@ class Register extends Component {
       payload.append('Lname', Lname);
       payload.append('Email', Email);
       payload.append('Country_ID', Country_ID);
-      axios.post(`${baseUrl}app_signup.php`, payload)
+      if (Fname && Lname && Email && Country_ID) {
+        axios.post(`${baseUrl}app_signup.php`, payload)
         .then((res) => {
           if (typeof res.data !== 'object') {
             this.props.enqueueSnackbar('Email address already exists!', {
@@ -135,6 +123,14 @@ class Register extends Component {
             })
           }
         });
+      } else {
+        this.props.enqueueSnackbar('Please fill all mandatory feild!', {
+          variant: 'error', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          }
+        });
+      }
     } catch (e) {
 
     }
@@ -210,39 +206,11 @@ class Register extends Component {
           </Grid>
           <br></br>
         </div>
-        <Dialog
-          open={this.state.dailogOpen}
-        >
-          <DialogContent className={classes.container}>
-            <DialogContentText id="alert-dialog-description">
-              A Registration Completion Link has been sent to {this.state.Email}. Please set your password using that link
-            </DialogContentText>
-            <Box style={{ height: theme.spacing(1) }} />
-            <Grid container item>
-                <Grid item xs={6}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    onClick={this.resendLink}
-                  >
-                    Resend
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleClose}
-                  >
-                    OK
-                  </Button>
-                </Grid>
-              </Grid>
-              <Box style={{ height: theme.spacing(2) }} />
-          </DialogContent>
-        </Dialog>
+        <ResendLink
+          email={this.state.Email}
+          dailogOpen={this.state.dailogOpen}
+          dailogClose={this.handleClose}
+        />
       </Container>
     );
   }
