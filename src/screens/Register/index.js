@@ -8,10 +8,6 @@ import Image from 'material-ui-image';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import { withSnackbar } from 'notistack';
 import { theme } from '../../theme/theme';
@@ -79,7 +75,7 @@ class Register extends Component {
       dailogOpen: false
     })
   };
-  
+
   onChange = async (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });

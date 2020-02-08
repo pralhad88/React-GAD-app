@@ -52,16 +52,6 @@ const useStyles = theme => ({
 });
 
 
-const responseGoogle = (response) => {
-  console.log(response);
-}
-const responseFacebook = (response) => {
-  console.log(response);
-}
-const responseLinkedIn = (response) => {
-  console.log(response);
-}
-
 class Login extends Component {
 
   constructor(props) {
@@ -75,6 +65,63 @@ class Login extends Component {
     };
   }
 
+  responseGoogle = (response) => {
+    const {email, familyName, givenName } = response.profileObj
+    payload.append('Fname', familyName)
+    payload.append('Lname', givenName)
+    payload.append('Email', email)
+    payload.append('Device_ID', '1')
+    payload.append('Login_Type', 'gp')
+    try {
+      axios.post(`${baseUrl}social_signup.php`, payload)
+      .then((res) => {
+        const { checkstatus } = res.data;
+        if (!checkstatus.f_name){
+          // redirect to first login page
+        } else if (checkstatus.status == 1) {
+          // direct goes to landing page
+        }
+      })
+    } catch (e) {
+
+    } 
+  }
+  
+  responseFacebook = (response) => {
+    const { name, email, userID } = response;
+    let fullName = name.split(' ');
+    const Fname = fullName[0];
+    const Lname = fullName[1]
+    payload.append('Fname', Fname)
+    payload.append('Lname', Lname)
+    payload.append('Email', email)
+    payload.append('Device_ID', '1')
+    payload.append('Social_Login_ID', userID)
+    try {
+      axios.post(`${baseUrl}facebook_signup.php`, payload)
+      .then((res) => {
+        const { checkstatus } = res.data;
+        if (!checkstatus.f_name){
+          // redirect to first login page
+        } else if (checkstatus.status == 1) {
+          // direct goes to landing page
+        }
+      })
+    } catch (e) {
+
+    } 
+
+  }
+  
+  responseLinkedIn = (response) => {
+    console.log(response, "Pralhad");
+  }
+  
+  errr = (error) => {
+    console.log(error);
+    alert("There was some issue with Social media Login. Contact the admin.");
+  }
+  
   onChange = event => {
     const { name, value } = event.target;
 
@@ -231,20 +278,21 @@ class Login extends Component {
           <Grid container style={{ marginLeft: 25, width: 270 }}>
             <Grid item xs={4}>
               <GoogleLogin
-                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                clientId="34917283366-b806koktimo2pod1cjas8kn2lcpn7bse.apps.googleusercontent.com"
                 buttonText=""
                 className="btnGoogle"
                 theme='dark'
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
+                scope="profile email"
+                onSuccess={this.responseGoogle}
+                onFailure={this.errr}
               />
             </Grid>
             <Grid item xs={4}>
               <FacebookLogin
-                appId="1088597931155576"
+                appId="1685984888246958"
                 autoLoad={false}
                 fields="name,email,picture"
-                callback={responseFacebook}
+                callback={this.responseFacebook}
                 cssClass="btnFacebook"
                 icon={<i className="fa fa-facebook" style={{ marginLeft: '5px', fontSize:30 }}></i>}
                 textButton="&nbsp;&nbsp;"
@@ -252,10 +300,10 @@ class Login extends Component {
             </Grid>
             <Grid item xs={4}>
               <LinkedIn
-                clientId="81lx5we2omq9xh"
-                onFailure={this.handleFailure}
-                onSuccess={this.handleSuccess}
-                redirectUri="http://localhost:8080"
+                clientId="815fc7xzjkar13"
+                onFailure={this.err}
+                onSuccess={this.responseLinkedIn}
+                redirectUri="http://localhost:8080/linkedin"
                 className="btnLinkedIn"
               >
                 <i className="fa fa-linkedin" style={{ fontSize:30 }}></i>
