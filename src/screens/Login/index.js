@@ -12,7 +12,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import { LinkedIn } from 'react-linkedin-login-oauth2';
-// import PropTypes from 'prop-types';
 import { InputAdornment, withStyles } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
@@ -114,7 +113,7 @@ class Login extends Component {
   }
   
   responseLinkedIn = (response) => {
-    console.log(response, "Pralhad");
+    console.log(response) // it returns some kind of token
   }
   
   errr = (error) => {
@@ -157,7 +156,7 @@ class Login extends Component {
               }
             });
           } else if (checkstatus.status == 1) {
-
+            // logic write here
           }
         })
       } else [
@@ -166,22 +165,6 @@ class Login extends Component {
     } catch (e) {
 
     }
-  }
-  
-  handleSuccess = (data) => {
-    console.log(data)
-    // this.setState({
-    //   code: data.code,
-    //   errorMessage: '',
-    // });
-  }
-
-  handleFailure = (error) => {
-    console.log(error)
-    // this.setState({
-    //   code: '',
-    //   errorMessage: error.errorMessage,
-    // });
   }
 
   togglePasswordMask = () => {
@@ -301,9 +284,10 @@ class Login extends Component {
             <Grid item xs={4}>
               <LinkedIn
                 clientId="815fc7xzjkar13"
-                onFailure={this.err}
+                scope="r_liteprofile r_emailaddress"
+                onFailure={this.errr}
                 onSuccess={this.responseLinkedIn}
-                redirectUri="http://localhost:8080/linkedin"
+                redirectUri= "http://localhost:8080/linkedin"
                 className="btnLinkedIn"
               >
                 <i className="fa fa-linkedin" style={{ fontSize:30 }}></i>

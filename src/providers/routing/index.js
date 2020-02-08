@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
+import { LinkedInPopUp } from 'react-linkedin-login-oauth2';
 
 import history from '../../utils/history';
 import PublicRoute from './PublicRouter';
@@ -18,6 +19,7 @@ const AppRouter = () => (
 
       {/* Login Related */}
       <PublicRoute path="/" component={Login} exact={true} />
+      <PublicRoute path="/linkedin" component={LinkedInPopUp} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
       <PublicRoute path="/forgetPassword" component={ForgetPass} exact={true} />
 
