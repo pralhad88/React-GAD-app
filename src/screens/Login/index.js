@@ -113,7 +113,26 @@ class Login extends Component {
   }
   
   responseLinkedIn = (response) => {
-    console.log(response) // it returns some kind of token
+    const params = new URLSearchParams(); // query parameter paased
+    
+    params.append('grant_type', 'authorization_code')
+    params.append('code', response.code)
+    params.append('redirect_uri', "http://localhost:8080/linkedin")
+    params.append('client_id', '815fc7xzjkar13')
+    params.append('client_secret', '7qDtDAOCRVrzPe9G')
+    
+    axios.post('https://www.linkedin.com/oauth/v2/accessToken', params)
+    .then((res) => {
+      const { access_token } = res.data;
+      axios.get('https://api.linkedin.com/v2/me', {},
+        {
+          headers: {
+          'Authorization': `Bearer ${access_token}`
+        }
+      }).then((res) => {
+        console.log(res.data)
+      })
+    })
   }
   
   errr = (error) => {
@@ -284,7 +303,7 @@ class Login extends Component {
             <Grid item xs={4}>
               <LinkedIn
                 clientId="815fc7xzjkar13"
-                scope="r_liteprofile r_emailaddress"
+                scope="r_liteprofile,r_emailaddress"
                 onFailure={this.errr}
                 onSuccess={this.responseLinkedIn}
                 redirectUri= "http://localhost:8080/linkedin"
