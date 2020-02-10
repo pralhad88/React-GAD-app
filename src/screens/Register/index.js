@@ -16,7 +16,6 @@ import { withSnackbar } from 'notistack';
 import { createBrowserHistory, History } from 'history'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
 import ResendLink from '../ResendLink';
 
 
@@ -65,13 +64,13 @@ class Register extends Component {
       Email: '',
       Country_ID: '',
       dailogOpen: false,
-      checked:false,
+      checked: false,
     };
   }
 
-  toggleChecked = () =>{
+  handleChangeChecked = () => {
     this.setState({
-      checked:!this.state.checked,
+      checked: !this.state.checked,
     })
   }
 
@@ -112,7 +111,7 @@ class Register extends Component {
 
   onClick = () => {
     try {
-      const { Fname, Lname, Email, Country_ID, checked} = this.state;
+      const { Fname, Lname, Email, Country_ID, checked } = this.state;
       payload.append('Fname', Fname);
       payload.append('Lname', Lname);
       payload.append('Email', Email);
@@ -193,8 +192,9 @@ class Register extends Component {
             </Grid>
             <ListOfCountry country_Id={this.handleChange} />
 
-            <FormControlLabel control={<Checkbox checked = {this.state.checked} onChange = {this.toggleChecked} />} label="Gift a deed"/>
-
+            <FormControlLabel control={<Checkbox checked={this.state.checked} 
+                onChange={this.handleChangeChecked} />} 
+                label="Gift a deed" />
             
             <Grid style={{ marginLeft: 40 }}>
 
