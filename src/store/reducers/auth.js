@@ -1,15 +1,14 @@
 export default (state = {
   isFetching : false,
-  isAuthenticated: localStorage.getItem('jwt') ? true : false,
+  isAuthenticated: localStorage.getItem('Email') ? true : false,
+  loggedInUser: JSON.parse(localStorage.getItem('user')),
+  Email: localStorage.getItem('Email')
 }, action) => {
   console.log("Something should come here.");
   console.log(action);
   switch (action.type) {
     case 'LOGIN':
-      return Object.assign({}, state, {
-        loggedInUser: action.user,
-      })
-
+      return Object.assign({}, state, {})
     case 'LOGOUT':
       return Object.assign({}, state, {
         loggedInUser: null,

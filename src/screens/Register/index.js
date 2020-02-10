@@ -180,7 +180,7 @@ class Register extends Component {
             <Grid style={{ marginLeft: 40 }}>
               <Grid item style={{ marginLeft: 15 }}>
                 <p style={{ alignItems: 'center', marginLeft: 28 }}>By signing up, you agree to our</p>
-                <p style={{ alignItems: 'center', marginLeft: 2 }}><span style={{ color: '#eb7134' }}>Term and conditions</span><span>and </span><span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
+                <p style={{ alignItems: 'center', marginLeft: 2 }}><span style={{ color: '#eb7134' }}>Term and conditions</span><span> and </span><span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
               </Grid>
             </Grid>
           </Grid>
