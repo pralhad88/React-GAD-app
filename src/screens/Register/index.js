@@ -16,6 +16,7 @@ import { withSnackbar } from 'notistack';
 import { createBrowserHistory, History } from 'history'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+
 import ResendLink from '../ResendLink';
 
 
@@ -43,7 +44,7 @@ const styles = theme => ({
     margin: theme.spacing(1.5, 0, 1),
     backgroundColor: "#eb7134",
     width: 150,
-    marginLeft: -45
+    marginLeft: -30
   },
   container: {
     display: 'flex',
@@ -64,6 +65,7 @@ class Register extends Component {
       Email: '',
       Country_ID: '',
       dailogOpen: false,
+
       checked: false,
     };
   }
@@ -71,6 +73,15 @@ class Register extends Component {
   handleChangeChecked = () => {
     this.setState({
       checked: !this.state.checked,
+
+      checked: false,
+    });
+  }
+
+  toggleChecked = () => {
+    this.setState({
+      checked: !this.state.checked,
+
     })
   }
 
@@ -81,6 +92,7 @@ class Register extends Component {
       Country_ID: parseInt(selectedValue)
     });
   }
+
   handleClose = () => {
     const { history } = this.props;
     this.setState({
@@ -111,6 +123,7 @@ class Register extends Component {
 
   onClick = () => {
     try {
+
       const { Fname, Lname, Email, Country_ID, checked } = this.state;
       payload.append('Fname', Fname);
       payload.append('Lname', Lname);
@@ -191,16 +204,13 @@ class Register extends Component {
               />
             </Grid>
             <ListOfCountry country_Id={this.handleChange} />
-
-            <FormControlLabel control={<Checkbox checked={this.state.checked} 
-                onChange={this.handleChangeChecked} />} 
-                label="Gift a deed" />
-            
             <Grid style={{ marginLeft: 40 }}>
-
               <Grid item style={{ marginLeft: 15 }}>
                 <p style={{ alignItems: 'center', marginLeft: 28 }}>By signing up, you agree to our</p>
                 <p style={{ alignItems: 'center', marginLeft: 2 }}><span style={{ color: '#eb7134' }}>Term and conditions</span><span>and </span><span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
+                <FormControlLabel control = {<Checkbox checked={this.state.checked}
+                  onChange={this.toggleChecked} />}
+                  label="If you are agree then check here." />
               </Grid>
             </Grid>
           </Grid>
@@ -217,7 +227,7 @@ class Register extends Component {
           </Grid>
           <Grid item >
             <Link href="/" style={{ color: 'black' }}>
-              <span style={{ marginLeft: -45 }}>Already have an account? Login</span>
+              <span style={{ marginLeft: -30 }}>Already have an account? Login</span>
             </Link>
           </Grid>
           <br></br>
