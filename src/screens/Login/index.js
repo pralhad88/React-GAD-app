@@ -17,6 +17,8 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { withSnackbar } from 'notistack';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { login } from '../../store/actions/auth';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 import ResendLink from '../ResendLink';
@@ -65,7 +67,7 @@ class Login extends Component {
   }
 
   responseGoogle = (response) => {
-    const {email, familyName, givenName } = response.profileObj
+    const { email, familyName, givenName } = response.profileObj
     payload.append('Fname', familyName)
     payload.append('Lname', givenName)
     payload.append('Email', email)
@@ -73,19 +75,23 @@ class Login extends Component {
     payload.append('Login_Type', 'gp')
     try {
       axios.post(`${baseUrl}social_signup.php`, payload)
-      .then((res) => {
-        const { checkstatus } = res.data;
-        if (!checkstatus.f_name){
-          // redirect to first login page
-        } else if (checkstatus.status == 1) {
-          // direct goes to landing page
-        }
-      })
+        .then((res) => {
+          const { checkstatus } = res.data;
+          if (!checkstatus.f_name) {
+            localStorage.setItem('Email', this.state.Email);
+            localStorage.setItem('user', JSON.stringify(checkstatus));
+            // redirect to first login page
+          } else if (checkstatus.status == 1) {
+            localStorage.setItem('Email', this.state.Email);
+            localStorage.setItem('user', JSON.stringify(checkstatus));
+            // direct goes to landing page
+          }
+        })
     } catch (e) {
 
-    } 
+    }
   }
-  
+
   responseFacebook = (response) => {
     const { name, email, userID } = response;
     let fullName = name.split(' ');
@@ -98,48 +104,52 @@ class Login extends Component {
     payload.append('Social_Login_ID', userID)
     try {
       axios.post(`${baseUrl}facebook_signup.php`, payload)
-      .then((res) => {
-        const { checkstatus } = res.data;
-        if (!checkstatus.f_name){
-          // redirect to first login page
-        } else if (checkstatus.status == 1) {
-          // direct goes to landing page
-        }
-      })
+        .then((res) => {
+          const { checkstatus } = res.data;
+          if (!checkstatus.f_name) {
+            localStorage.setItem('Email', this.state.Email);
+            localStorage.setItem('user', JSON.stringify(checkstatus));
+            // redirect to first login page
+          } else if (checkstatus.status == 1) {
+            localStorage.setItem('Email', this.state.Email);
+            localStorage.setItem('user', JSON.stringify(checkstatus));
+            // direct goes to landing page
+          }
+        })
     } catch (e) {
 
-    } 
+    }
 
   }
-  
+
   responseLinkedIn = (response) => {
     const params = new URLSearchParams(); // query parameter paased
-    
+
     params.append('grant_type', 'authorization_code')
     params.append('code', response.code)
     params.append('redirect_uri', "http://localhost:8080/linkedin")
     params.append('client_id', '815fc7xzjkar13')
     params.append('client_secret', '7qDtDAOCRVrzPe9G')
-    
+
     axios.post('https://www.linkedin.com/oauth/v2/accessToken', params)
-    .then((res) => {
-      const { access_token } = res.data;
-      axios.get('https://api.linkedin.com/v2/me', {},
-        {
-          headers: {
-          'Authorization': `Bearer ${access_token}`
-        }
-      }).then((res) => {
-        console.log(res.data)
+      .then((res) => {
+        const { access_token } = res.data;
+        axios.get('https://api.linkedin.com/v2/me',
+          {
+            headers: {
+              'Authorization': `Bearer ${access_token}`
+            }
+          }).then((res) => {
+            console.log(res.data)
+          })
       })
-    })
   }
-  
+
   errr = (error) => {
     console.log(error);
     alert("There was some issue with Social media Login. Contact the admin.");
   }
-  
+
   onChange = event => {
     const { name, value } = event.target;
 
@@ -147,40 +157,44 @@ class Login extends Component {
   };
 
   onClick = () => {
-    const {Password, Email } = this.state;
+    const { Password, Email } = this.state;
     try {
       payload.append('Email', Email)
       payload.append('Password', Password)
       payload.append('Device_ID', '12')
-      if(Email && Password) {
+      if (Email && Password) {
         axios.post(`${baseUrl}login.php`, payload)
-        .then((res) => {
-          const [ checkstatus ] = res.data.checkstatus;
-          if (checkstatus.status == 2){
-            this.setState({
-              dailogOpen: true
-            })
-          } else if (checkstatus.status == 4) {
-            this.props.enqueueSnackbar('Wrong Password!', {
-              variant: 'error', anchorOrigin: {
-                vertical: 'top',
-                horizontal: 'center',
-              }
-            });
-          } else if (checkstatus.status == 0) {
-            this.props.enqueueSnackbar('Email address not found!', {
-              variant: 'error', anchorOrigin: {
-                vertical: 'top',
-                horizontal: 'center',
-              }
-            });
-          } else if (checkstatus.status == 1) {
-            // logic write here
-          }
-        })
-      } else [
+          .then((res) => {
+            const [checkstatus] = res.data.checkstatus;
+            if (checkstatus.status == 2) {
+              this.setState({
+                dailogOpen: true
+              })
+            } else if (checkstatus.status == 4) {
+              this.props.enqueueSnackbar('Wrong Password!', {
+                variant: 'error', anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'center',
+                }
+              });
+            } else if (checkstatus.status == 0) {
+              this.props.enqueueSnackbar('Email address not found!', {
+                variant: 'error', anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'center',
+                }
+              });
+            } else if (checkstatus.status == 1) {
+              localStorage.setItem('Email', this.state.Email);
+              localStorage.setItem('user', JSON.stringify(checkstatus));
+              this.props.login(checkstatus, this.state.Email)
+              const { history } = this.props;
+              history.push("/firstLogin");
+            }
+          })
+      } else {
 
-      ]
+      }
     } catch (e) {
 
     }
@@ -191,7 +205,7 @@ class Login extends Component {
       passwordIsMasked: !prevState.passwordIsMasked,
     }));
   };
-  
+
   handleClose = () => {
     this.setState({
       dailogOpen: false
@@ -208,7 +222,7 @@ class Login extends Component {
           <Image
             src={logo}
             style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-            imageStyle={{ height: 120, width: 140, left:13, top: 15 }}
+            imageStyle={{ height: 120, width: 140, left: 13, top: 15 }}
           />
           <Typography component="h1" variant="h5">
             Login
@@ -277,8 +291,8 @@ class Login extends Component {
           </Grid>
           <h4><span>OR LOGIN WITH</span></h4>
           <Box style={{ height: theme.spacing(2) }} />
-          <Grid container style={{ marginLeft: 25, width: 270 }}>
-            <Grid item xs={4}>
+          <Grid container style={{ marginLeft: 18, width: 150 }}>
+            <Grid item xs={6}>
               <GoogleLogin
                 clientId="34917283366-b806koktimo2pod1cjas8kn2lcpn7bse.apps.googleusercontent.com"
                 buttonText=""
@@ -289,18 +303,18 @@ class Login extends Component {
                 onFailure={this.errr}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <FacebookLogin
                 appId="1685984888246958"
                 autoLoad={false}
                 fields="name,email,picture"
                 callback={this.responseFacebook}
                 cssClass="btnFacebook"
-                icon={<i className="fa fa-facebook" style={{ marginLeft: '5px', fontSize:30 }}></i>}
+                icon={<i className="fa fa-facebook" style={{ marginLeft: '5px', fontSize: 30 }}></i>}
                 textButton="&nbsp;&nbsp;"
               />
             </Grid>
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}>
               <LinkedIn
                 clientId="815fc7xzjkar13"
                 scope="r_liteprofile,r_emailaddress"
@@ -311,7 +325,7 @@ class Login extends Component {
               >
                 <i className="fa fa-linkedin" style={{ fontSize:30 }}></i>
               </LinkedIn>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Typography>
             <p style={{ alignItems: 'center', marginLeft: 27 }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> <span >and</span> <span style={{ color: '#eb7134' }}>Privacy Policy</span>
@@ -328,5 +342,12 @@ class Login extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  login: () => dispatch(login()),
+});
 
-export default withSnackbar(withStyles(useStyles)(Login));
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default withSnackbar(withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(Login)));

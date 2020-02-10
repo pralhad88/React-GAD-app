@@ -8,10 +8,8 @@ export const changeFetching = (isFetchingStatus) => ({
     isFetchingStatus
 });
 
-export const login = (user, jwt) => ({
+export const login = () => ({
     type: 'LOGIN',
-    user,
-    jwt
 });
 
 // Asynchronous login action which will be used in other functions
