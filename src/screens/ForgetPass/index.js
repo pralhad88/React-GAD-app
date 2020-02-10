@@ -42,13 +42,7 @@ class ForgetPass extends Component {
         history.push("/");
     };
     
-    // handleChange = (e) => {
-    //     console.log("Pralhad", e.target.value)
-    //     this.handleClose();
-    //     this.setState({
-    //         country: e.target.name
-    //     });
-    // }
+
 
     render() {
         const { classes } = this.props;
