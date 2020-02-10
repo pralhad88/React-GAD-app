@@ -69,7 +69,7 @@ class ForgetPass extends Component {
                             // required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Enter registered email"
                             name="email"
                             // onChange={this.handleChange()}
                             autoComplete="email"

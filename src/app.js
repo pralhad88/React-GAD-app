@@ -26,6 +26,6 @@ const App = () => (
   </Provider>
 );
 
-store.dispatch(logout());
+// store.dispatch(logout());
 
 render(<App />, document.getElementById('app'));
