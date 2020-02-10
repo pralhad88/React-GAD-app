@@ -64,7 +64,6 @@ class Register extends Component {
       Email: '',
       Country_ID: '',
       dailogOpen: false,
-
       checked: false,
     };
   }
