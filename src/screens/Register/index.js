@@ -13,7 +13,6 @@ import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
 import ListOfCountry from './ListOfCountry';
 import { withSnackbar } from 'notistack';
-import { createBrowserHistory, History } from 'history'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
