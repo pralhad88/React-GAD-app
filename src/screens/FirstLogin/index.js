@@ -94,7 +94,6 @@ class FirstLogin extends Component {
             payload.append('City_ID', City_ID)
             payload.append('Email', Email)
             payload.append('User_ID', parseInt(loggedInUser.User_ID))
-            console.log(payload, "BABAl")
             if (Country_ID && State_ID && City_ID) {
                 axios.post(`${baseUrl}first_login.php`, payload)
                 .then((res) => {
