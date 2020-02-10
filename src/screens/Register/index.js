@@ -147,6 +147,7 @@ class Register extends Component {
           });
       } else {
         this.props.enqueueSnackbar('Please fill all mandatory feild!', {
+          
           variant: 'error', anchorOrigin: {
             vertical: 'top',
             horizontal: 'center',
