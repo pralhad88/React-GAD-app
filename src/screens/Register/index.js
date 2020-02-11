@@ -225,7 +225,9 @@ class Register extends Component {
 
                 <p style={{ alignItems: 'center', marginLeft: 2 }}>
 
-                  <span  onClick={this.handleTermAndConditions} style={{ color: '#eb7134' }}>Term and conditions</span>
+                  <Link href="/termAndConditions" style={{ color: 'black' }}>
+                  <span style={{ color: '#eb7134' }}>Term and conditions</span>
+                  </Link>
                   <span > and </span> 
                   <span onClick={this.handlePolicyAndPrivacy} style={{ color: '#eb7134' }}>Privacy Policy</span>
                 </p>
