@@ -16,8 +16,8 @@ import Spinner from 'react-spinner-material';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import axios from 'axios';
 import { withSnackbar } from 'notistack';
-import { theme } from '../../theme/theme';
-import logo from '../../assets/logo.png'
+import { theme } from '../../../theme/theme';
+import logo from '../../../assets/logo.png'
 
 const baseUrl = process.env.API_URL;
 

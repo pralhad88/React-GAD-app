@@ -11,7 +11,7 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
-import ListOfCountry from './ListOfCountry';
+import ListOfCountry from './ListOfCountry/index';
 import { withSnackbar } from 'notistack';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -99,6 +99,21 @@ class Register extends Component {
     history.push("/");
   };
 
+  handleTermAndConditions = () => {
+    const { history } = this.props;
+    this.setState({
+      dailogOpen: false
+    })
+    history.push("/termAndConditions");
+  };
+  handlePolicyAndPrivacy = () => {
+    const { history } = this.props;
+    this.setState({
+      dailogOpen: false
+    })
+    history.push("/privacyAndPolicy");
+  };
+
   onChange = async (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -146,7 +161,7 @@ class Register extends Component {
           });
       } else {
         this.props.enqueueSnackbar('Please fill all mandatory feild!', {
-          
+
           variant: 'error', anchorOrigin: {
             vertical: 'top',
             horizontal: 'center',
@@ -206,8 +221,17 @@ class Register extends Component {
             <Grid style={{ marginLeft: 40 }}>
               <Grid item style={{ marginLeft: 15 }}>
                 <p style={{ alignItems: 'center', marginLeft: 28 }}>By signing up, you agree to our</p>
-                <p style={{ alignItems: 'center', marginLeft: 2 }}><span style={{ color: '#eb7134' }}>Term and conditions</span><span> and </span><span style={{ color: '#eb7134' }}>Privacy Policy</span></p>
-                <FormControlLabel control = {<Checkbox checked={this.state.checked}
+
+
+                <p style={{ alignItems: 'center', marginLeft: 2 }}>
+
+                  <span  onClick={this.handleTermAndConditions} style={{ color: '#eb7134' }}>Term and conditions</span>
+                  <span > and </span> 
+                  <span onClick={this.handlePolicyAndPrivacy} style={{ color: '#eb7134' }}>Privacy Policy</span>
+                </p>
+
+
+                <FormControlLabel control={<Checkbox checked={this.state.checked}
                   onChange={this.toggleChecked} />}
                   label="If you are agree then check here." />
               </Grid>

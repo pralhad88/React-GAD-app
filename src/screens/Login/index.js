@@ -18,8 +18,6 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { withSnackbar } from 'notistack';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import { login } from '../../store/actions/auth';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
@@ -40,12 +38,13 @@ const useStyles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%',
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 1),
     backgroundColor: "#eb7134",
+    // marginLeft: 60,
     width: 150
   },
   eye: {
@@ -62,13 +61,8 @@ class Login extends Component {
     this.state = {
       Email: '',
       Password: '',
-      Fname: '',
-      Lname: '',
-      email: '',
-      userID: '',
       passwordIsMasked: true,
       dailogOpen: false,
-      modalOpen: false,
     };
   }
 
@@ -100,22 +94,10 @@ class Login extends Component {
 
   responseFacebook = (response) => {
     const { name, email, userID } = response;
+    console.log(response, "Pralhad")
     let fullName = name.split(' ');
     const Fname = fullName[0];
     const Lname = fullName[1]
-    if (!email) {
-      this.setState({
-        Fname: fullName[0],
-        Lname: fullName[1],
-        userID: userID,
-        modalOpen: true
-      })
-    } else {
-      this.facebookLogin(Fname, Lname, email, userID)
-    }
-  }
-
-  facebookLogin = (Fname, Lname, email, userID) => {
     payload.append('Fname', Fname)
     payload.append('Lname', Lname)
     payload.append('Email', email)
@@ -138,7 +120,7 @@ class Login extends Component {
     } catch (e) {
 
     }
-    
+
   }
 
   responseLinkedIn = (response) => {
@@ -174,7 +156,20 @@ class Login extends Component {
 
     this.setState({ [name]: value });
   };
-
+  handleTermAndConditions = () => {
+    const { history } = this.props;
+    this.setState({
+      dailogOpen: false
+    })
+    history.push("/termAndConditions");
+  };
+  handlePolicyAndPrivacy = () => {
+    const { history } = this.props;
+    this.setState({
+      dailogOpen: false
+    })
+    history.push("/privacyAndPolicy");
+  };
   onClick = () => {
     const { Password, Email } = this.state;
     try {
@@ -227,18 +222,13 @@ class Login extends Component {
 
   handleClose = () => {
     this.setState({
-      dailogOpen: false,
-      modalOpen: false
+      dailogOpen: false
     })
-    const { Fname, Lname, email, userID } = this.state
-    if (Fname) {
-      this.facebookLogin(Fname, Lname, email, userID)
-    }
   };
 
   render() {
     const { classes } = this.props;
-    const { Email, Password, passwordIsMasked, email } = this.state;
+    const { Email, Password, passwordIsMasked } = this.state;
     return (
       <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
         <CssBaseline />
@@ -352,7 +342,12 @@ class Login extends Component {
             </Grid> */}
           </Grid>
           <Typography>
-            <p style={{ alignItems: 'center', marginLeft: 27 }}>By logging in, you agree to our</p><span style={{ color: '#eb7134' }}>Term and conditions</span> <span >and</span> <span style={{ color: '#eb7134' }}>Privacy Policy</span>
+            <p style={{ alignItems: 'center', marginLeft: 2 }}>
+
+              <span onClick={this.handleTermAndConditions} style={{ color: '#eb7134' }}>Term and conditions</span>
+              <span > and </span>
+              <span onClick={this.handlePolicyAndPrivacy} style={{ color: '#eb7134' }}>Privacy Policy</span>
+            </p>
           </Typography>
           <br></br>
         </div>
@@ -361,37 +356,6 @@ class Login extends Component {
           dailogOpen={this.state.dailogOpen}
           dailogClose={this.handleClose}
         />
-        <Dialog
-          open={this.state.modalOpen}
-        >
-          <DialogContent className={classes.container}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography component="h1" variant="h5">Enter Email Address</Typography>
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  label="Email Address"
-                  name="email"
-                  value={email}
-                  autoComplete="email"
-                  onChange={this.onChange}
-                  autoFocus
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  justifyContent='center'
-                  color="primary"
-                  onClick={this.handleClose}
-                  className={classes.submit}
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </DialogContent>
-        </Dialog>
       </Container>
     );
   }
