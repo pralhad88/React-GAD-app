@@ -18,6 +18,8 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { withSnackbar } from 'notistack';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 import { login } from '../../store/actions/auth';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
@@ -38,13 +40,12 @@ const useStyles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 1),
     backgroundColor: "#eb7134",
-    // marginLeft: 60,
     width: 150
   },
   eye: {
@@ -61,8 +62,13 @@ class Login extends Component {
     this.state = {
       Email: '',
       Password: '',
+      Fname: '',
+      Lname: '',
+      email: '',
+      userID: '',
       passwordIsMasked: true,
       dailogOpen: false,
+      modalOpen: false,
     };
   }
 
@@ -97,6 +103,19 @@ class Login extends Component {
     let fullName = name.split(' ');
     const Fname = fullName[0];
     const Lname = fullName[1]
+    if (!email) {
+      this.setState({
+        Fname: fullName[0],
+        Lname: fullName[1],
+        userID: userID,
+        modalOpen: true
+      })
+    } else {
+      this.facebookLogin(Fname, Lname, email, userID)
+    }
+  }
+
+  facebookLogin = (Fname, Lname, email, userID) => {
     payload.append('Fname', Fname)
     payload.append('Lname', Lname)
     payload.append('Email', email)
@@ -119,7 +138,7 @@ class Login extends Component {
     } catch (e) {
 
     }
-
+    
   }
 
   responseLinkedIn = (response) => {
@@ -208,13 +227,18 @@ class Login extends Component {
 
   handleClose = () => {
     this.setState({
-      dailogOpen: false
+      dailogOpen: false,
+      modalOpen: false
     })
+    const { Fname, Lname, email, userID } = this.state
+    if (Fname) {
+      this.facebookLogin(Fname, Lname, email, userID)
+    }
   };
 
   render() {
     const { classes } = this.props;
-    const { Email, Password, passwordIsMasked } = this.state;
+    const { Email, Password, passwordIsMasked, email } = this.state;
     return (
       <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
         <CssBaseline />
@@ -305,7 +329,7 @@ class Login extends Component {
             </Grid>
             <Grid item xs={6}>
               <FacebookLogin
-                appId="1685984888246958"
+                appId="602690913907946"
                 autoLoad={false}
                 fields="name,email,picture"
                 callback={this.responseFacebook}
@@ -337,6 +361,37 @@ class Login extends Component {
           dailogOpen={this.state.dailogOpen}
           dailogClose={this.handleClose}
         />
+        <Dialog
+          open={this.state.modalOpen}
+        >
+          <DialogContent className={classes.container}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography component="h1" variant="h5">Enter Email Address</Typography>
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  label="Email Address"
+                  name="email"
+                  value={email}
+                  autoComplete="email"
+                  onChange={this.onChange}
+                  autoFocus
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  justifyContent='center'
+                  color="primary"
+                  onClick={this.handleClose}
+                  className={classes.submit}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
+          </DialogContent>
+        </Dialog>
       </Container>
     );
   }
