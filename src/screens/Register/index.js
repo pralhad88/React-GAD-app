@@ -11,11 +11,12 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png'
-import ListOfCountry from './ListOfCountry/index';
+import ListOfCountry from './ListOfCountry';
 import { withSnackbar } from 'notistack';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import PrivacyAndPolicy from './PrivacyAndPolicy';
+import TermsAndConditions from './TermAndConditions';
 import ResendLink from '../ResendLink';
 
 
@@ -64,6 +65,8 @@ class Register extends Component {
       Email: '',
       Country_ID: '',
       dailogOpen: false,
+      privacyDailogOpen: false,
+      termsDailogOpen: false,
       checked: false,
     };
   }
@@ -71,7 +74,6 @@ class Register extends Component {
   handleChangeChecked = () => {
     this.setState({
       checked: !this.state.checked,
-
       checked: false,
     });
   }
@@ -79,7 +81,6 @@ class Register extends Component {
   toggleChecked = () => {
     this.setState({
       checked: !this.state.checked,
-
     })
   }
 
@@ -92,28 +93,31 @@ class Register extends Component {
   }
 
   handleClose = () => {
-    const { history } = this.props;
     this.setState({
-      dailogOpen: false
+      dailogOpen: false,
+      privacyDailogOpen: false,
+      termsDailogOpen: false
     })
-    history.push("/");
   };
 
-  handleTermAndConditions = () => {
-    const { history } = this.props;
+  handleOpen = () => {
     this.setState({
-      dailogOpen: false
+      dailogOpen: true,
     })
-    history.push("/termAndConditions");
-  };
-  handlePolicyAndPrivacy = () => {
-    const { history } = this.props;
+  }
+  
+  privacyAndPolicyOpen = () => {
     this.setState({
-      dailogOpen: false
+      privacyDailogOpen: true
     })
-    history.push("/privacyAndPolicy");
-  };
-
+  }
+  
+  termsAndConditionsOpen = () => {
+    this.setState({
+      termsDailogOpen: true
+    })
+  }
+  
   onChange = async (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -142,7 +146,6 @@ class Register extends Component {
       payload.append('Lname', Lname);
       payload.append('Email', Email);
       payload.append('Country_ID', Country_ID);
-      payload.append('checked', checked);
       if (Fname && Lname && Email && Country_ID && checked) {
         axios.post(`${baseUrl}app_signup.php`, payload)
           .then((res) => {
@@ -221,18 +224,15 @@ class Register extends Component {
             <Grid style={{ marginLeft: 40 }}>
               <Grid item style={{ marginLeft: 15 }}>
                 <p style={{ alignItems: 'center', marginLeft: 28 }}>By signing up, you agree to our</p>
-
-
                 <p style={{ alignItems: 'center', marginLeft: 2 }}>
-
-                  <Link href="/termAndConditions" style={{ color: 'black' }}>
-                  <span style={{ color: '#eb7134' }}>Term and conditions</span>
-                  </Link>
-                  <span > and </span> 
-                  <span onClick={this.handlePolicyAndPrivacy} style={{ color: '#eb7134' }}>Privacy Policy</span>
+                  <span onClick={this.termsAndConditionsOpen} style={{ color: '#eb7134', cursor: 'pointer' }}>
+                    Term and conditions
+                  </span>
+                  <span> and </span>
+                  <span onClick={this.privacyAndPolicyOpen} style={{ color: '#eb7134',cursor: 'pointer'}}>
+                    Privacy Policy
+                  </span>
                 </p>
-
-
                 <FormControlLabel control={<Checkbox checked={this.state.checked}
                   onChange={this.toggleChecked} />}
                   label="If you are agree then check here." />
@@ -261,6 +261,14 @@ class Register extends Component {
           email={this.state.Email}
           dailogOpen={this.state.dailogOpen}
           dailogClose={this.handleClose}
+        />
+        <PrivacyAndPolicy
+          dailogOpen={this.state.privacyDailogOpen}
+          dailogClose={this.handleClose}
+        />
+        <TermsAndConditions
+          dailogOpen={this.state.termsDailogOpen}
+          dailogClose={this.handleClose} 
         />
       </Container>
     );
