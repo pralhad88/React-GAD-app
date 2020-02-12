@@ -11,8 +11,6 @@ import FirstLogin from '../../screens/FirstLogin';
 import ForgetPass from '../../screens/ForgetPass';
 import Register from '../../screens/Register';
 import NotFound from '../../screens/NotFound';
-import PrivacyAndPolicy from '../../screens/Register/PrivacyAndPolicy'
-import TermsAndConditions from '../../screens/Register/TermAndConditions'
 
 const AppRouter = () => (
   <Router history={history}>
@@ -23,8 +21,6 @@ const AppRouter = () => (
       <PublicRoute path="/linkedin" component={LinkedInPopUp} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
       <PublicRoute path="/forgetPassword" component={ForgetPass} exact={true} />
-      <PublicRoute path="/privacyAndPolicy" component={PrivacyAndPolicy} exact={true} />
-      <PublicRoute path="/termAndConditions" component={TermsAndConditions} exact={true} />
       {/* Registration page */} 
       <PublicRoute path="/register" component={Register} />
 
