@@ -19,6 +19,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
     flexDirection: 'column',
     maxWidth: 250,
+    padding: 16
 },
 });
 
