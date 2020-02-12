@@ -19,6 +19,10 @@ const styles = theme => ({
   },
   title: {
     flexGrow: 1,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
   }
 });
 
@@ -53,8 +57,6 @@ class TermsAndConditions extends Component {
             </Typography>
             <hr></hr>
           </Box>
-
-          <Container>
             <Box my={2}>
               {[...new Array(22)]
                 .map(
@@ -65,7 +67,6 @@ class TermsAndConditions extends Component {
                 )
                 .join('\n')}
             </Box>
-          </Container>
           </DialogContent>
         </Dialog>
       </Fragment>

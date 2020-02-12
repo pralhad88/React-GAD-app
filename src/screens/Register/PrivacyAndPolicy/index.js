@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Dialog from '@material-ui/core/Dialog';
+
 import DialogContent from '@material-ui/core/DialogContent';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -19,6 +20,10 @@ const styles = theme => ({
   },
   title: {
     flexGrow: 1,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
   }
 });
 
@@ -53,8 +58,6 @@ class PrivacyAndPolicy extends Component {
             </Typography>
             <hr></hr>
           </Box>
-
-          <Container>
             <Box my={2}>
               {[...new Array(22)]
                 .map(
@@ -65,7 +68,6 @@ class PrivacyAndPolicy extends Component {
                 )
                 .join('\n')}
             </Box>
-          </Container>
           </DialogContent>
         </Dialog>
       </Fragment>
