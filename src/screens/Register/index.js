@@ -146,8 +146,9 @@ class Register extends Component {
       payload.append('Lname', Lname);
       payload.append('Email', Email);
       payload.append('Country_ID', Country_ID);
-      if (Fname && Lname && Email && Country_ID && checked) {
-        axios.post(`${baseUrl}app_signup.php`, payload)
+      if (Fname && Lname && Email && Country_ID) {
+        if (checked) {
+          axios.post(`${baseUrl}app_signup.php`, payload)
           .then((res) => {
             if (typeof res.data !== 'object') {
               this.props.enqueueSnackbar('Email address already exists!', {
@@ -162,9 +163,16 @@ class Register extends Component {
               })
             }
           });
+        } else {
+          this.props.enqueueSnackbar('Please mark chekbox for registration!', {
+            variant: 'error', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'center',
+            }
+          });
+        }
       } else {
         this.props.enqueueSnackbar('Please fill all mandatory feild!', {
-
           variant: 'error', anchorOrigin: {
             vertical: 'top',
             horizontal: 'center',
