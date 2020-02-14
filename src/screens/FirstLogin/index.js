@@ -180,6 +180,10 @@ class FirstLogin extends Component {
     
     componentDidMount() {
         this.fetchCountry();
+        this.setState({
+            ListOfState: [{label: "Select Country first", value: 'state'}],
+            ListOfCity: [{label: "Select Country and State first", value: 'city'}]
+        })
     }
     async fetchCountry() {
         try {

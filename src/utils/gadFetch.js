@@ -6,7 +6,7 @@ import history from './history';
 const BASE_URL = process.env.API_URL;
 
 
-export default async function ngFetch(url, method='GET', options={}, useAuth=true) {
+export default async function gadFetch(url, method='GET', options={}, useAuth=true) {
   const opts = {
     url: `${BASE_URL}${url}`,
     method,
