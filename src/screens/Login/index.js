@@ -86,13 +86,16 @@ class Login extends Component {
       axios.post(`${baseUrl}social_signup.php`, payload)
         .then((res) => {
           const { checkstatus } = res.data;
+          const {history} = this.props;
           if (!checkstatus.f_name) {
             localStorage.setItem('Email', this.state.Email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
+            history.push('/firstLoging')
             // redirect to first login page
           } else if (checkstatus.status == 1) {
             localStorage.setItem('Email', this.state.Email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
+            history.push('/landingPage')
             // direct goes to landing page
           }
         })
@@ -129,12 +132,22 @@ class Login extends Component {
         .then((res) => {
           const { checkstatus } = res.data;
           if (!checkstatus.f_name) {
+            const { history } = this.props
             localStorage.setItem('Email', this.state.Email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
+            this.setState({
+              modalOpen: false
+            })  
+            history.push('/firsLogin')
             // redirect to first login page
           } else if (checkstatus.status == 1) {
+            this.setState({
+              modalOpen: false
+            })
             localStorage.setItem('Email', this.state.Email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
+            const { history } = this.props
+            history.push('/landingPage')
             // direct goes to landing page
           }
         })
