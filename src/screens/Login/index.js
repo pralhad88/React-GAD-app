@@ -53,6 +53,10 @@ const useStyles = theme => ({
   eye: {
     cursor: 'pointer',
   },
+  emailAddress: {
+    margin: theme.spacing(3, 0, 1),
+    backgroundColor: "#eb7134",
+  }
 });
 
 
@@ -416,7 +420,7 @@ class Login extends Component {
         <Dialog
           open={this.state.modalOpen}
         >
-          <DialogContent className={classes.container}>
+          <DialogContent >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography component="h1" variant="h5">Enter Email Address</Typography>
@@ -436,7 +440,7 @@ class Login extends Component {
                   justifyContent='center'
                   color="primary"
                   onClick={this.handleClose}
-                  className={classes.submit}
+                  className={classes.emailAddress}
                 >
                   Submit
                 </Button>
