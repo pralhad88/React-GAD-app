@@ -42,11 +42,11 @@ class PrivacyAndPolicy extends Component {
         <Dialog open={dailogOpen}>
           <DialogContent className={classes.root}>
             <CssBaseline />
-            <AppBar position='static'>
+            <AppBar position='absolute'>
               <Toolbar>
                 <ArrowBackIcon
                   onClick={this.handleClose}
-                  style={{ color: 'white' }}
+                  style={{ color: 'white',cursor:'pointer' }}
                   className={classes.menuButton}
                 />
                 <Typography variant="h6" className={classes.title}>
@@ -54,7 +54,7 @@ class PrivacyAndPolicy extends Component {
               </Typography>
               </Toolbar>
             </AppBar>
-            <Box my={2}>
+            <Box my={7}>
               <Typography style={{ textAlign: 'center' }} component="h1" variant="h6">
                 Privacy Policy
             </Typography>
@@ -108,19 +108,6 @@ class PrivacyAndPolicy extends Component {
               <Typography variant='h6'>Contact Us</Typography>
               <p>If you have any questions about this Privacy Policy, please contact us.</p>
             </Box>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={this.handleClose}
-                >
-                  OK
-                </Button>
-              </Grid>
-            </Grid>
           </DialogContent>
         </Dialog>
       </Fragment>
