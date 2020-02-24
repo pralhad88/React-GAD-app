@@ -352,7 +352,7 @@ class Login extends Component {
               </p>
             </p>
           </Grid>
-          <h4><span>OR LOGIN WITH</span></h4>
+          <h4><span className='orlogin'>OR LOGIN WITH</span></h4>
           <Box style={{ height: theme.spacing(2) }} />
           <Grid container style={{ marginLeft: 18, width: 150 }}>
             <Grid item xs={6}>

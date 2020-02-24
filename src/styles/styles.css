@@ -77,6 +77,10 @@ a {
   width: 250px;
   /*// background-color: white !important;*/
 }
+.cntlogo{
+  display: flex;
+  justify-content: center !important;
+}
 
 .appbarwrapper {
   flex-grow: 1;
@@ -256,9 +260,16 @@ form {
 .btnGoogle { 
   width: 50px;
   border-radius: 25px !important;
-  border:0px transparent !important;
+  /* border:0px transparent !important; */
   text-align: center !important;
   padding: 5px !important;
+  background:transparent !important;
+  background-color: none !important;
+}
+.btnGoogle > div{
+  border-radius: 25px !important;
+  background:transparent !important;
+
 }
 .btnLinkedIn { 
   width: 50px;
@@ -290,10 +301,11 @@ h4 {
   margin: 10px 0 20px; 
 }
 
-h4 span { 
+.orlogin{ 
   background: #cfd9df;
-   padding:0 10px; 
+   padding:10px; 
    color: #eb7134;
+   border-radius:5px;
 }
 /* @media only screen and (max-width : 399px) {
   .btnFacebook,.btnGoogle{

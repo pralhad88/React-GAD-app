@@ -62,7 +62,7 @@ class ListOfCountry extends Component {
     fetchCountry = () => {
         const formData = new FormData();
         try {
-            axios.post(`country_list.php`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            axios.post(`${baseUrl}country_list.php`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then((res) => {
                     console.log(res.data, "Pralhad")
                     this.setState({
@@ -135,7 +135,7 @@ class ListOfCountry extends Component {
             >   <DialogContent className={classes.container} >
                     <Grid container spacing={2} >
                         <Grid item xs={12}>
-                            <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static', minHeight: 50 }}>
+                        <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static', minHeight: 50 }}>
                                 <Image
                                     color="inherit"
                                     src={logo}
