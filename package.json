@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "clean": "rm -rf node_modules && rm -rf dist",
-    "build": "cp public/index.html dist/index.html && cp public/index.html dist/404.html && NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.js",
+    "build": "mkdir -p dist && cp public/index.html dist/index.html && cp public/index.html dist/404.html && NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.js",
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
@@ -74,7 +74,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
