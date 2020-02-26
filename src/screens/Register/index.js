@@ -123,7 +123,7 @@ class Register extends Component {
     this.setState({ [name]: value });
     if (name === 'Email' && value.length > 10) {
       payload.append('Email', value)
-      axios.post(`email_check.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
+      axios.post(`${baseUrl}email_check.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then((res) => {
           const [checkstatus] = res.data.checkstatus;
           if (checkstatus.status == 1) {
