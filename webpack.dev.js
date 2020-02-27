@@ -11,6 +11,6 @@ module.exports = merge(common, {
     historyApiFallback: true // this prevents the default browser full page refresh on form submission and link change
   },
   plugins:[
-    new webpack.DefinePlugin({ "process.env.API_URL": JSON.stringify("http://kshandemo.co.in/gad3p2/api/") })
+    new webpack.DefinePlugin({ "process.env.API_URL": JSON.stringify("http://www.kshandemo.co.in/gad3p2/api/") })
   ]
 });

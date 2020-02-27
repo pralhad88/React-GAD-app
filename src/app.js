@@ -19,7 +19,7 @@ store.subscribe(() => {
 const App = () => (
   <Provider store={store}>
     <MuiThemeProvider theme={theme} >
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider maxSnack={1}>
         <Providers />
       </SnackbarProvider>
     </MuiThemeProvider>
