@@ -25,10 +25,11 @@ body {
     padding-top: 8px;
 }
 .filterSelectGlobal {
-  width: 350px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 20px;
+  width: 300px;
+  height: 20%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
 }
 
 /* #app {
@@ -256,6 +257,7 @@ form {
   color:white;
   border:0px transparent; 
   text-align: center;
+  cursor: pointer;
 }
 .btnGoogle { 
   width: 50px;
@@ -279,14 +281,6 @@ form {
   color:white;
   border:0px transparent; 
   text-align: center;
-}
-.btnFacebook:hover {
-  background: #3b5998;
-  opacity: 0.6;
-}
-.btnGoogle:hover {
-  background:#4285F4 !important;
-  opacity: 0.6;
 }
 .btnLinkedIn:hover {
   background: #2867b2;
