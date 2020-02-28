@@ -357,7 +357,7 @@ class Login extends Component {
           <Grid container style={{ marginLeft: 18, width: 150 }}>
             <Grid item xs={6}>
               <GoogleLogin
-                clientId="739472928000-hl094ooivk0fapj0cps472nmo65nd731.apps.googleusercontent.com"
+                clientId="739472928000-jcvtq63h2acfuc1k8jjs5g6vr7uhonor.apps.googleusercontent.com"
                 buttonText=""
                 className="btnGoogle"
                 theme='dark'
