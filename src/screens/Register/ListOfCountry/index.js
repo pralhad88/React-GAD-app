@@ -62,7 +62,7 @@ class ListOfCountry extends Component {
     fetchCountry = () => {
         const formData = new FormData();
         try {
-            axios.post(`${baseUrl}country_list.php`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            axios.post(`country_list.php`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then((res) => {
                     this.setState({
                         listOfCountry: res.data.countrydata,
