@@ -11,6 +11,8 @@ import FirstLogin from '../../screens/FirstLogin';
 import ForgetPass from '../../screens/ForgetPass';
 import Register from '../../screens/Register';
 import NotFound from '../../screens/NotFound';
+import Logout from '../../screens/Logout';
+import GoogleMap from '../../componenet/googleMap'
 
 const AppRouter = () => (
   <Router history={history}>
@@ -20,10 +22,13 @@ const AppRouter = () => (
       <PublicRoute path="/" component={Login} exact={true} />
       <PublicRoute path="/linkedin" component={LinkedInPopUp} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
-      <PublicRoute path="/forgetPassword" component={ForgetPass} exact={true} />
-      {/* Registration page */} 
+      <PublicRoute path="/forgetPassword" component={ForgetPass} /> 
       <PublicRoute path="/register" component={Register} />
 
+      {/* Landing Page Related */}
+      <PrivateRoute path="/logout" component={Logout} />
+      <PrivateRoute path="/landing" component={GoogleMap} />
+      
       {/* Anything that doesn't match the above routes would open the not found page. Need to be at the end always. */}
       <Route component={NotFound} />
 

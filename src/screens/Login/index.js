@@ -90,7 +90,7 @@ class Login extends Component {
       axios.post(`${baseUrl}social_signup.php`, payload)
         .then((res) => {
           const { checkstatus } = res.data;
-          const {history} = this.props;
+          const { history } = this.props;
           if (!checkstatus.f_name) {
             localStorage.setItem('Email', this.state.Email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
@@ -99,7 +99,7 @@ class Login extends Component {
           } else if (checkstatus.status == 1) {
             localStorage.setItem('Email', this.state.Email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
-            history.push('/landingPage')
+            history.push('/landing')
             // direct goes to landing page
           }
         })
@@ -142,7 +142,7 @@ class Login extends Component {
             this.setState({
               modalOpen: false
             })  
-            history.push('/firsLogin')
+            history.push('/landing')
             // redirect to first login page
           } else if (checkstatus.status == 1) {
             this.setState({
@@ -151,7 +151,7 @@ class Login extends Component {
             localStorage.setItem('Email', this.state.Email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
             const { history } = this.props
-            history.push('/landingPage')
+            history.push('/landing')
             // direct goes to landing page
           }
         })
@@ -201,6 +201,7 @@ class Login extends Component {
       payload.append('Email', Email)
       payload.append('Password', Password)
       payload.append('Device_ID', '12')
+      payload.append('Device_Type', 0)
       if (Email && Password) {
         axios.post(`${baseUrl}login.php`, payload)
           .then((res) => {
@@ -228,7 +229,11 @@ class Login extends Component {
               localStorage.setItem('user', JSON.stringify(checkstatus));
               this.props.login(checkstatus, this.state.Email)
               const { history } = this.props;
-              history.push("/firstLogin");
+              if(checkstatus.count == 0) {
+                history.push("/firstLogin");
+              }else {
+                history.push("/landing");
+              }
             }
           })
       } else {

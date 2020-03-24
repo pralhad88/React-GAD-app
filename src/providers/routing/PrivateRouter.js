@@ -1,29 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import Header from '../../navbar/header';
 
 export const PrivateRoute = ({
   isAuthenticated,
   component: Component,
   ...rest
-}) => (
-    <Route {...rest} component={(props) => (
+  }) => (
+    <Route {...rest} component={(props) => {
+      return (
       isAuthenticated ? (
-        <div>
-          {/* <Header /> */}
-          <div className="bodyComponent">
-            <Component {...props} />
-          </div>
-          {/* <Footer/> */}
-        </div>
+        <React.Fragment>
+          <Header/>
+          <Component {...props} />
+        </React.Fragment>
       ) : (
-          <Redirect to="/" />
-        )
-    )} />
-  );
+        <Redirect to="/" />
+      )
+    )}} />
+);
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loggedInUser: state.auth.loggedInUser
 });
 
 export default connect(mapStateToProps)(PrivateRoute);
