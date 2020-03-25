@@ -61,8 +61,6 @@ const useStyles = theme => ({
 });
 
 
-
-
 class TagaDeed extends Component {
   constructor(props) {
     super(props);

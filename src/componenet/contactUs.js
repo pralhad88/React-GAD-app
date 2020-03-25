@@ -54,16 +54,14 @@ const styles = theme => ({
 
 
 class ContactUs extends Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {
             Email: '',
         };
     }
-
-
-
+    
     render() {
         const { classes } = this.props;
         return (
@@ -80,13 +78,13 @@ class ContactUs extends Component {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <Typography style={{ marginLeft:63 }} variant="h6" color="inherit">
-                            Contact Us
+                            <Typography style={{ marginLeft: 63 }} variant="h6" color="inherit">
+                                Contact Us
                             </Typography>
                         </Toolbar>
                     </AppBar>
                     <Grid item>
-                        <p style={{ color: '#eb7134', marginLeft: 20, marginBottom: 20,marginTop:30 }}>
+                        <p style={{ color: '#eb7134', marginLeft: 20, marginBottom: 20, marginTop: 30 }}>
                             you can contact us on -
                     </p>
                     </Grid>
@@ -103,16 +101,16 @@ class ContactUs extends Component {
                     </Grid>
 
 
-                    <h4 style={{ marginBottom: 40}}><span className='orlogin'>OR</span></h4>
+                    <h4 style={{ marginBottom: 40 }}><span className='orlogin'>OR</span></h4>
 
                     <Grid item>
-                        <Typography component="h6" variant="h6" style={{ color: '#eb7134', cursor: 'pointer' , marginTop:20,marginBottom:20 }}>
+                        <Typography component="h6" variant="h6" style={{ color: '#eb7134', cursor: 'pointer', marginTop: 20, marginBottom: 20 }}>
                             Contact us directly
                             </Typography>
                     </Grid>
 
                     <Grid item>
-                        <Typography  style={{ color: 'red',marginBottom:210}}>
+                        <Typography style={{ color: 'red', marginBottom: 210 }}>
                             Message Us ...
                             </Typography>
 

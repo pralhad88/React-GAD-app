@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Profile from '../assets/profile.png';
+import Profile from '../assets/logo.png';
 import Avatar from '@material-ui/core/Avatar';
 import Image from 'material-ui-image';
 

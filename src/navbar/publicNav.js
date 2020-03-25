@@ -50,7 +50,7 @@ const publicNavs = [
     icon: <PersonAddIcon />
   },
   {
-    url: '/contact',
+    url: '/contactus',
     name: 'Contact',
     icon: <PhoneIcon />
   },
