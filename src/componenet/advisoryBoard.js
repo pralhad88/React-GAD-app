@@ -47,60 +47,56 @@ class AdvisoryBoard extends Component {
 
         return (
 
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper}>
-                    <AppBar position="static" color="primary">
-                        <Toolbar>
-                            <IconButton
-                                edge="start"
-                                className={classes.menuButton}
-                                color="inherit"
-                                aria-label="menu"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography style={{ marginLeft: 63 }} variant="h6" color="inherit">
-                                Advisory Board
-                    </Typography>
-                        </Toolbar>
-                    </AppBar>
 
-                    <Image
-                        src={Profile}
-                        style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-                        imageStyle={{
-                            width: 99,
-                            height: 93,
-                            top: 37,
-                            left: 36,
-                        }}
-                    />
-                    {/* <Avatar alt="profile" src={Profile} /> */}
+            <div className={classes.paper}>
+                <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
+                    <center>
+                        <Typography variant="h6">
+                            Advisory Board
+                            </Typography>
+                    </center>
+                </AppBar>
+                
 
-                    <Grid item>
-                        <Typography component="h6" variant="h6" style={{ cursor: 'pointer', marginTop: 3, }}>
-                            Board Person Name
+                <Container>
+                    <div className={classes.paper}>
+
+                <Image
+                    src={Profile}
+                    style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
+                    imageStyle={{
+                        width: 99,
+                        height: 93,
+                        top: 37,
+                        left: 36,
+                    }}
+                />
+                {/* <Avatar alt="profile" src={Profile} /> */}
+
+                <Grid item>
+                    <Typography component="h6" variant="h6" style={{ cursor: 'pointer', marginTop: 3, }}>
+                        Board Person Name
                     </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography style={{ color: '#eb7134' }}>
-                            About Me
+                </Grid>
+                <Grid item>
+                    <Typography style={{ color: '#eb7134' }}>
+                        About Me
                             </Typography>
 
-                    </Grid>
-                    <Box my={2} style={{ marginTop: -11 }}>
-                        <p>Last updated: February 07, 2019
-                        Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the gift-a-deed mobile app (the "Service") operated by Navision Limited ("us", "we", or "our").
-                        Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.
-                        By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. This Terms & Conditions agreement is licensed by TermsFeed to gift-a-deed.
+                </Grid>
+                <Box my={2} style={{ marginTop: -11 }}>
+                    <p>Last updated: February 07, 2019
+                    Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the gift-a-deed mobile app (the "Service") operated by Navision Limited ("us", "we", or "our").
+                    Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.
+                    By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. This Terms & Conditions agreement is licensed by TermsFeed to gift-a-deed.
                         Donors/Fulfiller offer and distribute food at their own risk and responsibility. Gift-a-Deed and none of its employees or management is responsible for food offering and distribution.</p>
-                    </Box>
+                </Box>
 
-                    <hr  style={{ width:400, marginTop:-9 }}></hr>
+                <hr style={{ width: 400, marginTop: -9 }}></hr>
                 </div>
+                </Container>
+            </div>
 
-            </Container >
         );
     }
 }

@@ -12,8 +12,8 @@ import ForgetPass from '../../screens/ForgetPass';
 import Register from '../../screens/Register';
 import NotFound from '../../screens/NotFound';
 import Logout from '../../screens/Logout';
-import ContactUs from "../../componenet/contactUs";
 import GoogleMap from '../../componenet/googleMap';
+import EditDeed from "../../componenet/editDeed";
 
 const AppRouter = () => (
   <Router history={history}>
@@ -25,7 +25,7 @@ const AppRouter = () => (
       <PublicRoute path="/firstLogin" component={FirstLogin} />
       <PublicRoute path="/forgetPassword" component={ForgetPass} /> 
       <PublicRoute path="/register" component={Register} />
-      <PublicRoute path="/contactus" component={ContactUs} />
+      <PublicRoute path="/tagadeed" component={EditDeed} />
 
       {/* Landing Page Related */}
       <PrivateRoute path="/logout" component={Logout} />

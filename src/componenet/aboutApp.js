@@ -31,6 +31,7 @@ const styles = theme => ({
 
 ShareButton:{
     marginLeft: theme.spacing(8),
+    color:"white"
 },
 paper: {
     marginTop: theme.spacing(8),
@@ -52,36 +53,26 @@ class AboutApp extends Component {
 
     return (
 
-        <Container component="main" maxWidth="xs">
-        <CssBaseline />
+
         <div className={classes.paper}>
-            <AppBar position="static" color="primary">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography style={{ marginLeft: 63 }} variant="h6" color="inherit">
+        <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
+                    <center>
+                        <Typography variant="h6">
                         About App
-                    </Typography>
-                    <IconButton
+                            </Typography>
+                      
+                    </center>
+                    {/* <IconButton
                         edge="start"
                         className={classes.ShareButton}
                         color="inherit"
                         aria-label="menu"
                     >
                         <ShareIcon />
-                    </IconButton>
-                    {/* <Grid item>
-                        <span style={{marginRight: 95}}><ShareIcon /></span>
-                    </Grid> */}
-
-                </Toolbar>
-            </AppBar>
+                    </IconButton> */}
+                </AppBar>
+                <Container>
+                    <div className={classes.paper}>
 
             <Box my={2}>
               <p>Last updated: February 07, 2019</p>
@@ -125,10 +116,10 @@ class AboutApp extends Component {
               <Typography variant="h6">Contact Us</Typography>
               <p>If you have any questions about these Terms, please contact us.</p>
             </Box>
-
+            </div>
+                </Container>
             </div>
 
-</Container >
     );
   }
 }
