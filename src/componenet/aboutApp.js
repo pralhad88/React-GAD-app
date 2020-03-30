@@ -4,14 +4,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import ShareIcon from '@material-ui/icons/Share';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 
 const styles = theme => ({
 
@@ -27,62 +24,41 @@ const styles = theme => ({
   submit: {
     width: 100,
     color: 'white',
-  },
-
-ShareButton:{
-    marginLeft: theme.spacing(8),
-},
-paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-},
+  }
 });
 
 class AboutApp extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            Email: '',
-        };
+    handleClose = () => {
+      const { dailogClose } = this.props;
+      dailogClose()   
     }
-  render() {
-    const { classes } = this.props;
-
-    return (
-
-        <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-            <AppBar position="static" color="primary">
+    
+    render() {
+      const { classes, dailogOpen } = this.props;
+      return (
+        <Fragment>
+          <Dialog open={dailogOpen}>
+            <DialogContent>
+            <CssBaseline />
+            <AppBar position='absolute'>
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography style={{ marginLeft: 63 }} variant="h6" color="inherit">
+                  <ArrowBackIcon
+                  onClick={this.handleClose}
+                  style={{ color: 'white', cursor: 'pointer' }}
+                  className={classes.menuButton}
+                />
+                <Typography variant="h6" className={classes.title}>
                         About App
-                    </Typography>
-                    <IconButton
-                        edge="start"
-                        className={classes.ShareButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <ShareIcon />
-                    </IconButton>
-                    {/* <Grid item>
-                        <span style={{marginRight: 95}}><ShareIcon /></span>
-                    </Grid> */}
-
+                </Typography>
+                  <ShareIcon />
                 </Toolbar>
             </AppBar>
-
+            <Box my={7}>
+              <Typography style={{ textAlign: 'center' }} component="h1" variant="h6">
+                About App
+              </Typography>
+              <hr></hr>
+            </Box>
             <Box my={2}>
               <p>Last updated: February 07, 2019</p>
               <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the gift-a-deed mobile app (the "Service") operated by Navision Limited ("us", "we", or "our").</p>
@@ -125,10 +101,9 @@ class AboutApp extends Component {
               <Typography variant="h6">Contact Us</Typography>
               <p>If you have any questions about these Terms, please contact us.</p>
             </Box>
-
-            </div>
-
-</Container >
+            </DialogContent>
+          </Dialog>
+      </Fragment>
     );
   }
 }
