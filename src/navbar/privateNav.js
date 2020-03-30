@@ -110,7 +110,7 @@ const privateNavs = [
         icon: <ExtensionIcon />
     },
     {
-        url: '/update/mobile/number',
+        url: '/dashboard',
         name: 'Dashboard',
         icon: <DashboardIcon />
     },
