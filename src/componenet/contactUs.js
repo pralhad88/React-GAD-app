@@ -6,15 +6,15 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import EmailIcon from '@material-ui/icons/Email';
 import { withSnackbar } from 'notistack'
-import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
 
-const styles = theme => ({
+const useStyles = theme => ({
     paper: {
         marginTop: theme.spacing(7),
         display: 'flex',
@@ -31,11 +31,6 @@ const styles = theme => ({
         width: 100,
         marginLeft: -30
     },
-<<<<<<< HEAD
-
-=======
-   
->>>>>>> 2a209780af63dfdaca62de2319d6b86ef5d1f759
 });
 
 
@@ -44,25 +39,119 @@ class ContactUs extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            message: '',
         };
     }
+
+    handleChange = (event) => { this.setState({ message: event.target.value }); }
+
+    onClick = () => {
+        const { message } = this.state;
+        const { loggedInUser } = this.props;
+
+
+        try {
+            payload.append('message', message)
+            payload.append('userId', parseInt(loggedInUser.User_ID))
+            if (message) {
+                axios.post(`${baseUrl}contact_us.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then((res) => {
+
+                        if (res.data.status == 1) {
+                            this.props.enqueueSnackbar('Messages have been sent!', {
+                                variant: 'success', anchorOrigin: {
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                }
+                            })
+
+                        } else {
+                            this.props.enqueueSnackbar('Something is wrong pleasse try again!', {
+                                variant: 'error', anchorOrigin: {
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                }
+                            });
+                        }
+                    })
+            } else {
+                this.props.enqueueSnackbar('Please first write a message!', {
+                    variant: 'error', anchorOrigin: {
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }
+                });
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 
     render() {
         const { classes } = this.props;
         return (
             <div className={classes.paper}>
-                <AppBar position="static" style={{ height: 40 }}>
-                    <Toolbar>
-                        <center>
-                            <Typography variant="h6" style={{ marginTop: -27 }}>
-                                Contact us
+                <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
+                    <center>
+                        <Typography variant="h6">
+                            Contact us
                             </Typography>
-                        </center>
-                    </Toolbar>
+                    </center>
                 </AppBar>
+                <Container>
+                    <div className={classes.paper}>
+                        <p style={{ color: '#eb7134', marginLeft: 20 }}>
+                            you can contact us on -
+                        </p>
+                        <Grid container style={{ width: '6%', marginRight: 115 }}>
+                            <Grid item xs={6}>
+                                <EmailIcon />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <a class="mailto" href="mailto:admin@navisionltd.com">
+                                    <span style={{}}>admin@navisionltd.com</span>
+                                </a>
+                            </Grid>
+                        </Grid>
+                        <h4 style={{ marginBottom: 20, marginTop: 29 }}><span className='orlogin'>OR</span></h4>
+                        <Grid item>
+                            <Typography component="h6" variant="h6" style={{ color: '#eb7134', cursor: 'pointer', marginTop: 20, marginBottom: 20 }}>
+                                Contact us directly
+                            </Typography>
+                        </Grid>
+
+                        <Grid item>
+                            <TextField
+                                id="outlined-basic"
+                                label="Message Us"
+                                variant="outlined"
+                                style={{ marginBottom: 20 }}
+                                onChange={this.handleChange}
+                                value={this.state.Message}
+                                autoFocus
+                            />
+
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={this.onClick}
+                            >
+                                Send
+                    </Button>
+                        </Grid>
+                    </div>
+                </Container>
             </div>
         );
     }
 };
 
-export default withSnackbar(withStyles(styles)(ContactUs));
+const mapStateToProps = (state) => ({
+    loggedInUser: state.auth.loggedInUser
+});
+export default withSnackbar(withStyles(useStyles)(connect(mapStateToProps, undefined)(ContactUs)));

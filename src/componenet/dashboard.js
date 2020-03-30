@@ -13,6 +13,9 @@ import AboutApp from './aboutApp';
 import AdvisoryBoard from './advisoryBoard';
 import TermsAndConditions from '../screens/Register/TermAndConditions';
 import PrivacyAndPolicy from '../screens/Register/PrivacyAndPolicy';
+import EndUserLicenseAgreement from './endUserLicenseAgreement';
+import CookiesPolicy from './cookiespolicy';
+import Disclaimer from './disclaimer';
 
 const useStyles = (theme => ({
     root: {
@@ -48,7 +51,9 @@ class Dashaboard extends Component {
             privacyDailogOpen: false,
             termsDailogOpen: false,
             advisoryDailogOpen: false,
-            cookiesDailogOpen: false
+            cookiesDailogOpen: false,
+            endUserDailogOpen: false,
+            disclaimerDailogOpen: false
         }
         this.data = [
             { title: "MY TAGS", url: '/' },
@@ -65,10 +70,24 @@ class Dashaboard extends Component {
           privacyDailogOpen: false,
           termsDailogOpen: false,
           advisoryDailogOpen: false,
-          cookiesDailogOpen: false
+          cookiesDailogOpen: false,
+          endUserDailogOpen: false,
+          disclaimerDailogOpen: false
         })
     };
 
+    endUserAgreement = () => {
+        this.setState({
+            endUserDailogOpen: true
+        });
+    }
+    
+    disclaimer = () => {
+        this.setState({
+            disclaimerDailogOpen: true
+        });
+    }
+    
     cookies = () => {
         this.setState({
             cookiesDailogOpen: true
@@ -211,7 +230,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3}>
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.advisoryBoard}> 
+                                    <CardActionArea onClick={this.cookies}> 
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -229,7 +248,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3}>
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.advisoryBoard}> 
+                                    <CardActionArea onClick={this.endUserAgreement}> 
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -247,7 +266,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3}>
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.advisoryBoard}> 
+                                    <CardActionArea onClick={this.disclaimer}> 
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -281,6 +300,18 @@ class Dashaboard extends Component {
                     dailogOpen={this.state.aboutDailogOpen}
                     dailogClose={this.handleClose}
                 />
+                <Disclaimer
+                     dailogOpen={this.state.disclaimerDailogOpen}
+                     dailogClose={this.handleClose}
+                />
+                <EndUserLicenseAgreement 
+                    dailogOpen={this.state.endUserDailogOpen}
+                    dailogClose={this.handleClose}
+               />
+               <CookiesPolicy 
+                    dailogOpen={this.state.cookiesDailogOpen}
+                    dailogClose={this.handleClose}
+               />
             </Container>
         </div>
     );
