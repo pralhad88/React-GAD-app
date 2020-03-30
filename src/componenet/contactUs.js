@@ -8,6 +8,8 @@ import EmailIcon from '@material-ui/icons/Email';
 import { withSnackbar } from 'notistack'
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
@@ -29,7 +31,11 @@ const styles = theme => ({
         width: 100,
         marginLeft: -30
     },
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 2a209780af63dfdaca62de2319d6b86ef5d1f759
 });
 
 

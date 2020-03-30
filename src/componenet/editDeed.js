@@ -14,7 +14,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import ImageIcon from '@material-ui/icons/Image';
+import AppBar from '@material-ui/core/AppBar';
 
+// need to chenge do many things
 
 // import { theme } from '../../theme/theme';
 
@@ -66,23 +68,29 @@ class EditDeed extends Component {
         this.state = {
             checked: false,
         };
-        // toggleChecked = () => {
-        //     this.setState({
-        //       checked: !this.state.checked,
-        //     })
-        //   }
+        
     }
     render() {
         const { classes } = this.props;
         return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper} style={{logo}}>
-                    <div className={classes.root}>
+            
+                <div className={classes.paper}>
+                    <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
+                    <center>
+                        <Typography variant="h6">
+                            Advisory Board
+                            </Typography>
+                    </center>
+                </AppBar>
+                    <Container>
+                    <div className={classes.paper}>
                         <Avatar alt="profile" src={logo} />
+                    {/* <div className={classes.root}>
+                            
+
+                    </div> */}
                         {/* <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" /> */}
-                    </div>
                     {/* <Image
                         src={logo}
                         style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
@@ -179,9 +187,11 @@ class EditDeed extends Component {
                     style={{ alignItems:"center",justify:"center"}}>
                 Post
                 </Button>
+
+                </div>
+                </Container>
                 </div>
 
-            </Container>
 
         );
     }
