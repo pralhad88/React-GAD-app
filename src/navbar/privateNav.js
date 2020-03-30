@@ -130,17 +130,17 @@ const privateNavs = [
         icon: <AssignmentIcon />
     },
     {
-        url: '/mov',
+        url: '/cookies-policy',
         name: 'Cookies Policy',
         icon: <AssignmentIcon />
     },
     {
-        url: '/mo',
+        url: '/enduser-licenseagreement',
         name: 'End-User Licence Agreement',
         icon: <AssignmentIcon />
     },
     {
-        url: '/m',
+        url: '/disclaimer',
         name: 'Disclaimer',
         icon: <AssignmentIcon />
     },

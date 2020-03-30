@@ -14,7 +14,9 @@ import NotFound from '../../screens/NotFound';
 import Logout from '../../screens/Logout';
 import GoogleMap from '../../componenet/googleMap';
 import ContactUs from "../../componenet/contactUs";
-
+import CookiesPolicy from "../../componenet/cookiespolicy";
+import Disclaimer from "../../componenet/disclaimer";
+import EndUserLicenseAgreement from "../../componenet/endUserLicenseAgreement"
 const AppRouter = () => (
   <Router history={history}>
     <Switch>
@@ -24,8 +26,11 @@ const AppRouter = () => (
       <PublicRoute path="/linkedin" component={LinkedInPopUp} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
       <PublicRoute path="/forgetPassword" component={ForgetPass} /> 
-      <PublicRoute path="/register" component={Register} />
+      <PrivateRoute path="/register" component={Register} />
       <PrivateRoute path="/contact-us" component={ContactUs} />
+      <PrivateRoute path="/cookies-policy" component={CookiesPolicy} />
+      <PrivateRoute path="/disclaimer" component={Disclaimer} />
+      <PrivateRoute path="/enduser-licenseagreement" component={EndUserLicenseAgreement} />
 
       {/* Landing Page Related */}
       <PrivateRoute path="/logout" component={Logout} />
