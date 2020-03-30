@@ -150,7 +150,7 @@ const privateNavs = [
         icon: <HelpIcon />
     },
     {
-        url: '/po',
+        url: '/contact-us',
         name: 'Contact Us',
         icon: <PhoneIcon />
     },
