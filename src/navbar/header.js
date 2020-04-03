@@ -88,9 +88,14 @@ class Header extends React.Component {
                   <MenuIcon />
                 </IconButton>
               </Box>
-              {this.props.isAuthenticated && (<React.Fragment>
+              {this.props.isAuthenticated && (history.location['pathname'] == '/landing' || history.location['pathname'] == '/list') && (<React.Fragment>
                 <Typography variant="h5">
                   Tagged Deed
+              </Typography>
+              </React.Fragment>)}
+              {this.props.isAuthenticated && history.location['pathname'] !== '/landing' && (<React.Fragment>
+                <Typography variant="h5">
+                  Gift a Deed
               </Typography>
               </React.Fragment>)}
               {!this.props.isAuthenticated && (<React.Fragment>

@@ -22,10 +22,6 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
       },
-      dailogStlye:{
-        height: 750,
-        marginLeft: -14
-      },
       taggedScoreMargin: {
         marginLeft:-26
       },
@@ -90,9 +86,7 @@ class MyFulfilledTags extends Component {
             payload.append('userId', parseInt(loggedInUser.User_ID))
 
             const response = await axios.post(`${baseUrl}MyfullFillTags.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
-            // console.log(response,"222222222222222222222222222")
             const allMyFulfilledTags = response.data.Taggedlist;
-            // console.log(allMyFulfilledTags,"nnnnnnnnnnnnnnnnnn")
             this.setState({
                 myFulfilledTagsList: allMyFulfilledTags
             })
@@ -112,13 +106,14 @@ class MyFulfilledTags extends Component {
         return (
             <Fragment>
             <Dialog open={dailogOpen}>
-              <DialogContent className={classes.dailogStlye} >
+              <DialogContent >
                 <CssBaseline />
                 <AppBar position='absolute'>
                   <Toolbar>
                     <ArrowBackIcon
                       onClick={this.handleClose}
                       style={{ color: 'white', cursor: 'pointer' }}
+                      className={classes.menuButton}
                     />
                     <center>
                     <Typography variant="h6" >
@@ -128,8 +123,8 @@ class MyFulfilledTags extends Component {
                   </Toolbar> 
                 </AppBar>
                 <div style={{textAlign:"center"}}>
-                <Box my={7} style={{marginBottom: -15}}>
-                  <Typography>
+                <Box my={7} >
+                  <Typography variant="h5">
                     List of My fulfilled Tags
                   </Typography>
                 </Box>
@@ -138,21 +133,19 @@ class MyFulfilledTags extends Component {
                   {this.state.myFulfilledTagsList.length ? <Box my={2}>
     
                   {this.state.myFulfilledTagsList.map((item) => (
-    
                       <ListItem
                           style={{width: 400}}
                       >
                         <ListItemText>
                           <Box my={2} style={{ color: "gray", background: "ghostwhite" }}>
                           <Grid container spacing={5}>
-                            
                           </Grid>
                          </Box>
                         </ListItemText>
                       </ListItem>
                   ))}
                   </Box> : <Box my={2}>
-                  <Typography style={{marginTop: 257,fontSize: "larger"}}>
+                  <Typography style={{marginBottom: 250, marginTop: 100, fontSize: "larger"}}>
                     Hey, looks like you haven't fulfilled any deed yet
                   </Typography>
                   </Box>}

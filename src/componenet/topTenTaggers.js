@@ -22,10 +22,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-  dailogStlye:{
-    height: 750,
-    marginLeft: -14
-  },
   taggedScoreMargin: {
     marginLeft:-26
   },
@@ -108,7 +104,6 @@ class TopTenTaggers extends Component {
 
       const response = await axios.post(`${baseUrl}top_taggers.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
       const allTopTenTaggers = response.data.RESULT;
-      // console.log(allTopTenTaggers,"RESULT111111111111111111111111sssssssssssss")
       this.setState({
         topTenTaggedlist: allTopTenTaggers
       })
@@ -128,13 +123,14 @@ class TopTenTaggers extends Component {
     return (
       <Fragment>
         <Dialog open={dailogOpen}>
-          <DialogContent className={classes.dailogStlye} >
+          <DialogContent >
             <CssBaseline />
             <AppBar position='absolute'>
               <Toolbar>
                 <ArrowBackIcon
                   onClick={this.handleClose}
                   style={{ color: 'white', cursor: 'pointer' }}
+                  className={classes.menuButton}
                 />
                 <center>
                 <Typography variant="h6" >
@@ -144,8 +140,8 @@ class TopTenTaggers extends Component {
               </Toolbar>
             </AppBar>
             <div style={{textAlign:"center"}}>
-            <Box my={7} style={{marginBottom: -15}}>
-              <Typography>
+            <Box my={7}>
+              <Typography variant="h5">
                 List of top 10 taggers in your city
               </Typography>
             </Box>
@@ -154,7 +150,6 @@ class TopTenTaggers extends Component {
               {this.state.topTenTaggedlist.length ? <Box my={2}>
 
               {this.state.topTenTaggedlist.map((item, index) => (
-
                   <ListItem
                       style={{width: 400}}
                   >
@@ -179,7 +174,7 @@ class TopTenTaggers extends Component {
                   </ListItem>
               ))}
               </Box> : <Box my={2}>
-              <Typography style={{color:"#0000FF",marginTop: 257,fontSize: "x-large"}}>
+              <Typography style={{color:"#0000FF",marginTop: 100, marginBottom: 250, fontSize: "x-large"}}>
                 No records found
               </Typography>
               </Box>}

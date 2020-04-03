@@ -18,10 +18,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-  dailogStlye: {
-    height: 750,
-    marginLeft: -14
-  },
   taggedScoreMargin: {
     marginLeft: -26
   },
@@ -84,7 +80,6 @@ class TagCounter extends Component {
       payload.append('userId', parseInt(loggedInUser.User_ID))
 
       const response = await axios.post(`${baseUrl}tag_counter.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
-      console.log(response.data, "swati111111111111111111111111")
       this.setState({
         fulfilled: response.data.fulfilled,
         tagged: response.data.tagged,
@@ -105,13 +100,14 @@ class TagCounter extends Component {
     return (
       <Fragment>
         <Dialog open={dailogOpen}>
-          <DialogContent className={classes.dailogStlye} >
+          <DialogContent >
             <CssBaseline />
             <AppBar position='absolute'>
               <Toolbar>
                 <ArrowBackIcon
                   onClick={this.handleClose}
                   style={{ color: 'white', cursor: 'pointer' }}
+                  className={classes.menuButton}
                 />
                 <center>
                 <Typography variant="h6" >
@@ -139,7 +135,6 @@ class TagCounter extends Component {
                 </p>
               </Box>
               <Box my={9}>
-
                 <p>
                   <span style={{ cursor: 'pointer', marginLeft: 65 }}>
                     {this.state.tagged}
@@ -147,7 +142,6 @@ class TagCounter extends Component {
                   </span>
                   <span style={{ cursor: 'pointer', marginLeft: 121 }}>
                     {this.state.fulfilled}
-
                   </span>
                 </p>
               </Box>

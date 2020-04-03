@@ -23,10 +23,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-  dailogStlye:{
-    height: 750,
-    marginLeft: -14
-  },
   taggedScoreMargin: {
     marginLeft:-26
   },
@@ -92,7 +88,6 @@ class MyTags extends Component {
 
       const response = await axios.post(`${baseUrl}MyTags.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
       const allMyTag = response.data.Taggedlist;
-      console.log(allMyTag,"111111111111111111111111")
       this.setState({
         myTagsList: allMyTag
       })
@@ -112,33 +107,30 @@ class MyTags extends Component {
     return (
       <Fragment>
       <Dialog open={dailogOpen}>
-        <DialogContent className={classes.dailogStlye} >
+        <DialogContent >
           <CssBaseline />
           <AppBar position='absolute'>
             <Toolbar>
               <ArrowBackIcon
                 onClick={this.handleClose}
                 style={{ color: 'white', cursor: 'pointer' }}
+                className={classes.menuButton}
               />
-              <center>
               <Typography variant="h6" >
                 My fulfilled Tags
             </Typography>
-            </center>
             </Toolbar> 
           </AppBar>
           <div style={{textAlign:"center"}}>
-          <Box my={7} style={{marginBottom: -15}}>
-            <Typography>
+          <Box my={7} >
+            <Typography variant="h5">
               List of My fulfilled Tags
             </Typography>
           </Box>
           <List>
             <Divider className={classes.divider} />
             {this.state.myTagsList.length ? <Box my={2}>
-
-            {this.state.myTagsList.map((item) => (
-
+              {this.state.myTagsList.map((item) => (
                 <ListItem
                     style={{width: 400}}
                 >
@@ -150,12 +142,16 @@ class MyTags extends Component {
                    </Box>
                   </ListItemText>
                 </ListItem>
-            ))}
-            </Box> : <Box my={2}>
-            <Typography style={{marginTop: 257,fontSize: "larger"}}>Hey, looks like you haven't tagged any need yet <Link href="/landing" style={{ color: '#f05f40' }}>
-                  <span>Click here</span>
-                </Link> to get started</Typography>
-            
+              ))}
+            </Box> : 
+            <Box my={2}>
+              <Typography style={{marginBottom: 250, marginTop: 100, fontSize: "larger"}}>
+                Hey, looks like you haven't tagged any need yet
+                <Link href="/landing" style={{ color: '#f05f40' }}>
+                  <span> Click here </span>
+                </Link>
+                to get started
+              </Typography>
             </Box>}
           </List>
           </div>

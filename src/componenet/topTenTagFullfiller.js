@@ -23,10 +23,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-  dailogStlye:{
-    height: 750,
-    marginLeft: -14
-  },
   taggedScoreMargin: {
     marginLeft:-26
   },
@@ -111,7 +107,6 @@ class TopTenTagFulfillers extends Component {
 
       const response = await axios.post(`${baseUrl}top_ten_fullfiller.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
       const allTopTenTagFulfillers = response.data.RESULTFFILLER;
-      // console.log(TopTenTagFulfillers,"RESULTFFILLER1111111111111111111111")
       this.setState({
         topTenTagFulfillersList: allTopTenTagFulfillers
       })
@@ -132,13 +127,14 @@ class TopTenTagFulfillers extends Component {
     return (
       <Fragment>
       <Dialog open={dailogOpen}>
-        <DialogContent className={classes.dailogStlye} >
+        <DialogContent >
           <CssBaseline />
           <AppBar position='absolute'>
             <Toolbar>
               <ArrowBackIcon
                 onClick={this.handleClose}
                 style={{ color: 'white', cursor: 'pointer' }}
+                className={classes.menuButton}
               />
               <center>
               <Typography variant="h6" >
@@ -150,7 +146,7 @@ class TopTenTagFulfillers extends Component {
           </AppBar>
           <div style={{textAlign:"center"}}>
           <Box my={7} style={{marginBottom: -15}}>
-            <Typography>
+            <Typography variant="h5">
               List of top 10 Fulfillers in your city
             </Typography>
           </Box>
@@ -159,7 +155,6 @@ class TopTenTagFulfillers extends Component {
             <Divider className={classes.divider} />
             {this.state.topTenTagFulfillersList.length ? <Box my={2}>
             {this.state.topTenTagFulfillersList.map(item, index => (
-                // RESULTFFILLER: [USER_ID,  FullFillerRank, Url_fullfillerRank]
                 <ListItem
                     style={{width: 400}}
                 >
@@ -196,7 +191,7 @@ class TopTenTagFulfillers extends Component {
                 </ListItem>
             ))}
             </Box> : <Box my={2}>
-            <Typography style={{color:"#0000FF",marginTop: 257,fontSize: "x-large"}}>
+            <Typography style={{color:"#0000FF",marginTop: 100, marginBottom: 250, fontSize: "x-large"}} >
               No records found
             </Typography>
             </Box>}
