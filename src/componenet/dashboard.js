@@ -16,6 +16,11 @@ import PrivacyAndPolicy from '../screens/Register/PrivacyAndPolicy';
 import EndUserLicenseAgreement from './endUserLicenseAgreement';
 import CookiesPolicy from './cookiespolicy';
 import Disclaimer from './disclaimer';
+import MyTags from './myTags';
+import MyFulfilledTags from './myFulfilledTags';
+import TagCounters from './tagCounter';
+import TopTenTaggers from './topTenTaggers';
+import TopTenTagFulfillers from './topTenTagFullfiller';
 
 const useStyles = (theme => ({
     root: {
@@ -53,41 +58,71 @@ class Dashaboard extends Component {
             advisoryDailogOpen: false,
             cookiesDailogOpen: false,
             endUserDailogOpen: false,
-            disclaimerDailogOpen: false
+            disclaimerDailogOpen: false,
+            myTagDailogOpen: false,
+            MyFulfilledTagsDailogOpen: false,
+            TagCountersDailogOpen: false,
+            TopTenTaggersDailogOpen: false,
+            TopTenTagFulfillersDailogOpen: false,
+
         }
-        this.data = [
-            { title: "MY TAGS", url: '/' },
-            { title: "MY FULFILLED TAG", url: '/' },
-            { title: "TOP 10 TAGGERS", url: '/'},
-            { title: "TOP 10 TAG FULFILLERS", url:'/'},
-            { title: "TAG COUNTER", url: '/'},
-        ]
+
     }
 
     handleClose = () => {
         this.setState({
-          aboutDailogOpen: false,
-          privacyDailogOpen: false,
-          termsDailogOpen: false,
-          advisoryDailogOpen: false,
-          cookiesDailogOpen: false,
-          endUserDailogOpen: false,
-          disclaimerDailogOpen: false
+            aboutDailogOpen: false,
+            privacyDailogOpen: false,
+            termsDailogOpen: false,
+            advisoryDailogOpen: false,
+            cookiesDailogOpen: false,
+            endUserDailogOpen: false,
+            disclaimerDailogOpen: false,
+            myTagDailogOpen: false,
+            MyFulfilledTagsDailogOpen: false,
+            TagCountersDailogOpen: false,
+            TopTenTaggersDailogOpen: false,
+            TopTenTagFulfillersDailogOpen: false,
         })
     };
 
+    myTag = () => {
+        this.setState({
+            myTagDailogOpen: true
+        })
+    }
+    MyFulfilledTag = () => {
+        this.setState({
+            MyFulfilledTagsDailogOpen: true
+        })
+    }
+    TopTenTagger = () => {
+        this.setState({
+            TopTenTaggersDailogOpen: true,
+        })
+    }
+    TopTenTagFulfiller = () => {
+        this.setState({
+            TopTenTagFulfillersDailogOpen: true
+        })
+    }
+    TagCounter = () => {
+        this.setState({
+            TagCountersDailogOpen: true
+        })
+    }
     endUserAgreement = () => {
         this.setState({
             endUserDailogOpen: true
         });
     }
-    
+
     disclaimer = () => {
         this.setState({
             disclaimerDailogOpen: true
         });
     }
-    
+
     cookies = () => {
         this.setState({
             cookiesDailogOpen: true
@@ -98,48 +133,46 @@ class Dashaboard extends Component {
             aboutDailogOpen: true
         })
     }
-    
+
     privacyAndPolicyOpen = () => {
         this.setState({
-          privacyDailogOpen: true
+            privacyDailogOpen: true
         })
     }
-      
+
     termsAndConditionsOpen = () => {
         this.setState({
-          termsDailogOpen: true
+            termsDailogOpen: true
         })
     }
     advisoryBoard = () => {
         this.setState({
-          advisoryDailogOpen: true,
+            advisoryDailogOpen: true,
         })
     }
     render() {
-    const { classes } = this.props;
-    console.log(this.data, "Pralhad")
-    return (
-        <div className={classes.paper}>
-            <AppBar position="fixed" style={{ marginTop: 56, height: 40, background: 'rgb(235, 113, 52)', borderRadius: '.25em .25em .4em .4em' }}>
-                <center>
-                    <Typography variant="h6" >
-                        Dashaboard
+        const { classes } = this.props;
+        return (
+            <div className={classes.paper}>
+                <AppBar position="fixed" style={{ marginTop: 56, height: 40, background: 'rgb(235, 113, 52)', borderRadius: '.25em .25em .4em .4em' }}>
+                    <center>
+                        <Typography variant="h6" >
+                            Dashaboard
                         </Typography>
-                </center>
-            </AppBar>
-            <Container>
-                <div className={classes.root1}>
-                    <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        justify="flex-start"
-                        alignItems="flex-start"
-                    >
-                        {this.data.map(elem => (
-                            <Grid item xs={12} sm={6} md={3} key={this.data.indexOf(elem)}>
+                    </center>
+                </AppBar>
+                <Container>
+                    <div className={classes.root1}>
+                        <Grid
+                            container
+                            spacing={2}
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="flex-start"
+                        >
+                            <Grid item xs={12} sm={6} md={3} >
                                 <Card className={classes.root}>
-                                    <CardActionArea > 
+                                    <CardActionArea onClick={this.myTag}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -148,17 +181,88 @@ class Dashaboard extends Component {
                                         <center>
                                             <CardContent>
                                                 <Typography gutterBottom variant="h5" component="h2">
-                                                    {elem.title}
+                                                    {"MY TAGS"}
                                                 </Typography>
                                             </CardContent>
                                         </center>
                                     </CardActionArea>
                                 </Card>
                             </Grid>
-                        ))}
-                        <Grid item xs={12} sm={6} md={3} >
+                            <Grid item xs={12} sm={6} md={3} >
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.aboutApp}> 
+                                    <CardActionArea onClick={this.MyFulfilledTag}>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={picture}
+                                            title="Contemplative Reptile"
+                                        />
+                                        <center>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {"My Fulfilled Tags"}
+                                                </Typography>
+                                            </CardContent>
+                                        </center>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={3} >
+                                <Card className={classes.root}>
+                                    <CardActionArea onClick={this.TopTenTagger}>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={picture}
+                                            title="Contemplative Reptile"
+                                        />
+                                        <center>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {"Top 10 Taggers"}
+                                                </Typography>
+                                            </CardContent>
+                                        </center>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={3} >
+                                <Card className={classes.root}>
+                                    <CardActionArea onClick={this.TopTenTagFulfiller}>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={picture}
+                                            title="Contemplative Reptile"
+                                        />
+                                        <center>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {"Top 10 Tag Fulfillers"}
+                                                </Typography>
+                                            </CardContent>
+                                        </center>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={3} >
+                                <Card className={classes.root}>
+                                    <CardActionArea onClick={this.TagCounter}>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={picture}
+                                            title="Contemplative Reptile"
+                                        />
+                                        <center>
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {"Tag Counter"}
+                                                </Typography>
+                                            </CardContent>
+                                        </center>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={3} >
+                                <Card className={classes.root}>
+                                    <CardActionArea onClick={this.aboutApp}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -176,7 +280,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3} >
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.termsAndConditionsOpen}> 
+                                    <CardActionArea onClick={this.termsAndConditionsOpen}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -194,7 +298,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3} >
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.privacyAndPolicyOpen}> 
+                                    <CardActionArea onClick={this.privacyAndPolicyOpen}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -212,7 +316,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3}>
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.advisoryBoard}> 
+                                    <CardActionArea onClick={this.advisoryBoard}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -230,7 +334,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3}>
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.cookies}> 
+                                    <CardActionArea onClick={this.cookies}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -248,7 +352,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3}>
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.endUserAgreement}> 
+                                    <CardActionArea onClick={this.endUserAgreement}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -266,7 +370,7 @@ class Dashaboard extends Component {
                             </Grid>
                             <Grid item xs={12} sm={6} md={3}>
                                 <Card className={classes.root}>
-                                    <CardActionArea onClick={this.disclaimer}> 
+                                    <CardActionArea onClick={this.disclaimer}>
                                         <CardMedia
                                             className={classes.media}
                                             image={picture}
@@ -282,39 +386,59 @@ class Dashaboard extends Component {
                                     </CardActionArea>
                                 </Card>
                             </Grid>
-                    </Grid>
-                </div>
-                <TermsAndConditions 
-                    dailogOpen={this.state.termsDailogOpen}
-                    dailogClose={this.handleClose}
-                />
-                <PrivacyAndPolicy 
-                    dailogOpen={this.state.privacyDailogOpen}
-                    dailogClose={this.handleClose}
-                />
-                <AdvisoryBoard 
-                    dailogOpen={this.state.advisoryDailogOpen}
-                    dailogClose={this.handleClose}
-                />
-                <AboutApp
-                    dailogOpen={this.state.aboutDailogOpen}
-                    dailogClose={this.handleClose}
-                />
-                <Disclaimer
-                     dailogOpen={this.state.disclaimerDailogOpen}
-                     dailogClose={this.handleClose}
-                />
-                <EndUserLicenseAgreement 
-                    dailogOpen={this.state.endUserDailogOpen}
-                    dailogClose={this.handleClose}
-               />
-               <CookiesPolicy 
-                    dailogOpen={this.state.cookiesDailogOpen}
-                    dailogClose={this.handleClose}
-               />
-            </Container>
-        </div>
-    );
+                        </Grid>
+                    </div>
+                    <TermsAndConditions
+                        dailogOpen={this.state.termsDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <PrivacyAndPolicy
+                        dailogOpen={this.state.privacyDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <AdvisoryBoard
+                        dailogOpen={this.state.advisoryDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <AboutApp
+                        dailogOpen={this.state.aboutDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <Disclaimer
+                        dailogOpen={this.state.disclaimerDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <EndUserLicenseAgreement
+                        dailogOpen={this.state.endUserDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <CookiesPolicy
+                        dailogOpen={this.state.cookiesDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <MyTags
+                        dailogOpen={this.state.myTagDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <MyFulfilledTags
+                        dailogOpen={this.state.MyFulfilledTagsDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <TopTenTaggers
+                        dailogOpen={this.state.TopTenTaggersDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <TopTenTagFulfillers
+                        dailogOpen={this.state.TopTenTagFulfillersDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                    <TagCounters
+                        dailogOpen={this.state.TagCountersDailogOpen}
+                        dailogClose={this.handleClose}
+                    />
+                </Container>
+            </div>
+        );
     }
 }
 

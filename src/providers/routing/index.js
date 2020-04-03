@@ -15,9 +15,7 @@ import Logout from '../../screens/Logout';
 import DashBoard from "../../componenet/dashboard";
 import Map from '../../componenet/googleMap';
 import ContactUs from "../../componenet/contactUs";
-import CookiesPolicy from "../../componenet/cookiespolicy";
-import Disclaimer from "../../componenet/disclaimer";
-import EndUserLicenseAgreement from "../../componenet/endUserLicenseAgreement"
+
 const AppRouter = () => (
   <Router history={history}>
     <Switch>
