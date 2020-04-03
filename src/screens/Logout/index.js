@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';
 import { withSnackbar } from 'notistack';
@@ -20,36 +19,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Box } from '@material-ui/core';
 import { theme } from '../../theme/theme';
 import logo from '../../assets/logo.png';
-
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'column',
-    minWidth: 200,
-    padding: 16
-  },
-  submit: {
-    width: 146,
-    backgroundColor: 'rgb(235, 113, 52)'
-  },
-  itemActiveItem: {
-    color: '#4fc3f7',
-  },
-  itemPrimary: {
-    fontSize: 'inherit',
-    color: 'black'
-  },
-  item: {
-    paddingTop: 1,
-    paddingBottom: 1,
-    color: 'rgba(255, 255, 255, 0.7)'
-  },
-  itemIcon: {
-    minWidth: 'auto',
-    marginRight: theme.spacing(2),
-  },
-})
 
 export class Logout extends React.Component {
 
@@ -85,9 +54,8 @@ export class Logout extends React.Component {
     const { classes } = this.props;
     return (
       <Fragment>
-        <Button onClick={this.handleOpen}>
-          <ListItem className={clsx(classes.item && classes.itemActiveItem)}>
-            <ListItemIcon className={classes.itemIcon}>
+          <ListItem button className={clsx(classes.item && classes.itemActiveItem)} onClick={this.handleOpen} >
+            <ListItemIcon className={classes.itemIcon} >
               <ExitToAppIcon />
             </ListItemIcon>
             <ListItemText
@@ -98,7 +66,6 @@ export class Logout extends React.Component {
               Logout
             </ListItemText>
           </ListItem>
-        </Button>
         <Dialog
           open={this.state.modalOpen}
           onClose={this.handleClose}
@@ -159,4 +126,4 @@ const mapDispatchToProps = (dispatch) => ({
   startLogout: () => dispatch(logout())
 });
 
-export default withSnackbar(withRouter(withStyles(styles)(connect(undefined, mapDispatchToProps)(Logout))))
+export default withSnackbar(withRouter(connect(undefined, mapDispatchToProps)(Logout)))

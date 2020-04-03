@@ -16,7 +16,7 @@ const payload = new FormData();
 
 const useStyles = theme => ({
     paper: {
-        marginTop: theme.spacing(7),
+        marginTop: theme.spacing(10),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -91,7 +91,7 @@ class ContactUs extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.paper}>
+            <div>
                 <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
                     <center>
                         <Typography variant="h6">

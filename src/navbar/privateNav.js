@@ -61,7 +61,17 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
     },
-
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        minWidth: 200,
+        padding: 16
+    },
+    submit: {
+        width: 146,
+        backgroundColor: 'rgb(235, 113, 52)'
+    },
     title: {
         flexGrow: 1,
     },
@@ -75,7 +85,7 @@ const styles = theme => ({
 
 const privateNavs = [
     {
-        url: '/editDeed',
+        url: '/landing',
         name: 'Home',
         icon: <HomeIcon />
     },
@@ -85,64 +95,14 @@ const privateNavs = [
         icon: <ExtensionIcon />
     },
     {
-        url: '/tasks',
-        name: 'My Fulfilled Tags',
-        icon: <ExtensionIcon />
-    },
-    {
         url: '/report/dangling',
         name: 'Tag A Deed',
         icon: <StyleIcon />
     },
     {
-        url: '/report/all',
-        name: 'Top 10 Taggers',
-        icon: <ExtensionIcon />
-    },
-    {
-        url: '/feedbackble/report',
-        name: "Top 10 Tag Fulfillers",
-        icon: <ExtensionIcon />
-    },
-    {
-        url: '/assign/user',
-        name: 'Tag counter',
-        icon: <ExtensionIcon />
-    },
-    {
         url: '/dashboard',
         name: 'Dashboard',
         icon: <DashboardIcon />
-    },
-    {
-        url: '/movies',
-        name: 'About App',
-        icon: <InfoIcon />
-    },
-    {
-        url: '/movie',
-        name: 'Terms And Conditions',
-        icon: <AssignmentIcon />
-    },
-    {
-        url: '/movi',
-        name: 'Privacy Policy',
-        icon: <AssignmentIcon />
-    },
-    {
-        url: '/cookies-policy',
-        name: 'Cookies Policy',
-        icon: <AssignmentIcon />
-    },
-    {
-        url: '/enduser-licenseagreement',
-        name: 'End-User Licence Agreement',
-        icon: <AssignmentIcon />
-    },
-    {
-        url: '/disclaimer',
-        name: 'Disclaimer',
-        icon: <AssignmentIcon />
     },
     {
         url: '/pk',
@@ -216,7 +176,7 @@ function PrivateNavList(props) {
               </NavLink>
             </React.Fragment>
           ))}
-          <Logout />
+          <Logout classes={classes}/>
         </List>
     );
 }

@@ -13,7 +13,7 @@ import Register from '../../screens/Register';
 import NotFound from '../../screens/NotFound';
 import Logout from '../../screens/Logout';
 import DashBoard from "../../componenet/dashboard";
-import GoogleMap from '../../componenet/googleMap';
+import Map from '../../componenet/googleMap';
 import ContactUs from "../../componenet/contactUs";
 
 const AppRouter = () => (
@@ -30,7 +30,7 @@ const AppRouter = () => (
       {/* Landing Page Related */}
       <PrivateRoute path="/contact-us" component={ContactUs} />
       <PrivateRoute path="/logout" component={Logout} />
-      <PrivateRoute path="/landing" component={GoogleMap} />
+      <PrivateRoute path="/landing" component={Map} />
       <PrivateRoute path="/dashboard" component={DashBoard} />
       
       {/* Anything that doesn't match the above routes would open the not found page. Need to be at the end always. */}
