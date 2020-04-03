@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
@@ -14,8 +16,6 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import StyleIcon from '@material-ui/icons/Style';
-import InfoIcon from '@material-ui/icons/Info';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import HelpIcon from '@material-ui/icons/Help';
 import { NavLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
@@ -123,7 +123,7 @@ const privateNavs = [
 ];
 
 function PrivateNavList(props) {
-    const { classes } = props;
+    const { classes, loggedInUser } = props;
 
     return (
         <List style={{ paddingTop: 0 }}>
@@ -144,7 +144,7 @@ function PrivateNavList(props) {
               />
               <Grid item>
                 <Typography component="h6" variant="h6" style={{ color: 'white', marginTop: 3, }}>
-                    Jadhav Pralhad
+                    {loggedInUser.Fname} {loggedInUser.Lname}
                 </Typography>
               </Grid>
               <Grid item>
@@ -185,4 +185,8 @@ Navigator.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PrivateNavList);
+const mapStateToProps = (state) => ({
+  loggedInUser: state.auth.loggedInUser
+});
+
+export default withStyles(styles)(connect(mapStateToProps, undefined)(PrivateNavList));
