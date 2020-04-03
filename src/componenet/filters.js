@@ -7,62 +7,48 @@ import Box from '@material-ui/core/Box';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Dialog from '@material-ui/core/Dialog';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import DialogContent from '@material-ui/core/DialogContent';
-import Link from '@material-ui/core/Link';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
-import { theme } from '../../theme/theme';
+import Slider from '@material-ui/core/Slider';
+import SelectCategory from '../componenet/selectCategory';
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
     },
-    dailogStlye: {
-        height: 750,
-        marginLeft: -14
+
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
     },
     submit: {
-        margin: theme.spacing(1.5, 0, 1),
+        width: 250,
+        marginTop: 200,
 
-        width: 300
-      },
+    },
+
 });
-
-
 
 class Filters extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            myTagsList: []
         };
     }
 
-    componentDidMount() {
-        this.fetchTagged();
-    }
+    handleChange = selectedValue => {
+        console.log(parseInt(selectedValue));
 
-    async fetchTagged() {
-        const { loggedInUser } = this.props;
-        try {
-            payload.append('userId', parseInt(loggedInUser.User_ID))
-
-            const response = await axios.post(`${baseUrl}MyTags.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
-            const allMyTag = response.data.Taggedlist;
-            console.log(allMyTag, "111111111111111111111111")
-            this.setState({
-                myTagsList: allMyTag
-            })
-
-        } catch (e) {
-            console.log(e)
-        }
+        this.setState({
+            Country_ID: parseInt(selectedValue)
+        });
     }
 
     handleClose = () => {
@@ -75,7 +61,7 @@ class Filters extends Component {
         return (
             <Fragment>
                 <Dialog open={dailogOpen}>
-                    <DialogContent className={classes.dailogStlye} >
+                    <DialogContent >
                         <CssBaseline />
                         <AppBar position='absolute'>
                             <Toolbar>
@@ -83,44 +69,58 @@ class Filters extends Component {
                                     onClick={this.handleClose}
                                     style={{ color: 'white', cursor: 'pointer' }}
                                 />
-                                <center>
-                                    <Typography variant="h6" >
-                                        Filters
+                                <Typography variant="h6" >
+                                    Filters
             </Typography>
-                                </center>
                             </Toolbar>
                         </AppBar>
-                        <Box my={7} style={{ marginBottom: -15 }}>
-                            <Typography>
-                                Apply Filters
+                        <div style={{ color: "gray" }}>
+                            <Box my={7}>
+                                <Typography variant="h6" style={{ fontSize: 22 }}>
+                                    Apply Filters
             </Typography>
-                        </Box>
+                            </Box>
+                            <Box my={4}>
 
-                        <Autocomplete
-                            id="disable-portal"
-                            disablePortal
-                            renderInput={params => <TextField {...params} label="Select Category" margin="normal" />}
-                        />
+                                <Typography id="non-linear-slider" gutterBottom style={{ marginTop: -46 }}>
+                                    Radius
+                        </Typography>
+                            </Box>
+                            <Slider style={{ marginBottom: 86 }}
+                                // value={value}
+                                min={0}
+                                step={0.1}
+                                max={6}
+                                scale={(x) => x ** 10}
+                                // getAriaValueText={valueLabelFormat}
+                                // valueLabelFormat={valueLabelFormat}
+                                // onChange={handleChange}
+                                valueLabelDisplay="auto"
+                                aria-labelledby="non-linear-slider"
+                            />
 
-                        <Button
-                            type="submit"
-                            halfWidth
-                            variant="contained"
-                            justifyContent='center'
-                            color="primary"
-                            className={classes.submit}>
-                            Apply
-              </Button>
+
+                            <SelectCategory country_Id={this.handleChange} />
+
+                            <Button
+                                fullWidth
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={this.handleClose}
+                            >
+                                Apply
+                        </Button>
+                        </div>
                     </DialogContent>
                 </Dialog>
             </Fragment>
         );
     }
 }
-
 const mapStateToProps = (state) => ({
     loggedInUser: state.auth.loggedInUser
 });
 
 export default withStyles(styles)(connect(mapStateToProps, undefined)(Filters));
-

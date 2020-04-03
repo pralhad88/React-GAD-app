@@ -40,16 +40,16 @@ class Map extends Component {
    ));
    
    return(
-       <div>
+       <div>    
            <MapListButton />
-           <Container>
+           {/* <Container>
              <div className={classes.paper}>
                <GoogleMapExample
                  containerElement={ <div style={{ height: `800px`, width: '800px' }} /> }
                  mapElement={ <div style={{ height: `100%`}} /> }
               />
              </div>
-           </Container>
+           </Container> */}
        </div>
    );}
 };
