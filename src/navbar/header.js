@@ -93,11 +93,11 @@ class Header extends React.Component {
                   Tagged Deed
               </Typography>
               </React.Fragment>)}
-              {this.props.isAuthenticated && history.location['pathname'] !== '/landing' && (<React.Fragment>
+              {/* {this.props.isAuthenticated && history.location['pathname'] !== '/landing' && (<React.Fragment>
                 <Typography variant="h5">
                   Gift a Deed
               </Typography>
-              </React.Fragment>)}
+              </React.Fragment>)} */}
               {!this.props.isAuthenticated && (<React.Fragment>
                 <Typography variant="h5">
                   Gift a Deed
