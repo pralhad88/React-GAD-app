@@ -40,9 +40,10 @@ class Filters extends Component {
     constructor(props) {
         super(props);
         this.state = {
+         
         };
     }
-
+    
     handleChange = selectedValue => {
         console.log(parseInt(selectedValue));
 
@@ -71,20 +72,20 @@ class Filters extends Component {
                                 />
                                 <Typography variant="h6" >
                                     Filters
-            </Typography>
+                                </Typography>
                             </Toolbar>
                         </AppBar>
                         <div style={{ color: "gray" }}>
                             <Box my={7}>
                                 <Typography variant="h6" style={{ fontSize: 22 }}>
                                     Apply Filters
-            </Typography>
+                                </Typography>
                             </Box>
                             <Box my={4}>
 
                                 <Typography id="non-linear-slider" gutterBottom style={{ marginTop: -46 }}>
                                     Radius
-                        </Typography>
+                                </Typography>
                             </Box>
                             <Slider style={{ marginBottom: 86 }}
                                 // value={value}
@@ -98,10 +99,7 @@ class Filters extends Component {
                                 valueLabelDisplay="auto"
                                 aria-labelledby="non-linear-slider"
                             />
-
-
                             <SelectCategory country_Id={this.handleChange} />
-
                             <Button
                                 fullWidth
                                 type="submit"

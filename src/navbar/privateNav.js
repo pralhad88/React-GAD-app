@@ -9,13 +9,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import ExtensionIcon from '@material-ui/icons/Extension';
-import { Button } from '@material-ui/core';
 import PhoneIcon from '@material-ui/icons/Phone';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import StyleIcon from '@material-ui/icons/Style';
-import InfoIcon from '@material-ui/icons/Info';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import HelpIcon from '@material-ui/icons/Help';
 import { NavLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
@@ -25,6 +22,7 @@ import Grid from '@material-ui/core/Grid';
 import picture from '../assets/pralhad.jpg';
 import Image from 'material-ui-image';
 import Logout from '../screens/Logout'
+import MyProfile from '../componenet/myProfile';
 
 const styles = theme => ({
     item: {
@@ -148,9 +146,7 @@ function PrivateNavList(props) {
                 </Typography>
               </Grid>
               <Grid item>
-                <Button style={{ color: 'white', marginBottom: 16 }}>
-                  View Profile
-                </Button>
+                <MyProfile />
               </Grid>
               </div>
             </Container >
