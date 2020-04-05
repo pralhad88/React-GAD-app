@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
@@ -121,7 +123,7 @@ const privateNavs = [
 ];
 
 function PrivateNavList(props) {
-    const { classes } = props;
+    const { classes, loggedInUser } = props;
 
     return (
         <List style={{ paddingTop: 0 }}>
@@ -142,7 +144,7 @@ function PrivateNavList(props) {
               />
               <Grid item>
                 <Typography component="h6" variant="h6" style={{ color: 'white', marginTop: 3, }}>
-                    Jadhav Pralhad
+                    {loggedInUser.Fname} {loggedInUser.Lname}
                 </Typography>
               </Grid>
               <Grid item>
@@ -181,4 +183,8 @@ Navigator.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PrivateNavList);
+const mapStateToProps = (state) => ({
+  loggedInUser: state.auth.loggedInUser
+});
+
+export default withStyles(styles)(connect(mapStateToProps, undefined)(PrivateNavList));

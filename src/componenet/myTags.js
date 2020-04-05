@@ -117,14 +117,14 @@ class MyTags extends Component {
                 className={classes.menuButton}
               />
               <Typography variant="h6" >
-                My fulfilled Tags
+                My Tags
             </Typography>
             </Toolbar> 
           </AppBar>
           <div style={{textAlign:"center"}}>
           <Box my={7} >
             <Typography variant="h5">
-              List of My fulfilled Tags
+              List of My Tags
             </Typography>
           </Box>
           <List>

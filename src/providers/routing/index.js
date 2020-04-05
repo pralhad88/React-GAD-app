@@ -5,6 +5,7 @@ import { LinkedInPopUp } from 'react-linkedin-login-oauth2';
 import history from '../../utils/history';
 import PublicRoute from './PublicRouter';
 import PrivateRoute from './PrivateRouter';
+import AnyRoute from './AnyRouter';
 
 import Login from '../../screens/Login';
 import FirstLogin from '../../screens/FirstLogin';
@@ -25,10 +26,10 @@ const AppRouter = () => (
       <PublicRoute path="/linkedin" component={LinkedInPopUp} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
       <PublicRoute path="/forgetPassword" component={ForgetPass} /> 
-      <PrivateRoute path="/register" component={Register} />
+      <PublicRoute path="/register" component={Register} />
       
       {/* Landing Page Related */}
-      <PrivateRoute path="/contact-us" component={ContactUs} />
+      <AnyRoute path="/contact-us" component={ContactUs} />
       <PrivateRoute path="/logout" component={Logout} />
       <PrivateRoute path="/landing" component={Map} />
       <PrivateRoute path="/dashboard" component={DashBoard} />
