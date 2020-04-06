@@ -21,6 +21,8 @@ import PrivateNavList from './privateNav';
 import { logout } from '../store/actions/auth';
 import { withStyles } from '@material-ui/core/styles';
 
+import Filters from '../componenet/filters';
+
 const useStyles = theme => ({
   root: {
     flexGrow: 1,
@@ -40,10 +42,22 @@ class Header extends React.Component {
     this.state = {
       open: false,
       componentsmenuopen: false,
-      modalOpen: false
+      modalOpen: false,
+      filtersDailogOpen: false,
+
     };
   }
+  filtersHandleClose = () => {
+    this.setState({
+      filtersDailogOpen: false,
 
+    })
+  };
+  Filter = () => {
+    this.setState({
+      filtersDailogOpen: true
+    })
+  }
   onLeftIconButtonClick = () => {
     this.setState({ open: true });
   };
@@ -111,7 +125,8 @@ class Header extends React.Component {
                       <CameraAltOutlinedIcon />
                     </Badge>
                   </IconButton>
-                  <IconButton color="inherit">
+
+                  <IconButton color="inherit" onClick={this.Filter}>
                     <Badge color="secondary">
                       <SettingsInputComponentIcon />
                     </Badge>
@@ -119,6 +134,10 @@ class Header extends React.Component {
               }
             </Toolbar>
           </AppBar>
+          <Filters
+            dailogOpen={this.state.filtersDailogOpen}
+            dailogClose={this.filtersHandleClose}
+          />
         </div>
       </div>
     );
