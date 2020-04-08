@@ -20,7 +20,11 @@ export default (state = {
         isAuthenticated: false,
         Email: null
       })
-
+    case 'UPDATE_PROFILE': 
+      return Object.assign({}, state, {
+        Email: localStorage.getItem('Email'),
+        loggedInUser: JSON.parse(localStorage.getItem('user')),
+      })
     case 'FETCHING_STATUS':
       return Object.assign({}, state, {
         isFetching: action.isFetchingStatus

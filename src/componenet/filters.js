@@ -58,65 +58,65 @@ class Filters extends Component {
     };
     render() {
         const { classes, dailogOpen } = this.props;
-
         return (
-            <Fragment>
-                <Dialog open={dailogOpen}>
-                    <DialogContent >
-                        <CssBaseline />
-                        <AppBar position='absolute'>
-                            <Toolbar>
-                                <ArrowBackIcon
-                                    onClick={this.handleClose}
-                                    style={{ color: 'white', cursor: 'pointer' }}
-                                />
-                                <Typography variant="h6" >
-                                    Filters
-                                </Typography>
-                            </Toolbar>
-                        </AppBar>
-                        <div style={{ color: "gray" }}>
-                            <Box my={7}>
-                                <Typography variant="h6" style={{ fontSize: 22 }}>
-                                    Apply Filters
-                                </Typography>
-                            </Box>
-                            <Box my={4}>
-
-                                <Typography id="non-linear-slider" gutterBottom style={{ marginTop: -46 }}>
-                                    Radius
-                                </Typography>
-                            </Box>
-                            <Slider style={{ marginBottom: 86 }}
-                                // value={value}
-                                min={0}
-                                step={0.1}
-                                max={6}
-                                scale={(x) => x ** 10}
-                                // getAriaValueText={valueLabelFormat}
-                                // valueLabelFormat={valueLabelFormat}
-                                // onChange={handleChange}
-                                valueLabelDisplay="auto"
-                                aria-labelledby="non-linear-slider"
-                            />
-                            <SelectCategory country_Id={this.handleChange} />
-                            <Button
-                                fullWidth
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                onClick={this.handleClose}
-                            >
-                                Apply
-                        </Button>
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            </Fragment>
+          <Fragment>
+            <Dialog open={dailogOpen}>
+              <DialogContent >
+                <CssBaseline />
+                <AppBar position='absolute'>
+                  <Toolbar>
+                    <ArrowBackIcon
+                      onClick={this.handleClose}
+                      style={{ color: 'white', cursor: 'pointer' }}
+                    />
+                    <Typography variant="h6" >
+                      Filters
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <div style={{ color: "gray" }}>
+                  <Box my={7}>
+                    <Typography variant="h6" style={{ fontSize: 22 }}>
+                        Apply Filters
+                    </Typography>
+                  </Box>
+                  <Box my={4}>
+                   <Typography id="non-linear-slider" gutterBottom style={{ marginTop: -46 }}>
+                      Radius
+                   </Typography>
+                  </Box>
+                  <Slider 
+                    style={{ marginBottom: 86 }}
+                    // value={value}
+                    min={0}
+                    step={0.1}
+                    max={6}
+                    scale={(x) => x ** 10}
+                    // getAriaValueText={valueLabelFormat}
+                    // valueLabelFormat={valueLabelFormat}
+                    // onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    aria-labelledby="non-linear-slider"
+                  />
+                  <SelectCategory country_Id={this.handleChange} />
+                  <Button
+                    fullWidth
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={this.handleClose}
+                  >
+                    Apply
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+        </Fragment>
         );
     }
 }
+
 const mapStateToProps = (state) => ({
     loggedInUser: state.auth.loggedInUser
 });
