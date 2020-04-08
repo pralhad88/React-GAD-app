@@ -16,6 +16,7 @@ import Logout from '../../screens/Logout';
 import DashBoard from "../../componenet/dashboard";
 import Map from '../../componenet/googleMap';
 import ContactUs from "../../componenet/contactUs";
+import TagaDeed from "../../componenet/tagaDeed";
 
 const AppRouter = () => (
   <Router history={history}>
@@ -27,7 +28,8 @@ const AppRouter = () => (
       <PublicRoute path="/firstLogin" component={FirstLogin} />
       <PublicRoute path="/forgetPassword" component={ForgetPass} /> 
       <PublicRoute path="/register" component={Register} />
-      
+      <PrivateRoute path="/tagadeed" component={TagaDeed} />
+
       {/* Landing Page Related */}
       <AnyRoute path="/contact-us" component={ContactUs} />
       <PrivateRoute path="/logout" component={Logout} />

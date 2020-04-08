@@ -16,6 +16,7 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
+import Camera from 'react-camera';
 
 
 const baseUrl = process.env.API_URL;
@@ -53,7 +54,28 @@ const useStyles = theme => ({
     padding: 10,
     marginBottom: -12,
   },
-
+  preview: {
+    position: 'relative',
+  },
+  captureContainer: {
+    display: 'flex',
+    position: 'absolute',
+    justifyContent: 'center',
+    zIndex: 1,
+    bottom: 0,
+    width: '25%'
+  },
+  captureButton: {
+    backgroundColor: 'red',
+    borderRadius: '50%',
+    height: 56,
+    width: 56,
+    color: '#000',
+    margin: 20
+  },
+  captureImage: {
+    width: '14%',
+  }
 });
 
 
@@ -62,10 +84,30 @@ class TagaDeed extends Component {
     super(props);
 
     this.state = {
+      cameraOpen: false,
     }
 
+
+  }
+  handleClose = () => {
+    this.setState({
+      cameraOpen: false,
+    })
+  };
+
+  cameraApp = () => {
+    this.setState({
+      cameraOpen: true
+    })
   }
 
+  takePicture = () => {
+    this.camera.capture()
+      .then(blob => {
+        this.img.src = URL.createObjectURL(blob);
+        this.img.onload = () => { URL.revokeObjectURL(this.src); }
+      })
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -74,23 +116,61 @@ class TagaDeed extends Component {
           <center>
             <Typography variant="h6">
               Contact us
-                            </Typography>
+            </Typography>
           </center>
         </AppBar>
         <Container>
           <div className={classes.paper}>
-            <PhotoIcon style={{ height: 172, width: 186, color: "gray" }} />
+
+            <PhotoIcon style={{ height: 50, width: 50, color: "gray" }} />
+
+            {this.state.cameraOpen && <Camera
+            
+              className={classes.preview}
+              ref={(cam) => {
+                this.camera = cam;
+              }}
+            >
+              <div className={classes.captureContainer} onClick={this.takePicture}>
+                <div className={classes.captureButton} />
+              </div>
+              
+            </Camera>}
+            {this.state.cameraOpen||
+            <img 
+            appClose={this.handleClose}
+            // appClose={this.handleClose}
+              className={classes.captureImage}
+              ref={(img) => {
+                this.img = img;
+              }}
+            />}
 
             <Button
+              onClick={this.cameraApp}
               variant="contained"
-              // color="white"
               className={classes.button}
               startIcon={<CameraAltIcon />}
             >
               Take Picture
-      </Button>
+            </Button>
 
-            <div style={{ width: 300 }}>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* <div style={{ width: 300 }}>
               <Autocomplete
                 id="disable-portal"
                 disablePortal
@@ -126,19 +206,18 @@ class TagaDeed extends Component {
                   </FormGroup>
                 </span>
               </Typography>
-              {/* <Grid item> */}
 
               <Autocomplete style={{ marginTop: -16, marginBottom: 24 }}
                 id="disable-portal"
                 disablePortal
                 renderInput={params => <TextField {...params} label="Select audience" margin="normal" />}
               />
-              {/* </Grid> */}
 
               <div style={{ width: 300, marginottom: 25 }}>
 
                 <TextField style={{ marginBottom: 27, width: 300 }} id="Story-of-need" label="Story of need" defaultValue="A person is needy " />
               </div>
+
               <Button
                 type="submit"
                 halfWidth
@@ -148,7 +227,7 @@ class TagaDeed extends Component {
                 className={classes.submit}>
                 Post
               </Button>
-            </div>
+            </div> */}
           </div>
         </Container>
       </div>
