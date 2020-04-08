@@ -34,14 +34,10 @@ const useStyles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(1),
   },
   submit: {
-    // margin: theme.spacing(3, 0, 1),
-
-    // backgroundColor: "#eb7134",
-    // marginLeft: 60,
     width: 300
   },
   takePicture: {
@@ -50,7 +46,6 @@ const useStyles = theme => ({
   button: {
     margin: theme.spacing(1),
     backgroundColor: "white",
-    // borderRedius:12,
     padding: 10,
     marginBottom: -12,
   },
@@ -63,7 +58,6 @@ const useStyles = theme => ({
     justifyContent: 'center',
     zIndex: 1,
     bottom: 0,
-    width: '25%'
   },
   captureButton: {
     backgroundColor: 'red',
@@ -71,7 +65,8 @@ const useStyles = theme => ({
     height: 56,
     width: 56,
     color: '#000',
-    margin: 20
+    marginBottom: 141,
+    marginLeft: 290,
   },
   captureImage: {
     width: '14%',
@@ -85,16 +80,9 @@ class TagaDeed extends Component {
 
     this.state = {
       cameraOpen: false,
+      img:true,
     }
-
-
   }
-  handleClose = () => {
-    this.setState({
-      cameraOpen: false,
-    })
-  };
-
   cameraApp = () => {
     this.setState({
       cameraOpen: true
@@ -106,6 +94,11 @@ class TagaDeed extends Component {
       .then(blob => {
         this.img.src = URL.createObjectURL(blob);
         this.img.onload = () => { URL.revokeObjectURL(this.src); }
+        this.setState({
+          cameraOpen: false,
+          img:false,
+
+        })
       })
   }
   render() {
@@ -122,29 +115,27 @@ class TagaDeed extends Component {
         <Container>
           <div className={classes.paper}>
 
-            <PhotoIcon style={{ height: 50, width: 50, color: "gray" }} />
 
             {this.state.cameraOpen && <Camera
-            
+
               className={classes.preview}
               ref={(cam) => {
                 this.camera = cam;
+
               }}
             >
-              <div className={classes.captureContainer} onClick={this.takePicture}>
+             <div className={classes.captureContainer} onClick={this.takePicture}>
                 <div className={classes.captureButton} />
               </div>
-              
+
             </Camera>}
-            {this.state.cameraOpen||
-            <img 
-            appClose={this.handleClose}
-            // appClose={this.handleClose}
+            {this.state.img && <PhotoIcon style={{ height: 50, width: 50, color: "gray" }} />}
+            <img
               className={classes.captureImage}
               ref={(img) => {
                 this.img = img;
               }}
-            />}
+            />
 
             <Button
               onClick={this.cameraApp}
@@ -154,23 +145,7 @@ class TagaDeed extends Component {
             >
               Take Picture
             </Button>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {/* <div style={{ width: 300 }}>
+            <div style={{ width: 300 }}>
               <Autocomplete
                 id="disable-portal"
                 disablePortal
@@ -227,7 +202,7 @@ class TagaDeed extends Component {
                 className={classes.submit}>
                 Post
               </Button>
-            </div> */}
+            </div>
           </div>
         </Container>
       </div>

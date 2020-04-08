@@ -1,7 +1,6 @@
-// export const login = (uid) => ({
-//     type:'LOGIN',
-//     uid
-// });
+export const updateProfile = () => ({
+    type:'UPDATE_PROFILE',
+});
 
 export const changeFetching = (isFetchingStatus) => ({
     type:'FETCHING_STATUS',

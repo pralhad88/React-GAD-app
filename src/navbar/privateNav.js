@@ -1,10 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import { Button } from '@material-ui/core';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -24,6 +25,7 @@ import Grid from '@material-ui/core/Grid';
 import picture from '../assets/pralhad.jpg';
 import Image from 'material-ui-image';
 import Logout from '../screens/Logout'
+import history from '../utils/history';
 import MyProfile from '../componenet/myProfile';
 
 const styles = theme => ({
@@ -122,9 +124,14 @@ const privateNavs = [
     // add new Nav links here as a json object, in this file the public navigations
 ];
 
-function PrivateNavList(props) {
-    const { classes, loggedInUser } = props;
+class PrivateNavList extends Component {
+  
+  handelChnage = () => {
+    history.push('/profile')
+  }
 
+  render() {
+    const { classes, loggedInUser } = this.props;
     return (
         <List style={{ paddingTop: 0 }}>
           <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
@@ -148,7 +155,9 @@ function PrivateNavList(props) {
                 </Typography>
               </Grid>
               <Grid item>
-                <MyProfile />
+              <Button style={{ color: 'white', marginBottom: 16 }} onClick={this.handelChnage}>
+                View Profile
+              </Button>
               </Grid>
               </div>
             </Container >
@@ -177,11 +186,8 @@ function PrivateNavList(props) {
           <Logout classes={classes}/>
         </List>
     );
+  }
 }
-
-Navigator.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state) => ({
   loggedInUser: state.auth.loggedInUser

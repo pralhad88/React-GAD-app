@@ -286,7 +286,7 @@ class Login extends Component {
     return (
       <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
         <CssBaseline />
-        <div className={classes.paper} style={{}}>
+        <div className={classes.paper} >
           <Image
             src={logo}
             style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
