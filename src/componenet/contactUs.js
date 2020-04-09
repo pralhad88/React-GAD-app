@@ -22,6 +22,11 @@ const useStyles = theme => ({
         alignItems: 'center',
 
     },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 300,
+      },
     form: {
         width: '100%',
     },
@@ -101,39 +106,35 @@ class ContactUs extends Component {
                 </AppBar>
                 <Container>
                     <div className={classes.paper}>
-                        <p style={{ color: '#eb7134', marginLeft: 20 }}>
+                        <p style={{ color: '#eb7134', marginLeft: 15 }}>
                             you can contact us on -
                         </p>
-                        <Grid container style={{ width: '6%', marginRight: 115 }}>
+                        <Grid container style={{ width: 60, marginRight: 115 }}>
                             <Grid item xs={6}>
                                 <EmailIcon />
                             </Grid>
                             <Grid item xs={6}>
                                 <a class="mailto" href="mailto:admin@navisionltd.com">
-                                    <span style={{}}>admin@navisionltd.com</span>
+                                    <span style={{}}>    admin@navisionltd.com</span>
                                 </a>
                             </Grid>
                         </Grid>
                         <h4 style={{ marginBottom: 20, marginTop: 29 }}><span className='orlogin'>OR</span></h4>
-                        <Grid item>
+
                             <Typography component="h6" variant="h6" style={{ color: '#eb7134', cursor: 'pointer', marginTop: 20, marginBottom: 20 }}>
                                 Contact us directly
                             </Typography>
-                        </Grid>
-
-                        <Grid item>
                             <TextField
-                                id="outlined-basic"
+                                id="outlined-multiline-static"
                                 label="Message Us"
+                                multiline
+                                rows="10"
                                 variant="outlined"
                                 style={{ marginBottom: 20 }}
                                 onChange={this.handleChange}
                                 value={this.state.Message}
-                                autoFocus
+                                className={classes.textField}
                             />
-
-                        </Grid>
-                        <Grid item>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -143,7 +144,6 @@ class ContactUs extends Component {
                             >
                                 Send
                     </Button>
-                        </Grid>
                     </div>
                 </Container>
             </div>
