@@ -108,7 +108,7 @@ class TagaDeed extends Component {
         <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
           <center>
             <Typography variant="h6">
-              Contact us
+              Tag a Deed
             </Typography>
           </center>
         </AppBar>
@@ -135,8 +135,9 @@ class TagaDeed extends Component {
               ref={(img) => {
                 this.img = img;
               }}
+              
             />
-
+            
             <Button
               onClick={this.cameraApp}
               variant="contained"
@@ -145,7 +146,7 @@ class TagaDeed extends Component {
             >
               Take Picture
             </Button>
-            <div style={{ width: 300 }}>
+            <div style={{ width: 400 }}>
               <Autocomplete
                 id="disable-portal"
                 disablePortal
