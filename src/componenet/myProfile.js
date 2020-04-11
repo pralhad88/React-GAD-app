@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Button, Container } from '@material-ui/core';
@@ -17,13 +16,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { updateProfile } from '../store/actions/auth';
 import { withSnackbar } from 'notistack';
-import ImageUploader from 'react-images-upload';
 import ChangePicture from '../componenet/changePicture';
-
-
+import PersonPinIcon from '@material-ui/icons/PersonPin';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Spinner from 'react-spinner-material';
+import { InputAdornment, withStyles } from '@material-ui/core';
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
-import { InputAdornment, withStyles } from '@material-ui/core';
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -49,8 +49,13 @@ const styles = theme => ({
     margin: theme.spacing(1),
     backgroundColor: "white",
     padding: 10,
-    // marginBottom: -12,
   },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    maxWidth: 250,
+},
 });
 
 
@@ -84,41 +89,23 @@ class MyProfile extends Component {
       buttonValue: 'Edit',
       pictures: [],
       selectedFile: null,
-      ChangePictureDailogOpen: false,
+      loading: true,
     };
   }
-  // fileSelectdHandler=event=>{
-  //   this.setState({
-  //     selectedFile:event.target.files[0]
-  //   })                                                                                                                                                                                                              
-  // }
-  // fileUplodHandler=()=>{
-  //   const fd=new FormData();
-  //   fd.append('image',this.state.selectedFile,this.state.selectedFile.name)
-  //   axios.post(`${baseUrl}.saveImg.php`, fd)
-  //   .then(res => {
-
-  //     console.log(res,"aaaaaaaaaaaaaaaa");
-  //   })
-  // }
-  //   onDrop = (picture) => {
-  //     this.setState({
-  //         pictures: this.state.pictures.concat(picture),
-  //     });
-  // }
-
+  
   profileChange = (imgurl) => {
     this.setState({
-      imgUrl: imgurl
+      imgUrl: imgurl,
+      dailogOpen: false
     })
   }
   
   componentDidMount() {
     this.fetchUserProfile()
   }
-
+  
   async fetchUserProfile() {
-    const { loggedInUser } = this.props;
+    const { loggedInUser, history } = this.props;
     try {
       payload.append('User_ID', loggedInUser.User_ID)
       const response = await axios.post(`${baseUrl}fetch_userprofile.php`, payload);
@@ -132,12 +119,21 @@ class MyProfile extends Component {
         City_ID: userProfile.City_ID,
         Password: userProfile.Password,
         Privacy: userProfile.Privacy,
-        Total_Points: userProfile.Total_Points
+        Total_Points: userProfile.Total_Points,
+        
       })
       this.fetchCountry(userProfile.Country_ID)
     } catch (e) {
-
-    }
+      this.props.enqueueSnackbar('Someting went wrong ! please try again', {
+        variant: 'success', anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        }
+      });
+      
+      history.push('/landing')
+     
+    } 
   }
 
   async fetchCountry(Country_ID) {
@@ -148,7 +144,8 @@ class MyProfile extends Component {
         if (country.Cntry_ID == Country_ID) {
           this.setState({
             Country: country.Cntry_Name,
-            CountryIndex: index
+            CountryIndex: index,
+            
           })
         }
       })
@@ -194,18 +191,18 @@ class MyProfile extends Component {
         if (city.City_ID == City_ID) {
           this.setState({
             City: city.City_Name,
-            CityIndex: index
+            CityIndex: index,
           })
         }
       })
       this.setState({
         ListOfCity: allCity,
+        loading: false,
       })
     } catch (e) {
       console.log(e)
     }
   }
-
   radioHandleChange = (event) => {
     this.setState({
       Privacy: event.target.value
@@ -220,7 +217,7 @@ class MyProfile extends Component {
 
   ChangePictureHandleOpen = () => {
     this.setState({
-      ChangePictureDailogOpen: true
+      dailogOpen: true
     })
   }
 
@@ -305,6 +302,7 @@ class MyProfile extends Component {
                 horizontal: 'center',
               }
             });
+
             history.push('/landing')
           })
       } catch (e) {
@@ -324,39 +322,32 @@ class MyProfile extends Component {
           <center>
             <Typography variant="h6">
               My Profile
-                  </Typography>
+            </Typography>
           </center>
         </AppBar>
+        <Dialog
+          open={this.state.loading}
+        >
+          <DialogContent className={classes.container}>
+                    <Spinner size={35} spinnerColor={"green"} spinnerWidth={5} visible={this.state.loading} />
+            </DialogContent>
+        </Dialog>
         <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
           <div className={classes.paper}>
-            {/* <input type="file" onChange={this.fileSelectdHandler}/>
-              <button onClick={this.fileUplodHandler}>Updated</button> */}
-            {/* <ImageUploader
-                withIcon={true}
-                buttonText='Choose images'
-                onChange={this.onDrop}
-                imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                maxFileSize={5242880}
-            /> */}
-            {this.state.imgUrl ? <Image
-              src={this.state.imgurl}
-              style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-              imageStyle={{ height: 120, width: 140, left: 13, top: 15 }}
+            {this.state.imgUrl ? <img
+              src={this.state.imgUrl}
+              style={{ height: 120, width: 130}}
             />:
-            <Image
-            src={logo}
-            style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-            imageStyle={{ height: 120, width: 140, left: 13, top: 15 }}
-          />
+            <PersonPinIcon
+              style={{width: 120, height: 120}}
+            />
             }
-
             {this.state.buttonValue == "Save" && <Grid item xs={12}>
               <Button
                 onClick={this.ChangePictureHandleOpen}
                 // onClick={this.cameraApp}
                 variant="contained"
                 className={classes.button}
-              // startIcon={<CameraAltIcon />}
               >
                 Change Picture
             </Button>
@@ -364,8 +355,7 @@ class MyProfile extends Component {
 
             <ChangePicture
               profileChange={this.profileChange}
-              dailogOpen={this.state.ChangePictureDailogOpen}
-              dailogClose={this.ChangePictureHandleClose}
+              dailogOpen={this.state.dailogOpen}
             />
 
 
@@ -555,4 +545,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default withSnackbar(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MyProfile)));
-
