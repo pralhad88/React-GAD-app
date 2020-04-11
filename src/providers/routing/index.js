@@ -16,6 +16,7 @@ import Logout from '../../screens/Logout';
 import DashBoard from "../../componenet/dashboard";
 import Map from '../../componenet/googleMap';
 import ContactUs from "../../componenet/contactUs";
+import TagaDeed from "../../componenet/tagaDeed";
 import MyProfile from "../../componenet/myProfile"
 
 const AppRouter = () => (
@@ -28,13 +29,14 @@ const AppRouter = () => (
       <PublicRoute path="/firstLogin" component={FirstLogin} />
       <PublicRoute path="/forgetPassword" component={ForgetPass} /> 
       <PublicRoute path="/register" component={Register} />
-      
+
       {/* Landing Page Related */}
       <AnyRoute path="/contact-us" component={ContactUs} />
       <PrivateRoute path="/logout" component={Logout} />
       <PrivateRoute path="/landing" component={Map} />
       <PrivateRoute path="/dashboard" component={DashBoard} />
       <PrivateRoute path="/profile" component={MyProfile} />
+      <PrivateRoute path="/tagadeed" component={TagaDeed} />
       {/* Anything that doesn't match the above routes would open the not found page. Need to be at the end always. */}
       <Route component={NotFound} />
 

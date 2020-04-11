@@ -16,6 +16,7 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
+import Camera from 'react-camera';
 
 
 const baseUrl = process.env.API_URL;
@@ -33,14 +34,10 @@ const useStyles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(1),
   },
   submit: {
-    // margin: theme.spacing(3, 0, 1),
-
-    // backgroundColor: "#eb7134",
-    // marginLeft: 60,
     width: 300
   },
   takePicture: {
@@ -49,11 +46,31 @@ const useStyles = theme => ({
   button: {
     margin: theme.spacing(1),
     backgroundColor: "white",
-    // borderRedius:12,
     padding: 10,
     marginBottom: -12,
   },
-
+  preview: {
+    position: 'relative',
+  },
+  captureContainer: {
+    display: 'flex',
+    position: 'absolute',
+    justifyContent: 'center',
+    zIndex: 1,
+    bottom: 0,
+  },
+  captureButton: {
+    backgroundColor: 'red',
+    borderRadius: '50%',
+    height: 56,
+    width: 56,
+    color: '#000',
+    marginBottom: 141,
+    marginLeft: 290,
+  },
+  captureImage: {
+    width: '14%',
+  }
 });
 
 
@@ -62,10 +79,28 @@ class TagaDeed extends Component {
     super(props);
 
     this.state = {
+      cameraOpen: false,
+      img:true,
     }
-
+  }
+  cameraApp = () => {
+    this.setState({
+      cameraOpen: true
+    })
   }
 
+  takePicture = () => {
+    this.camera.capture()
+      .then(blob => {
+        this.img.src = URL.createObjectURL(blob);
+        this.img.onload = () => { URL.revokeObjectURL(this.src); }
+        this.setState({
+          cameraOpen: false,
+          img:false,
+
+        })
+      })
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -73,24 +108,45 @@ class TagaDeed extends Component {
         <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
           <center>
             <Typography variant="h6">
-              Contact us
-                            </Typography>
+              Tag a Deed
+            </Typography>
           </center>
         </AppBar>
         <Container>
           <div className={classes.paper}>
-            <PhotoIcon style={{ height: 172, width: 186, color: "gray" }} />
 
+
+            {this.state.cameraOpen && <Camera
+
+              className={classes.preview}
+              ref={(cam) => {
+                this.camera = cam;
+
+              }}
+            >
+             <div className={classes.captureContainer} onClick={this.takePicture}>
+                <div className={classes.captureButton} />
+              </div>
+
+            </Camera>}
+            {this.state.img && <PhotoIcon style={{ height: 50, width: 50, color: "gray" }} />}
+            <img
+              className={classes.captureImage}
+              ref={(img) => {
+                this.img = img;
+              }}
+              
+            />
+            
             <Button
+              onClick={this.cameraApp}
               variant="contained"
-              // color="white"
               className={classes.button}
               startIcon={<CameraAltIcon />}
             >
               Take Picture
-      </Button>
-
-            <div style={{ width: 300 }}>
+            </Button>
+            <div style={{ width: 400 }}>
               <Autocomplete
                 id="disable-portal"
                 disablePortal
@@ -126,19 +182,18 @@ class TagaDeed extends Component {
                   </FormGroup>
                 </span>
               </Typography>
-              {/* <Grid item> */}
 
               <Autocomplete style={{ marginTop: -16, marginBottom: 24 }}
                 id="disable-portal"
                 disablePortal
                 renderInput={params => <TextField {...params} label="Select audience" margin="normal" />}
               />
-              {/* </Grid> */}
 
               <div style={{ width: 300, marginottom: 25 }}>
 
                 <TextField style={{ marginBottom: 27, width: 300 }} id="Story-of-need" label="Story of need" defaultValue="A person is needy " />
               </div>
+
               <Button
                 type="submit"
                 halfWidth
