@@ -160,7 +160,7 @@ class TopTenTaggers extends Component {
                           <span className={classes.numbering}>{index+1}</span>
                         </Grid>
                         <Grid item xs={3}>
-              <span className={classes.nameText}>{item.First_Name}{item.Last_Name}</span>
+                          <span className={classes.nameText}>{item.First_Name}{item.Last_Name}</span>
                         </Grid>
                         <Grid item xs={3}>
                           <span className={classes.taggedScoreMargin}>Tagged Score</span>
