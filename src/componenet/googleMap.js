@@ -42,14 +42,14 @@ class Map extends Component {
    return(
        <div>
            <MapListButton />
-           {/* <Container>
+           <Container>
              <div className={classes.paper}>
                <GoogleMapExample
                  containerElement={ <div style={{ height: `850px`, width: '850px' }} /> }
                  mapElement={ <div style={{ height: `100%`}} /> }
               />
              </div>
-           </Container> */}
+           </Container>
        </div>
    );}
 };

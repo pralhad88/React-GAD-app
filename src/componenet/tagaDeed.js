@@ -19,8 +19,6 @@ import Camera from 'react-camera';
 import CameraIcon from '@material-ui/icons/Camera';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 
-
-
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
 

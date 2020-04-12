@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import { Button } from '@material-ui/core';
-
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -133,17 +133,8 @@ class PrivateNavList extends Component {
             <Container component="main" maxWidth="xs">
               <CssBaseline />
               <div className={classes.paper}>
-              <Image
-                src={picture}
-                style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-                imageStyle={{
-                  width: 99,
-                  height: 93,
-                  top: 37,
-                  left: 36,
-                  borderRadius: 50,
-                }}
-              />
+              <PersonPinIcon style={{width: 130, height:130 }} />
+              
               <Grid item>
                 <Typography component="h6" variant="h6" style={{ color: 'white', marginTop: 3, }}>
                     {loggedInUser.Fname} {loggedInUser.Lname}
