@@ -17,7 +17,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { updateProfile } from '../store/actions/auth';
 import { withSnackbar } from 'notistack';
-import ImageUploader from 'react-images-upload';
 import ChangePicture from '../componenet/changePicture';
 
 

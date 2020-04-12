@@ -18,6 +18,8 @@ import Typography from '@material-ui/core/Typography';
 
 import PublicNavList from './publicNav';
 import PrivateNavList from './privateNav';
+import history from '../utils/history'
+
 import { logout } from '../store/actions/auth';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -78,6 +80,10 @@ class Header extends React.Component {
 
   renderProgressBar = () => this.props.isFetching ? (<LinearProgress />) : (<span></span>)
 
+  goTotagDeed = () => {
+    history.push('/tagadeed')
+  }
+  
   render() {
     const { classes, history } = this.props;
     return (
@@ -122,7 +128,9 @@ class Header extends React.Component {
                 <div>
                   <IconButton color="inherit">
                     <Badge color="secondary">
-                      <CameraAltOutlinedIcon />
+                      <CameraAltOutlinedIcon
+                        onClick={this.goTotagDeed} 
+                      />
                     </Badge>
                   </IconButton>
 

@@ -92,12 +92,7 @@ const privateNavs = [
         icon: <HomeIcon />
     },
     {
-        url: '/firstLogin',
-        name: 'My Tags',
-        icon: <ExtensionIcon />
-    },
-    {
-        url: '/report/dangling',
+        url: '/tagadeed',
         name: 'Tag A Deed',
         icon: <StyleIcon />
     },
