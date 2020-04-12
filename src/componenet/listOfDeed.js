@@ -58,9 +58,6 @@ class ListOfDeed extends Component {
 
             const response = await axios.post(`${baseUrl}deed_list.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
             const listViewRes = response.data.deed_list;
-            console.log(response, "33333333332")
-            console.log(response.data, "2222222222")
-            console.log(response.data.deed_list, "1111111111")
             this.setState({
                 listViewList: listViewRes
             })
