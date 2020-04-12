@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import 'font-awesome/css/font-awesome.css'
 import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core';
 import { withSnackbar } from 'notistack';
 import TextField from '@material-ui/core/TextField';
@@ -17,6 +16,9 @@ import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
 import Camera from 'react-camera';
+import CameraIcon from '@material-ui/icons/Camera';
+import MyLocationIcon from '@material-ui/icons/MyLocation';
+
 
 
 const baseUrl = process.env.API_URL;
@@ -24,11 +26,12 @@ const payload = new FormData();
 
 const useStyles = theme => ({
   paper: {
-    marginTop: theme.spacing(7),
+    marginTop: theme.spacing(10),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center',  
   },
+  
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
@@ -37,9 +40,13 @@ const useStyles = theme => ({
     width: '100%', 
     marginTop: theme.spacing(1),
   },
+
   submit: {
-    width: 300
+    margin: theme.spacing(3, 0, 1),
+    backgroundColor: "#eb7134",
+    width: 150
   },
+  
   takePicture: {
     width: 160
   },
@@ -52,24 +59,16 @@ const useStyles = theme => ({
   preview: {
     position: 'relative',
   },
-  captureContainer: {
-    display: 'flex',
-    position: 'absolute',
-    justifyContent: 'center',
-    zIndex: 1,
-    bottom: 0,
-  },
+
   captureButton: {
-    backgroundColor: 'red',
+    backgroundColor: 'gainsboro',
     borderRadius: '50%',
-    height: 56,
-    width: 56,
-    color: '#000',
-    marginBottom: 141,
-    marginLeft: 290,
+    height: 85,
+    width: 85,
+    cursor: 'pointer'
   },
   captureImage: {
-    width: '14%',
+    width: '50%',
   }
 });
 
@@ -82,7 +81,23 @@ class TagaDeed extends Component {
       cameraOpen: false,
       img:true,
     }
+    
+    this.data = [
+      { title: 'All', id: 1 },
+      { title: 'Food', id: 2 },
+      { title: 'Clothes', id: 3 },
+      { title: 'Shelter', id: 4 },
+      { title: 'Water', id: 5 },
+      { title: 'Medical Emergency', id: 6 },
+      { title: 'Books/Toys', id: 7 },
+      { title: 'Live Update-Coronavirus', id: 8 },
+      { title: 'Medical Supplies', id: 9 },
+      { title: 'Live Update-Fire', id: 10 },
+      { title: 'Live Update-Accident', id: 11 },
+      { title: 'Groceries', id: 12 },
+    ]
   }
+  
   cameraApp = () => {
     this.setState({
       cameraOpen: true
@@ -97,14 +112,18 @@ class TagaDeed extends Component {
         this.setState({
           cameraOpen: false,
           img:false,
-
-        })
+        })  
       })
   }
+  
+  searchLocation = () => {
+    console.log("access google services here")
+  }
+  
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.paper}>
+      <div >
         <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
           <center>
             <Typography variant="h6">
@@ -112,32 +131,31 @@ class TagaDeed extends Component {
             </Typography>
           </center>
         </AppBar>
-        <Container>
+        <Container component="main" maxWidth="xs">
           <div className={classes.paper}>
-
-
-            {this.state.cameraOpen && <Camera
-
-              className={classes.preview}
-              ref={(cam) => {
-                this.camera = cam;
-
-              }}
-            >
-             <div className={classes.captureContainer} onClick={this.takePicture}>
-                <div className={classes.captureButton} />
-              </div>
-
-            </Camera>}
-            {this.state.img && <PhotoIcon style={{ height: 50, width: 50, color: "gray" }} />}
+            {this.state.cameraOpen &&
+              <Camera
+                className={classes.preview}
+                ref={(cam) => {
+                  this.camera = cam;
+                }}
+              >
+              </Camera>
+            }
+            {this.state.cameraOpen && <CameraIcon
+                      className={classes.captureButton}
+                      onClick={this.takePicture}
+                    >
+                    </CameraIcon> }
+            { this.state.img && 
+                <PhotoIcon style={{ height: 100, width: 100, color: "gray" }} />
+            }
             <img
               className={classes.captureImage}
               ref={(img) => {
                 this.img = img;
               }}
-              
             />
-            
             <Button
               onClick={this.cameraApp}
               variant="contained"
@@ -146,55 +164,84 @@ class TagaDeed extends Component {
             >
               Take Picture
             </Button>
-            <div style={{ width: 400 }}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
               <Autocomplete
-                id="disable-portal"
-                disablePortal
-                renderInput={params => <TextField {...params} label="Select Category" margin="normal" />}
-              />
-
-              <Autocomplete style={{ marginTop: -23 }}
-                id="disable-portal"
-                disablePortal
-                renderInput={params => <TextField {...params} label="Select Preferences" margin="normal" />}
-              />
-              <Grid item>
-                <FormControlLabel control={<Checkbox checked={this.state.checked}
-                  onChange={this.toggleChecked} />}
-                  label="Container Available" />
+                      id="disable-portal"
+                      onChange={this.categoryHandleChange}
+                      options={this.data}
+                      getOptionLabel={option => option.title}
+                      defaultValue={this.data[0]}
+                      renderInput={params => <TextField {...params} label="Select Category" margin="normal" />}
+                  />
               </Grid>
-              <Grid item style={{ marginBottom: 15 }}>
-                <span>By signing up, you agree to our , by signing up, you agree to our . y signing up, you agree to our.</span>
+              <Grid item xs={12}>
+              <Autocomplete
+                      id="disable-portal"
+                      onChange={this.categoryHandleChange}
+                      options={this.data}
+                      getOptionLabel={option => option.title}
+                      defaultValue={this.data[0]}
+                      renderInput={params => <TextField {...params} label="Select Preferences" margin="normal" />}
+                  />
               </Grid>
-
-              <Grid item>
-                <TextField style={{ width: 300, marginBottom: 18 }} id="input-with-icon-grid" label="Select Location" defaultValue="sitaput UP" />
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={ <Checkbox
+                    checked={this.state.checked}
+                    onChange={this.toggleChecked} 
+                    />}
+                  label="Container Available"
+                />
               </Grid>
-              <Typography>
-                <span>
-                  Permanent location
-            </span>
-                <span>
-                  <FormGroup style={{ marginTop: -30, marginLeft: 255 }}>
+              <Grid item xs={12}>
+                <Typography>
+                  * Whether that needy person has a food plate/water container to receive the donated food/water?
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth 
+                  id="input-with-icon-grid"
+                  onClick={this.searchLocation}
+                  label={<div style={{marginTop:-10}}><MyLocationIcon/>{" Select location"}</div>}
+                  defaultValue="sitaput UP"
+                />
+              </Grid>
+              <Grid item container xs={12}>
+                <Grid item xs={6}>
+                    <Typography>
+                        Permanent location
+                    </Typography>
+                </Grid>
+                <Grid xs={6}>
+                  <FormGroup >
                     <FormControlLabel
                       control={<Switch aria-label="login switch" />}
                     />
                   </FormGroup>
-                </span>
-              </Typography>
-
-              <Autocomplete style={{ marginTop: -16, marginBottom: 24 }}
-                id="disable-portal"
-                disablePortal
-                renderInput={params => <TextField {...params} label="Select audience" margin="normal" />}
-              />
-
-              <div style={{ width: 300, marginottom: 25 }}>
-
-                <TextField style={{ marginBottom: 27, width: 300 }} id="Story-of-need" label="Story of need" defaultValue="A person is needy " />
-              </div>
-
-              <Button
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+              <Autocomplete
+                      id="disable-portal"
+                      onChange={this.categoryHandleChange}
+                      options={this.data}
+                      getOptionLabel={option => option.title}
+                      defaultValue={this.data[0]}
+                      renderInput={params => <TextField {...params} label="Select audience" margin="normal" />}
+                  />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth 
+                  id="input-with-icon-grid"
+                  label="Story of need"
+                  // defaultValue="sitaput UP"
+                />
+              </Grid>
+            </Grid>
+            <Button
                 type="submit"
                 halfWidth
                 variant="contained"
@@ -204,7 +251,6 @@ class TagaDeed extends Component {
                 Post
               </Button>
             </div>
-          </div>
         </Container>
       </div>
     );
