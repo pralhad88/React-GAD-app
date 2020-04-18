@@ -13,164 +13,185 @@ import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import { Button, Container } from '@material-ui/core';
-import MapListButton from './mapListbutton'
-import logo from '../assets/pralhad.jpg'
+import MapListButton from './mapListbutton';
+import logo from '../assets/pralhad.jpg';
+import history from '../utils/history';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Spinner from 'react-spinner-material';
+
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        marginTop: theme.spacing(6),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    listIcons: {
-        color: "#f05f40",
-        marginBottom: -5,
-        marginRight: 5
-    },
-    title: {
-        flexGrow: 1,
-    },
-    divider: {
-        marginTop: theme.spacing(1),
-        backgroundColor: 'white'
-    },
-    submit: {
-        marginLeft: -25,
-        backgroundColor: "#eb7134",
-        width: 102
-      },
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    marginTop: theme.spacing(6),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  listIcons: {
+    color: "#f05f40",
+    marginBottom: -5,
+    marginRight: 5
+  },
+  title: {
+    flexGrow: 1,
+  },
+  divider: {
+    marginTop: theme.spacing(1),
+    backgroundColor: 'white'
+  },
+  submit: {
+    marginLeft: -25,
+    backgroundColor: "#eb7134",
+    width: 102
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    maxWidth: 250,
+},
 });
 class ListOfDeed extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            listViewList: []
-        };
-    }
-    
-    componentDidMount() {
-        this.fetchlistView();
-    }
-    
-    async fetchlistView() {
-        const { loggedInUser } = this.props;
-        try {
-            payload.append('user_id', parseInt(loggedInUser.User_ID))
+  constructor(props) {
+    super(props);
+    this.state = {
+      listViewList: [],
+      loading: true,
+    };
+  }
 
-            const response = await axios.post(`${baseUrl}deed_list.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
-            const listViewRes = response.data.deed_list;
-            this.setState({
-                listViewList: listViewRes
-            })
+  componentDidMount() {
+    this.fetchlistView();
+  }
 
-        } catch (e) {
-            console.log(e)
-        }
+  async fetchlistView() {
+    const { loggedInUser } = this.props;
+    try {
+      payload.append('user_id', parseInt(loggedInUser.User_ID))
+
+      const response = await axios.post(`${baseUrl}deed_list.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
+      const listViewRes = response.data.deed_list;
+      this.setState({
+        listViewList: listViewRes,
+        loading: false,
+      })
+
+    } catch (e) {
+      console.log(e)
     }
-    
-    onClick = () => {
-        // go to deed details page using history.
-    }
-    
-    render() {
-        const { classes } = this.props;
-        return (
-            <div>
-              <MapListButton />
-                <Container component="main" maxWidth="xs" style={{ maxWidth: 690 }}>
-                  <div className={classes.paper}>
-                    <div style={{ textAlign: "center" }}>
-                      <List>
-                        <Divider className={classes.divider} />
-                        {this.state.listViewList.length ? <Box my={2}>
-                          <Box my={3}>
-                            <Typography><span style={{ color: "#f05f40", marginRight: 5 }}>{this.state.listViewList.length}</span>
+  }
+
+  onClick = () => {
+    history.push('/seeMore')
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <MapListButton />
+        <Dialog
+          open={this.state.loading}
+        >
+          <DialogContent className={classes.container}>
+            <Spinner size={35} spinnerColor={"green"} spinnerWidth={5} visible={this.state.loading} />
+          </DialogContent>
+        </Dialog>
+        <Container component="main" maxWidth="xs" style={{ maxWidth: 690 }}>
+          <div className={classes.paper}>
+            <div style={{ textAlign: "center" }}>
+              <List>
+                <Divider className={classes.divider} />
+                {this.state.listViewList.length ? <Box my={2}>
+                  <Box my={3}>
+                    <Typography><span style={{ color: "#f05f40", marginRight: 5 }}>{this.state.listViewList.length}</span>
                               Deed found near you
                             </Typography>
-                            <hr></hr>
-                          </Box>
-                          {this.state.listViewList.map((item) => (
-                            <ListItem>
-                              <ListItemText>
-                                <Box my={2} style={{ minWidth: 500, background: "#F8F8FF" }}>
-                                  <Grid container xs={12} style={{ padding: 10 }} component="main" maxWidth="xs">
-                                    <Grid item xs={6}>
-                                      <img
-                                        src={logo}
-                                        style={{ height: 200, width: 215 }}
-                                      />
-                                    </Grid>
-                                    <Grid item xs={6} container >
-                                      <Grid item container xs={12} component="main" maxWidth="xs">
-                                        <Grid item xs={6}>
-                                          <Typography>
-                                            {item.Tagged_Title}
-                                          </Typography>
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                          <Typography>
-                                            <Moment format="D MMM YYYY" withTitle>{item.Tagged_Datetime}</Moment>
-                                          </Typography>
-                                        </Grid>
-                                      </Grid>
-                                      <Grid item xs={12}>
-                                        <Typography>
-                                          Location: <span style={{ color: "#f05f40" }}>0.01 km(s) away</span>
-                                        </Typography>
-                                      </Grid>
-                                      <Grid item xs={12}>
-                                        <Typography>
-                                          Address: {item.Address}
-                                        </Typography>
-                                      </Grid>
-                                      <Grid container item xs={12}>
-                                        <Grid item xs={4}>
-                                          <CheckCircleSharpIcon className={classes.listIcons} />{item.Endorse}
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                          <Typography><VisibilityIcon className={classes.listIcons} />{item.Views}</Typography>
-                                        </Grid>
-                                        <Grid item xs={4}>
-                                          <Button
-                                            type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.submit}
-                                            onClick={this.onClick}
-                                          >
-                                            See More
-                                          </Button>
-                                        </Grid>
-                                      </Grid>
-                                    </Grid>
-                                  </Grid>
-                                </Box>
-                              </ListItemText>
-                            </ListItem>
-                          ))}
-                        </Box> : <Box my={2}>
-                                  <Typography style={{ color: "#0000FF", marginTop: 100, marginBottom: 250, fontSize: "x-large" }}>
-                                    No records found
+                    <hr></hr>
+                  </Box>
+                  {this.state.listViewList.map((item) => (
+                    <ListItem>
+                      <ListItemText>
+                        <Box my={2} style={{ minWidth: 500, background: "#F8F8FF" }}>
+                          <Grid container xs={12} style={{ padding: 10 }} component="main" maxWidth="xs">
+                            <Grid item xs={6}>
+                              <img
+                                src={logo}
+                                style={{ height: 200, width: 215 }}
+                              />
+                            </Grid>
+                            <Grid item xs={6} container >
+                              <Grid item container xs={12} component="main" maxWidth="xs">
+                                <Grid item xs={6}>
+                                  <Typography>
+                                    {item.Tagged_Title}
                                   </Typography>
-                                </Box>}
-                    </List>
-                </div>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography>
+                                    <Moment format="D MMM YYYY" withTitle>{item.Tagged_Datetime}</Moment>
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  Location: <span style={{ color: "#f05f40" }}>0.01 km(s) away</span>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography>
+                                  Address: {item.Address}
+                                </Typography>
+                              </Grid>
+                              <Grid container item xs={12}>
+                                <Grid item xs={4}>
+                                  <Typography><CheckCircleSharpIcon className={classes.listIcons} />{item.Endorse}</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Typography><VisibilityIcon className={classes.listIcons} />{item.Views}</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                  <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                    onClick={this.onClick}
+                                  >
+                                    See More
+                                          </Button>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Box>
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+                </Box> : <Box my={2}>
+                    <Typography style={{ color: "#0000FF", marginTop: 100, marginBottom: 250, fontSize: "x-large" }}>
+                      No needy people around you
+                                    <hr></hr>
+                    </Typography>
+                  </Box>}
+              </List>
             </div>
+          </div>
         </Container>
-    </div>
+      </div>
     );
-    }
+  }
 }
 
 
 const mapStateToProps = (state) => ({
-    loggedInUser: state.auth.loggedInUser
+  loggedInUser: state.auth.loggedInUser
 });
 
 export default withStyles(styles)(connect(mapStateToProps, undefined)(ListOfDeed));

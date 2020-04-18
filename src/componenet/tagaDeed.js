@@ -213,7 +213,7 @@ class TagaDeed extends Component {
                     </Typography>
                 </Grid>
                 <Grid xs={6}>
-                  <FormGroup >
+                  <FormGroup style={{marginTop: -6,marginLeft:146}} >
                     <FormControlLabel
                       control={<Switch aria-label="login switch" />}
                     />

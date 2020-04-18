@@ -17,8 +17,12 @@ import DashBoard from "../../componenet/dashboard";
 import Map from '../../componenet/googleMap';
 import ContactUs from "../../componenet/contactUs";
 import TagaDeed from "../../componenet/tagaDeed";
-import MyProfile from "../../componenet/myProfile"
-import ListOfDeed from "../../componenet/listOfDeed"
+import MyProfile from "../../componenet/myProfile";
+import ListOfDeed from "../../componenet/listOfDeed";
+import SeeMore from "../../componenet/seeMore";
+import GiftaDeed from "../../componenet/giftaDeed";
+import EditDeed from "../../componenet/editDeed";
+
 const AppRouter = () => (
   <Router history={history}>
     <Switch>
@@ -38,6 +42,9 @@ const AppRouter = () => (
       <PrivateRoute path="/dashboard" component={DashBoard} />
       <PrivateRoute path="/profile" component={MyProfile} />
       <PrivateRoute path="/tagadeed" component={TagaDeed} />
+      <PrivateRoute path="/seeMore" component={SeeMore} />
+      <PrivateRoute path="/giftaDeed" component={GiftaDeed} />
+      <PrivateRoute path="/editDeed" component={EditDeed} />
       {/* Anything that doesn't match the above routes would open the not found page. Need to be at the end always. */}
       <Route component={NotFound} />
 
