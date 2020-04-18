@@ -1,199 +1,232 @@
+import PhotoIcon from '@material-ui/icons/Photo';
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import Image from 'material-ui-image';
 import Typography from '@material-ui/core/Typography';
 import 'font-awesome/css/font-awesome.css'
 import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core';
 import { withSnackbar } from 'notistack';
-import logo from '../assets/logo.png';
-import { Grid } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Avatar from '@material-ui/core/Avatar';
-import CameraAltIcon from '@material-ui/icons/CameraAlt';
-import ImageIcon from '@material-ui/icons/Image';
-import AppBar from '@material-ui/core/AppBar';
-
-// need to chenge do many things
-
-// import { theme } from '../../theme/theme';
-
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { connect } from 'react-redux';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import AppBar from '@material-ui/core/AppBar';
+import Camera from 'react-camera';
+import CameraIcon from '@material-ui/icons/Camera';
+import MyLocationIcon from '@material-ui/icons/MyLocation';
 
-const baseUrl = process.env.API_URL;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+const baseUrl = process.env.API_URL;
 const payload = new FormData();
 
 const useStyles = theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 1),
-        backgroundColor: "#eb7134",
-        // marginLeft: 60,
-        width: 150
-    },
-    root: {
-        display: 'flex',
-        '& > *': {
-            margin: theme.spacing(1),
-        },
+  paper: {
+    marginTop: theme.spacing(10),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',  
+  },
+  
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', 
+    marginTop: theme.spacing(1),
+  },
 
-    },
-    mr:{
-        margin: theme.spacing(1),
-    }
+  submit: {
+    margin: theme.spacing(3, 0, 1),
+    backgroundColor: "#eb7134",
+    width: 150
+  },
+  
+  takePicture: {
+    width: 160
+  },
+  button: {
+    margin: theme.spacing(1),
+    backgroundColor: "white",
+    padding: 10,
+    marginBottom: -12,
+  },
+  preview: {
+    position: 'relative',
+  },
 
+  captureButton: {
+    backgroundColor: 'gainsboro',
+    borderRadius: '50%',
+    height: 85,
+    width: 85,
+    cursor: 'pointer'
+  },
+  captureImage: {
+    width: '50%',
+  }
 });
 
+
 class EditDeed extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            checked: false,
-        };
-        
+    this.state = {
+      cameraOpen: false,
+      img:true,
     }
-    render() {
-        const { classes } = this.props;
-        return (
-            
-                <div className={classes.paper}>
-                    <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
-                    <center>
-                        <Typography variant="h6">
-                            Advisory Board
-                            </Typography>
-                    </center>
-                </AppBar>
-                    <Container>
-                    <div className={classes.paper}>
-                        <Avatar alt="profile" src={logo} />
-                    {/* <div className={classes.root}>
-                            
+    
+    this.data = [
+      { title: 'All', id: 1 },
+      { title: 'Food', id: 2 },
+      { title: 'Clothes', id: 3 },
+      { title: 'Shelter', id: 4 },
+      { title: 'Water', id: 5 },
+      { title: 'Medical Emergency', id: 6 },
+      { title: 'Books/Toys', id: 7 },
+      { title: 'Live Update-Coronavirus', id: 8 },
+      { title: 'Medical Supplies', id: 9 },
+      { title: 'Live Update-Fire', id: 10 },
+      { title: 'Live Update-Accident', id: 11 },
+      { title: 'Groceries', id: 12 },
+    ]
+  }
+  
+  cameraApp = () => {
+    this.setState({
+      cameraOpen: true
+    })
+  }
 
-                    </div> */}
-                        {/* <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" /> */}
-                    {/* <Image
-                        src={logo}
-                        style={{ height: 140, width: 175, paddingTop: 0, backgroundColor: 'none' }}
-                        imageStyle={{ height: 120, width: 140, left: 13, top: 15 }}
-                    /> */}
-                    <Typography component="h1" variant="h5">
-                        Uplaod Picture
-                <hr></hr>
-                    </Typography>
-<Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            {/* <Box style={{ height: theme.spacing(1) }} /> */}
-                            <Grid container item>
-                                <Grid item xs={6}>
-                                    <Button
-                                        type="submit" 
-                                        halfWidth
-                                        variant="contained"
-                                        justifyContent='center'
-                                        color="primary"
-                                        onClick={this.onClick}
-                                        className={classes.submit}>
-                                            <CameraAltIcon/>
-                                        Snap
-                                </Button>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Button
-                                        type="submit"
-                                        halfWidth
-                                        variant="contained"
-                                        justifyContent='center'
-                                        color="primary"
-                                        onClick={this.handleClose}
-                                        className={classes.submit}>
-                                            <ImageIcon/>
-                                        Browse
-                                </Button>
-                                </Grid>
-                            </Grid>
-                            {/* <Box style={{ height: theme.spacing(2) }} /> */}
-                        </Grid>
-                    </Grid>
+  takePicture = () => {
+    this.camera.capture()
+      .then(blob => {
+        this.img.src = URL.createObjectURL(blob);
+        this.img.onload = () => { URL.revokeObjectURL(this.src); }
+        this.setState({
+          cameraOpen: false,
+          img:false,
+        })  
+      })
+  }
+  
+  searchLocation = () => {
+    console.log("access google services here")
+  }
+  
+  render() {
+    const { classes } = this.props;
+    return (
+      <div >
+        <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
+          <center>
+            <Typography variant="h6">
+              Edit Deed
+            </Typography>
+          </center>
+        </AppBar>
+        <Container component="main" maxWidth="xs">
+          <div className={classes.paper}>
+            {this.state.cameraOpen &&
+              <Camera
+                className={classes.preview}
+                ref={(cam) => {
+                  this.camera = cam;
+                }}
+              >
+              </Camera>
+            }
+            {this.state.cameraOpen && <CameraIcon
+                      className={classes.captureButton}
+                      onClick={this.takePicture}
+                    >
+                    </CameraIcon> }
+            { this.state.img && 
+                <PhotoIcon style={{ height: 100, width: 100, color: "gray" }} />
+            }
+            <img
+              className={classes.captureImage}
+              ref={(img) => {
+                this.img = img;
+              }}
+            />
+            <Button
+              onClick={this.cameraApp}
+              variant="contained"
+              className={classes.button}
+              startIcon={<CameraAltIcon />}
+            >
+              Take Picture
+            </Button>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+              <Autocomplete
+                      id="disable-portal"
+                      onChange={this.categoryHandleChange}
+                      options={this.data}
+                      getOptionLabel={option => option.title}
+                      defaultValue={this.data[0]}
+                      renderInput={params => <TextField {...params} label="Select Category" margin="normal" />}
+                  />
+              </Grid>
+              <Grid item xs={12}>
+              <Autocomplete
+                      id="disable-portal"
+                      onChange={this.categoryHandleChange}
+                      options={this.data}
+                      getOptionLabel={option => option.title}
+                      defaultValue={this.data[0]}
+                      renderInput={params => <TextField {...params} label="Select Preferences" margin="normal" />}
+                  />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth 
+                  id="input-with-icon-grid"
+                  onClick={this.searchLocation}
+                  label={<div style={{marginTop:-10}}><MyLocationIcon/>{" Select location"}</div>}
+                  defaultValue="sitaput UP"
+                />
+              </Grid>
+              <Grid item container xs={12}>
+                <Grid item xs={6}>
                     <Typography>
-                        <p>
-                            Select C...
-                        </p>
+                        Permanent location
                     </Typography>
-                    <Autocomplete
-                        id="disable-portal"
-                        onChange={this.countryHandleChange}
-                        options={this.state.listOfCountry}
-                        getOptionLabel={option => option.Cntry_Name}
-                        disablePortal
-                        renderInput={params => <TextField {...params} label="food" margin="normal" />}
+                </Grid>
+                <Grid xs={6}>
+                  <FormGroup style={{marginTop: -6,marginLeft:146}} >
+                    <FormControlLabel
+                      control={<Switch aria-label="login switch" />}
                     />
-<FormControlLabel control={<Checkbox checked={this.state.checked}
-                    />}
-                        //    onChange={this.toggleChecked}
-                        label="If you are agree then check here." />
-                    <Typography>
-                        <p>
-                           By logging in, you agree to our ....................
-                        </p>
-                    </Typography>
-                    <Typography>
-                        <p>
-                            Select Lo......
-                        </p>
-                    </Typography>
-                    <Typography>
-                        <p>
-                           By locghjkl ...................................
-                        </p>
-                    </Typography>
-
-                    <Typography>
-                        <h2>
-                           Description ...
-                        </h2>
-                    </Typography>
-                    <Typography>
-                        <p>
-                           By locghjkl...drtyuiuopiiuufdcvhjo7tgyukjb.................frfthgyjhkjkkljhgfde5678iuhj............trdyu8i9opplkjhgfd...
-                        </p>
-                    </Typography>
-
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={this.onClick}
-                    style={{ alignItems:"center",justify:"center"}}>
+                  </FormGroup>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth 
+                  id="input-with-icon-grid"
+                  label="Story of need"
+                />
+              </Grid>
+            </Grid>
+            <Button
+                type="submit"
+                halfWidth
+                variant="contained"
+                justifyContent='center'
+                color="primary"
+                className={classes.submit}>
                 Post
-                </Button>
-
-                </div>
-                </Container>
-                </div>
-
-
-        );
-    }
+              </Button>
+            </div>
+        </Container>
+      </div>
+    );
+  }
 }
-export default withSnackbar(withStyles(useStyles)(EditDeed));
+
+export default withSnackbar(withStyles(useStyles)(EditDeed)); 
