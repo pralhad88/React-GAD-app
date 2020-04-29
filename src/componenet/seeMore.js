@@ -22,6 +22,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 
 const baseUrl = process.env.API_URL;
@@ -179,7 +180,7 @@ class SeeMore extends Component {
                             </center>
                         </Box>
 
-                        <Grid container component="main" maxWidth="xs" spacing={2}>
+                        <Grid container component="main" spacing={2}>
                             <Grid item xs={12} container>
                                 <Grid item xs={4}>
                                     <AdjustIcon />
@@ -203,7 +204,7 @@ class SeeMore extends Component {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Deed tagged by : {this.state.DeedDetailsList.fName}{this.state.DeedDetailsList.lName}
+                                    Deed tagged by : {this.state.DeedDetailsList.fName} {this.state.DeedDetailsList.lName}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} container>
@@ -261,12 +262,26 @@ class SeeMore extends Component {
                                     COMMENT
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12}>
-                                <form style={{ paddingTop: 0, padding: 0 }} onSubmit={this.onSubmit}>
-                                <CommentIcon />
-                                <input style={{ padding: 13, marginLeft: 28, width: 225 }} value={this.state.comment} onChange={this.onChange} />
-                                    <button style={{ marginLeft: 23, background: "#eb7134", padding: 13, color: "white" }}>post</button>
-                                </form>
+                            <Grid item xs={12} container>
+                                <Grid item>
+                                <Avatar variant="rounded" className={classes.rounded}>
+                                    <CommentIcon />
+                                </Avatar>
+                                </Grid>
+                                <Grid item>
+                                    <input style={{ padding: 10, width: 210, margin:'0px 4px 0px 4px' }} value={this.state.comment} onChange={this.onChange} />
+                                </Grid>
+                                <Grid item >
+                                    <Button
+                                      type="submit"
+                                      variant="contained"
+                                      color="primary"
+                                      className={classes.submit}
+                                      onClick={this.onSubmit}
+                                    >
+                                      Post
+                                    </Button>
+                                </Grid>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
@@ -279,9 +294,8 @@ class SeeMore extends Component {
                                 {this.state.commentsList.length > 0 &&
                                 <List>
                                     {this.state.commentsList.map((item, index) => (
-                                        <ListItem>
+                                        <ListItem key={index}>
                                             <ListItemText>
-                                                <Typography key={index}>
                                                     <Typography style={{ color: "blue", background: "whitesmoke" }} >
                                                         {item.fName}
                                                     </Typography>
@@ -289,7 +303,6 @@ class SeeMore extends Component {
                                                     <Typography style={{background: "whitesmoke" }}>
                                                         {item.comment}
                                                     </Typography>
-                                                </Typography>
                                             </ListItemText>
                                         </ListItem>
                                     ))}
@@ -302,9 +315,7 @@ class SeeMore extends Component {
                                 <Grid item xs={6}>
                                     <Button
                                         type="submit"
-                                        halfWidth
                                         variant="contained"
-                                        justifyContent='center'
                                         color="primary"
                                         onClick={this.giftaDeedonClick}
                                         className={classes.submit}
@@ -315,9 +326,7 @@ class SeeMore extends Component {
                                 <Grid item xs={6}>
                                     <Button
                                         type="submit"
-                                        halfWidth
                                         variant="contained"
-                                        justifyContent='center'
                                         color="primary"
                                         onClick={this.onClick}
                                         className={classes.submit}

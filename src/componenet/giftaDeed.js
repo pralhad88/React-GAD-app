@@ -37,7 +37,7 @@ const useStyles = theme => ({
         },
     },
     paper: {
-        marginTop: theme.spacing(10),
+        marginTop: theme.spacing(13),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -182,7 +182,7 @@ class GiftaDeed extends Component {
                                         Is this deed fulfilled completely?
                     </Typography>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <FormGroup style={{ marginTop: -6, marginLeft: 100 }} >
                                         <Typography>
                                             <FormControlLabel
@@ -225,9 +225,7 @@ class GiftaDeed extends Component {
                         </Grid>
                         <Button
                             type="submit"
-                            halfWidth
                             variant="contained"
-                            justifyContent='center'
                             color="primary"
                             className={classes.submit}>
                             submit

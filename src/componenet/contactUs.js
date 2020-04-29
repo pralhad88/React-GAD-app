@@ -16,7 +16,7 @@ const payload = new FormData();
 
 const useStyles = theme => ({
     paper: {
-        marginTop: theme.spacing(10),
+        marginTop: theme.spacing(11),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -25,7 +25,7 @@ const useStyles = theme => ({
     textField: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
-        width: 300,
+        width: 400,
       },
     form: {
         width: '100%',
@@ -114,7 +114,7 @@ class ContactUs extends Component {
                                 <EmailIcon />
                             </Grid>
                             <Grid item xs={6}>
-                                <a class="mailto" href="mailto:admin@navisionltd.com">
+                                <a className="mailto" href="mailto:admin@navisionltd.com">
                                     <span style={{}}>    admin@navisionltd.com</span>
                                 </a>
                             </Grid>

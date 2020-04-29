@@ -27,7 +27,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   paper: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(11),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -100,10 +100,10 @@ class ListOfDeed extends Component {
           open={this.state.loading}
         >
           <DialogContent className={classes.container}>
-            <Spinner size={35} spinnerColor={"green"} spinnerWidth={5} visible={this.state.loading} />
+            <Spinner size={35} spinnercolor={"green"} spinnerwidth={5} visible={this.state.loading} />
           </DialogContent>
         </Dialog>
-        <Container component="main" maxWidth="xs" style={{ maxWidth: 690 }}>
+        <Container component="main" style={{ maxWidth: 690 }}>
           <div className={classes.paper}>
             <div style={{ textAlign: "center" }}>
               <List>
@@ -111,15 +111,15 @@ class ListOfDeed extends Component {
                 {this.state.listViewList.length ? <Box my={2}>
                   <Box my={3}>
                     <Typography><span style={{ color: "#f05f40", marginRight: 5 }}>{this.state.listViewList.length}</span>
-                              Deed found near you
-                            </Typography>
+                      Deed found near you
+                    </Typography>
                     <hr></hr>
                   </Box>
-                  {this.state.listViewList.map((item) => (
-                    <ListItem>
+                  {this.state.listViewList.map((item, index) => (
+                    <ListItem key={index}>
                       <ListItemText>
                         <Box my={2} style={{ minWidth: 500, background: "#F8F8FF" }}>
-                          <Grid container xs={12} style={{ padding: 10 }} component="main" maxWidth="xs">
+                          <Grid container item xs={12} style={{ padding: 10 }} component="main" maxWidth="xs">
                             <Grid item xs={6}>
                               <img
                                 src={logo}
@@ -127,7 +127,7 @@ class ListOfDeed extends Component {
                               />
                             </Grid>
                             <Grid item xs={6} container >
-                              <Grid item container xs={12} component="main" maxWidth="xs">
+                              <Grid item container item xs={12} component="main" maxWidth="xs">
                                 <Grid item xs={6}>
                                   <Typography>
                                     {item.Tagged_Title}
@@ -177,7 +177,6 @@ class ListOfDeed extends Component {
                 </Box> : <Box my={2}>
                     <Typography style={{ color: "#0000FF", marginTop: 100, marginBottom: 250, fontSize: "x-large" }}>
                       No needy people around you
-                                    <hr></hr>
                     </Typography>
                   </Box>}
               </List>

@@ -343,18 +343,16 @@ class Login extends Component {
             Login
           </Button>
           <Grid item>
-            <p>
-              <span >Not registered yet? </span>
-              <span>
-                <Link href="/register" variant="body2">
-                  Sign Up
-            </Link>
-              </span>
-              <p style={{ marginLeft: 20 }}>
-                <Link href="/forgetPassword" variant="body2">
-                  Forgot password?
+            <span >Not registered yet? </span>
+            <span>
+              <Link href="/register" variant="body2">
+                Sign Up
               </Link>
-              </p>
+            </span>
+            <p style={{ marginLeft: 20 }}>
+              <Link href="/forgetPassword" variant="body2">
+                Forgot password?
+              </Link>
             </p>
           </Grid>
           <h4><span className='orlogin'>OR LOGIN WITH</span></h4>
@@ -395,10 +393,10 @@ class Login extends Component {
               </LinkedIn>
             </Grid> */}
           </Grid>
-          <Typography>
             <p style={{ alignItems: 'center', marginLeft: 27 }}>
               By logging in, you agree to our
             </p>
+            <p>
             <span onClick={this.termsAndConditionsOpen} style={{ color: '#eb7134', cursor: 'pointer' }}>
               Term and conditions
             </span>
@@ -406,7 +404,7 @@ class Login extends Component {
             <span onClick={this.privacyAndPolicyOpen} style={{ color: '#eb7134', cursor: 'pointer' }}>
               Privacy Policy
             </span>
-          </Typography>
+            </p>
           <br></br>
         </div>
         <ResendLink
