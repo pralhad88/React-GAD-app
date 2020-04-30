@@ -24,7 +24,7 @@ const payload = new FormData();
 
 const useStyles = theme => ({
   paper: {
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(14),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',  

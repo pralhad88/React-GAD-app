@@ -7,22 +7,27 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core';
 import { withSnackbar } from 'notistack';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
 import Camera from 'react-camera';
 import CameraIcon from '@material-ui/icons/Camera';
-import MyLocationIcon from '@material-ui/icons/MyLocation';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import InfoIcon from '@material-ui/icons/Info';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import logo from '../assets/logo.png';
+import Image from 'material-ui-image';
+
+import Toolbar from '@material-ui/core/Toolbar';
+import { Box } from '@material-ui/core';
+import { Dialog } from '@material-ui/core';
+import DialogContent from '@material-ui/core/DialogContent';
+import { theme } from '../theme/theme';
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
@@ -53,9 +58,9 @@ const useStyles = theme => ({
     },
 
     submit: {
-        margin: theme.spacing(3, 0, 1),
+        margin: theme.spacing(3, 1, 1),
         backgroundColor: "#eb7134",
-        width: 150
+        width: 145
     },
 
     takePicture: {
@@ -80,7 +85,14 @@ const useStyles = theme => ({
     },
     captureImage: {
         width: '50%',
-    }
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        minWidth: 200,
+        padding: 16
+    },
 });
 
 
@@ -91,6 +103,10 @@ class GiftaDeed extends Component {
         this.state = {
             cameraOpen: false,
             img: true,
+            count: 1,
+            textMessage: '',
+            deedFulComletely: true,
+            modalOpen: false
         }
 
         this.data = [
@@ -115,6 +131,12 @@ class GiftaDeed extends Component {
         })
     }
 
+    handelchange = ( event ) => {
+        const { name, value } = event.target
+        this.setState({
+            [name]: value
+        })
+    }
     takePicture = () => {
         this.camera.capture()
             .then(blob => {
@@ -131,6 +153,36 @@ class GiftaDeed extends Component {
         console.log("access google services here")
     }
 
+    giftNow = () => {
+        // Call API to gift page.
+    }
+    
+    decrement = () => {
+        if(this.state.count > 1) {
+            this.setState({
+                count: this.state.count - 1
+            })
+        }
+    }
+
+    increment = () => {
+        this.setState({
+            count: this.state.count + 1
+        })
+    }
+
+    handleClose = () => {
+        this.setState({
+            modalOpen: false
+        })
+    }
+
+    handelOpen = () => {
+        this.setState({
+            modalOpen: true
+        });
+    }
+    
     render() {
         const { classes } = this.props;
         return (
@@ -196,7 +248,7 @@ class GiftaDeed extends Component {
                             <Grid item container xs={12}>
                                 <Grid item xs={4}>
                                     <Typography style={{ marginTop: 10 }}>
-                                        People benefited
+                                        People benefited?
                             </Typography>
                                 </Grid>
                                 <Grid item xs={4} style={{ marginTop: 10 }}>
@@ -204,9 +256,9 @@ class GiftaDeed extends Component {
                                 </Grid>
                                 <Grid item xs={4} className={classes.root}>
                                     <ButtonGroup size="small" aria-label="small outlined button group">
-                                        <Button style={{ backgroundColor: "#eb7134", color: "white" }}><RemoveIcon /></Button>
-                                        <Button>1</Button>
-                                        <Button style={{ backgroundColor: "#eb7134", color: "white" }}><AddIcon /></Button>
+                                        <Button style={{ backgroundColor: "#eb7134", color: "white" }} onClick={this.decrement}><RemoveIcon /></Button>
+                                        <Button>{this.state.count}</Button>
+                                        <Button style={{ backgroundColor: "#eb7134", color: "white" }} onClick={this.increment}><AddIcon /></Button>
                                     </ButtonGroup>
                                 </Grid>
                             </Grid>
@@ -217,8 +269,11 @@ class GiftaDeed extends Component {
                                 <Grid item xs={10}>
                                     <TextField
                                         fullWidth
+                                        name="textMessage"
+                                        defaultValue={this.state.textMessage}
                                         id="input-with-icon-grid"
                                         label="Tell people about your gift"
+                                        onChange={this.handelchange}
                                     />
                                 </Grid>
                             </Grid>
@@ -227,10 +282,60 @@ class GiftaDeed extends Component {
                             type="submit"
                             variant="contained"
                             color="primary"
-                            className={classes.submit}>
+                            className={classes.submit}
+                            onClick={this.handelOpen}
+                            >
                             submit
-              </Button>
+                        </Button>
                     </div>
+                    <Dialog
+          onClose={this.handleClose}
+          open={this.state.modalOpen}
+        >
+          <DialogContent className={classes.container}>
+            <Grid container item spacing={2}>
+              <Grid item xs={12}>
+                <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static', minHeight: 50 }}>
+                  <Image
+                    color="inherit"
+                    src={logo}
+                    style={{ height: -70, width: -120, paddingTop: 0 }}
+                    imageStyle={{ height: 50, width: 80, left: 90 }}
+                  />
+                </Toolbar>
+                <Box style={{ height: theme.spacing(4) }} />
+                <center>
+                <Typography component="h1" variant="h5">Do you really want to post?</Typography>
+                </center>
+                <Box style={{ height: theme.spacing(1) }} />
+                <Grid container item >
+                  <Grid item xs={6}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      onClick={this.giftNow}
+                      className={classes.submit}
+                    >
+                      Yes
+                      </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleClose}
+                      className={classes.submit}
+                    >
+                      No
+                      </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </DialogContent>
+        </Dialog>
                 </Container>
             </div>
         );

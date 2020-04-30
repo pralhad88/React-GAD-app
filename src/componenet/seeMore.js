@@ -33,7 +33,7 @@ const useStyles = theme => ({
         flexGrow: 1,
     },
     paper: {
-        marginTop: theme.spacing(9),
+        marginTop: theme.spacing(14),
         display: 'flex',
         flexDirection: 'column',
     },
