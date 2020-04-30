@@ -141,7 +141,10 @@ class PrivateNavList extends Component {
                 </Typography>
               </Grid>
               <Grid item>
-              <Button style={{ color: 'white', marginBottom: 16 }} onClick={this.handelChnage}>
+              <Button 
+                style={{ color: 'white', marginBottom: 16 }}
+                // onClick={this.handelChnage}
+              >
                 View Profile
               </Button>
               </Grid>

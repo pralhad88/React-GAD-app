@@ -170,7 +170,7 @@ class Dashaboard extends Component {
                             justify="flex-start"
                             alignItems="flex-start"
                         >
-                            <Grid item xs={12} sm={6} md={3} >
+                            {/* <Grid item xs={12} sm={6} md={3} >
                                 <Card className={classes.root}>
                                     <CardActionArea onClick={this.myTag}>
                                         <CardMedia
@@ -259,7 +259,7 @@ class Dashaboard extends Component {
                                         </center>
                                     </CardActionArea>
                                 </Card>
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={12} sm={6} md={3} >
                                 <Card className={classes.root}>
                                     <CardActionArea onClick={this.aboutApp}>
