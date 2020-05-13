@@ -5,37 +5,48 @@ import MapListButton from './mapListbutton'
 import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import CurrentLocation from './currentLocation';
 import Geocode from "react-geocode";
+import { currentAddress } from "../store/actions/auth";
+
 
 class MapContainer extends Component {
     constructor(props) {  
       super(props);
       this.state = {
-        showingInfoWindow: false,
+        showingInfoWindow: true,
         activeMarker: {},
-        selectedPlace: {}
+        selectedPlace: {},
+        location: ''
       }
 
-      Geocode.setApiKey('AIzaSyCvWHPdqMrAOsSa35aTDAr6ST1x4q2FJVE')
+      Geocode.setApiKey('AIzaSyBmiu7Ia3kJiOcNnPs_XF3HOt4RgUaO_c0')
       Geocode.setLanguage("en");
       Geocode.setRegion("in");
     }
     
     onMarkerClick = (props, marker, e) => {
-      const {lat, lng} = props.mapCenter;
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
         showingInfoWindow: true
       });
-      Geocode.fromLatLng(lat, lng).then(
-        response => {
-          const address = response.results[0].formatted_address;
-          console.log(address);
-        },
-        error => {
-          console.error(error);
-        }
-      );
+    }
+    
+    async componentDidUpdate() {
+      const { lat, lng } = await JSON.parse(localStorage.getItem('location'))
+      if (lat) {
+        Geocode.fromLatLng(lat, lng).then(
+          response => {
+            const address = response.results[0].formatted_address;
+            this.setState({
+              location: address
+            })
+            localStorage.setItem("address", address)
+          },
+          error => {
+            console.error(error);
+          }
+        );
+      }
     }
       
     onClose = props => {
@@ -55,14 +66,14 @@ class MapContainer extends Component {
                     centerAroundCurrentLocation
                     google={this.props.google}
                 >
-                  <Marker onClick={this.onMarkerClick} name={'current location'} />
+                  <Marker onClick={this.onMarkerClick} />
                   <InfoWindow
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}
                     onClose={this.onClose}
                   >
                     <div>
-                      <h3>{this.state.selectedPlace.name}</h3>
+                      <h3>{this.state.location}</h3>
                     </div>
                   </InfoWindow>
                 </CurrentLocation>
@@ -72,9 +83,14 @@ class MapContainer extends Component {
 };
 
 const mapStateToProps = (state) => ({
-    loggedInUser: state.auth.loggedInUser
+    loggedInUser: state.auth.loggedInUser,
+    currentAddress: state.auth.currentAddress,
 });
 
-export default withSnackbar((connect(mapStateToProps, undefined)(GoogleApiWrapper({
-    apiKey: 'AIzaSyCvWHPdqMrAOsSa35aTDAr6ST1x4q2FJVE'
+const mapDispatchToProps = (dispatch) => ({
+  currentAddress: () => dispatch(currentAddress()),
+});
+
+export default withSnackbar((connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper({
+    apiKey: 'AIzaSyBmiu7Ia3kJiOcNnPs_XF3HOt4RgUaO_c0'
   })(MapContainer))));

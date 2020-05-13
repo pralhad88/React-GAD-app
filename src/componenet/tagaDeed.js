@@ -18,6 +18,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Camera from 'react-camera';
 import CameraIcon from '@material-ui/icons/Camera';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Toolbar from '@material-ui/core/Toolbar';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Geocode from "react-geocode";
+import LocationSearchInput from "./searchLocation";
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
@@ -67,7 +73,10 @@ const useStyles = theme => ({
   },
   captureImage: {
     width: '50%',
-  }
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+},
 });
 
 
@@ -78,8 +87,12 @@ class TagaDeed extends Component {
     this.state = {
       cameraOpen: false,
       img:true,
+      currentAddress: '',
+      dailogOpen: false
     }
-    
+    Geocode.setApiKey('AIzaSyBmiu7Ia3kJiOcNnPs_XF3HOt4RgUaO_c0')
+    Geocode.setLanguage("en");
+    Geocode.setRegion("in");
     this.data = [
       { title: 'All', id: 1 },
       { title: 'Food', id: 2 },
@@ -94,6 +107,23 @@ class TagaDeed extends Component {
       { title: 'Live Update-Accident', id: 11 },
       { title: 'Groceries', id: 12 },
     ]
+  }
+  
+  async componentDidMount() {
+    const { lat, lng } = await JSON.parse(localStorage.getItem('location'))
+    if (lat) {
+      Geocode.fromLatLng(lat, lng).then(
+        response => {
+          const address = response.results[0].formatted_address;
+          this.setState({
+            currentAddress: address
+          })
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
   }
   
   cameraApp = () => {
@@ -115,7 +145,22 @@ class TagaDeed extends Component {
   }
   
   searchLocation = () => {
-    console.log("access google services here")
+    this.setState({
+      dailogOpen: true
+    })
+  }
+  
+  address = (address) => {
+    this.setState({
+      currentAddress: address,
+      dailogOpen: false
+    })
+  }
+  
+  handleClose = () => {
+    this.setState({
+      dailogOpen: false
+    })
   }
   
   render() {
@@ -203,7 +248,7 @@ class TagaDeed extends Component {
                   id="input-with-icon-grid"
                   onClick={this.searchLocation}
                   label={<div style={{marginTop:-10}}><MyLocationIcon/>{" Select location"}</div>}
-                  defaultValue="sitaput UP"
+                  value={this.state.currentAddress}
                 />
               </Grid>
               <Grid item container xs={12}>
@@ -248,6 +293,24 @@ class TagaDeed extends Component {
                 className={classes.submit}>
                 Post
               </Button>
+
+              <Dialog open={this.state.dailogOpen} fullWidth >
+                <DialogContent style={{height: 500}}>
+                <AppBar position='absolute'>
+                  <Toolbar>
+                    <ArrowBackIcon
+                      onClick={this.handleClose}
+                      style={{ color: 'white', cursor: 'pointer' }}
+                      className={classes.menuButton}
+                    />
+                    <Typography variant="h6" >
+                      Change Location
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                  <LocationSearchInput address={this.address}/>
+                </DialogContent>
+              </Dialog>
             </div>
         </Container>
       </div>

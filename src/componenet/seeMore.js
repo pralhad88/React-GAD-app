@@ -51,7 +51,8 @@ const useStyles = theme => ({
     },
     submit: {
         backgroundColor: "#eb7134",
-        width: 102
+        width: 102,
+        height: 40
     },
     textField: {
         width: 350,

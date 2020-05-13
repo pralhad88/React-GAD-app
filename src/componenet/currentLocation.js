@@ -5,7 +5,8 @@ const mapStyles = {
   map: {
     position: 'absolute',
     width: '100%',
-    height: '100%'
+    height: '100%',
+    marginTop: 90
   }
 };
 
@@ -55,6 +56,7 @@ class CurrentLocation extends Component {
                   lng: coords.longitude
                 }
               });
+              localStorage.setItem('location', JSON.stringify(this.state.currentLocation));
             });
           }
         }

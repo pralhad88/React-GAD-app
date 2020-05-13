@@ -2,7 +2,8 @@ export default (state = {
   isFetching: false,
   isAuthenticated: localStorage.getItem('Email') ? true : false,
   loggedInUser: JSON.parse(localStorage.getItem('user')),
-  Email: localStorage.getItem('Email')
+  Email: localStorage.getItem('Email'),
+  currentAddress: null
 }, action) => {
   console.log("Something should come here.");
   console.log(action);
@@ -28,6 +29,10 @@ export default (state = {
     case 'FETCHING_STATUS':
       return Object.assign({}, state, {
         isFetching: action.isFetchingStatus
+      });
+    case 'CURRENT ADDRESS':
+      return Object.assign({}, state, {
+        currentAddress: localStorage.getItem('address')
       });
     default: return state
   }

@@ -31,3 +31,7 @@ export const login = () => ({
 export const logout = () => ({
     type:'LOGOUT',
 });
+
+export const currentAddress = () => ({
+    type: "CURRENT ADDRESS"
+})
