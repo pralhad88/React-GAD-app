@@ -289,7 +289,6 @@ class MyProfile extends Component {
           .then((res) => {
             loggedInUser.Fname = Fname;
             loggedInUser.Lname = Lname;
-            loggedInUser.Country_ID = Country_ID;
             loggedInUser.Privacy = Privacy;
 
             localStorage.setItem('Email', Email);

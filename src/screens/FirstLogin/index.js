@@ -12,6 +12,7 @@ import logo from '../../assets/logo.png';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from 'react-redux';
+import { login } from '../../store/actions/auth';
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
@@ -53,7 +54,8 @@ class FirstLogin extends Component {
       listOfCountry: [],
       Country_ID: '',
       State_ID: '',
-      City_ID: ''
+      City_ID: '',
+      Email: ''
     };
   }
 
@@ -67,8 +69,13 @@ class FirstLogin extends Component {
     }
   }
 
-
-
+  onChange = (event) => {
+    const { name , value } = event.target
+    this.setState({
+      [name]: value
+    })
+  }
+  
   stateHandleChange = (event, values) => {
     if (values) {
       const State_ID = parseInt(values.State_ID)
@@ -89,20 +96,26 @@ class FirstLogin extends Component {
   }
 
   onClick = () => {
-    const { Country_ID, State_ID, City_ID } = this.state;
-    const { loggedInUser, Email } = this.props;
+    let { Country_ID, State_ID, City_ID, Email } = this.state;
+    const { User_ID } = JSON.parse(localStorage.getItem("user"))
+    if (!Email) {
+      Email = localStorage.getItem("Email");
+    }
     try {
       payload.append('Country_ID', Country_ID)
       payload.append('State_ID', State_ID)
       payload.append('City_ID', City_ID)
       payload.append('Email', Email)
-      payload.append('User_ID', parseInt(loggedInUser.User_ID))
+      payload.append('User_ID', parseInt(User_ID))
+      const { history } = this.props;
       if (Country_ID && State_ID && City_ID) {
         axios.post(`${baseUrl}first_login.php`, payload)
           .then((res) => {
             const [checkstatus] = res.data.checkstatus;
             if (checkstatus.status == 1) {
-              // oepn landding page
+              localStorage.setItem("Email", Email);
+              this.props.login()
+              history.push("/landing")
             } else {
               this.props.enqueueSnackbar('Something is wrong pleasse try again!', {
                 variant: 'error', anchorOrigin: {
@@ -127,6 +140,7 @@ class FirstLogin extends Component {
 
   render() {
     const { classes } = this.props;
+    const isEmail = localStorage.getItem("Email");
     return (
       <Container component="main" maxWidth="xs" style={{ padding: -100 }}>
         <CssBaseline />
@@ -170,6 +184,16 @@ class FirstLogin extends Component {
               disablePortal
               renderInput={params => <TextField {...params} label="City" margin="normal" />}
             />
+            { isEmail == "noEmail" && <TextField
+              margin="normal"
+              // required
+              fullWidth
+              label="Email Address"
+              name="Email"
+              value={this.state.Email}
+              autoComplete="email"
+              onChange={this.onChange}
+            />}
           </div>
 
           <Button
@@ -238,5 +262,8 @@ const mapStateToProps = (state) => ({
   Email: state.auth.Email
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  login: () => dispatch(login()),
+});
 
-export default withSnackbar(withStyles(useStyles)(connect(mapStateToProps, undefined)(FirstLogin)));
+export default withSnackbar(withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(FirstLogin)));

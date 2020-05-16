@@ -91,14 +91,23 @@ class Login extends Component {
         .then((res) => {
           const { checkstatus } = res.data;
           const { history } = this.props;
-          if (!checkstatus.f_name) {
-            localStorage.setItem('Email', this.state.Email);
+
+          checkstatus["Fname"] = checkstatus.f_name;
+          checkstatus["Lname"] = checkstatus.l_name;
+          checkstatus["User_ID"] = checkstatus.user_id;
+          delete checkstatus.f_name;
+          delete checkstatus.l_name;
+          delete checkstatus.user_id;
+          
+          if (checkstatus.count == 0) {
+            localStorage.setItem('Email', email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
-            history.push('/firstLoging')
+            history.push('/firstLogin')
             // redirect to first login page
-          } else if (checkstatus.status == 1) {
-            localStorage.setItem('Email', this.state.Email);
+          } else {
+            localStorage.setItem('Email', email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
+            this.props.login()
             history.push('/landing')
             // direct goes to landing page
           }
@@ -113,18 +122,8 @@ class Login extends Component {
     let fullName = name.split(' ');
     const Fname = fullName[0];
     const Lname = fullName[1]
-    if (!email) {
-      this.setState({
-        Fname: fullName[0],
-        Lname: fullName[1],
-        userID: userID,
-        modalOpen: true
-      })
-    } else {
-      this.facebookLogin(Fname, Lname, email, userID)
-    }
+    this.facebookLogin(Fname, Lname, email, userID)
   }
-
   facebookLogin = (Fname, Lname, email, userID) => {
     payload.append('Fname', Fname)
     payload.append('Lname', Lname)
@@ -135,22 +134,31 @@ class Login extends Component {
       axios.post(`${baseUrl}facebook_signup.php`, payload)
         .then((res) => {
           const { checkstatus } = res.data;
-          if (!checkstatus.f_name) {
+
+          checkstatus["Fname"] = checkstatus.f_name;
+          checkstatus["Lname"] = checkstatus.l_name;
+          checkstatus["User_ID"] = checkstatus.user_id;
+          delete checkstatus.f_name;
+          delete checkstatus.l_name;
+          delete checkstatus.user_id;
+
+          if (checkstatus.count === "0") {
             const { history } = this.props
-            localStorage.setItem('Email', this.state.Email);
+            localStorage.setItem('Email', email ? email : "noEmail");
             localStorage.setItem('user', JSON.stringify(checkstatus));
-            this.setState({
-              modalOpen: false
-            })  
-            history.push('/landing')
+            // this.setState({
+            //   modalOpen: false
+            // })  
+            history.push('/firstLogin')
             // redirect to first login page
-          } else if (checkstatus.status == 1) {
-            this.setState({
-              modalOpen: false
-            })
-            localStorage.setItem('Email', this.state.Email);
+          } else {
+            // this.setState({
+            //   modalOpen: false
+            // })
+            localStorage.setItem('Email', email);
             localStorage.setItem('user', JSON.stringify(checkstatus));
             const { history } = this.props
+            this.props.login()
             history.push('/landing')
             // direct goes to landing page
           }
@@ -227,11 +235,11 @@ class Login extends Component {
             } else if (checkstatus.status == 1) {
               localStorage.setItem('Email', this.state.Email);
               localStorage.setItem('user', JSON.stringify(checkstatus));
-              this.props.login(checkstatus, this.state.Email)
               const { history } = this.props;
               if(checkstatus.count == 0) {
                 history.push("/firstLogin");
-              }else {
+              } else {
+                this.props.login()
                 history.push("/landing");
               }
             }

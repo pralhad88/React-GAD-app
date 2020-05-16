@@ -4,18 +4,20 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import 'font-awesome/css/font-awesome.css'
 import Container from '@material-ui/core/Container';
-import { withStyles } from '@material-ui/core';
+import { InputAdornment, withStyles } from '@material-ui/core';
 import { withSnackbar } from 'notistack';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
 import Camera from 'react-camera';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CameraIcon from '@material-ui/icons/Camera';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import Dialog from '@material-ui/core/Dialog';
@@ -24,6 +26,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Geocode from "react-geocode";
 import LocationSearchInput from "./searchLocation";
+import Image from 'material-ui-image';
+import Box from '@material-ui/core/Box';
+import logo from "../assets/logo.png"
+import { theme } from "../theme/theme"
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
@@ -46,9 +52,9 @@ const useStyles = theme => ({
   },
 
   submit: {
-    margin: theme.spacing(3, 0, 1),
+    margin: theme.spacing(2, 1, 0),
     backgroundColor: "#eb7134",
-    width: 150
+    width: 120
   },
   
   takePicture: {
@@ -77,6 +83,12 @@ const useStyles = theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
 },
+formControl: {
+  margin: theme.spacing(3, 1, 0),
+},
+dropDown: {
+  cursor: 'pointer',
+},
 });
 
 
@@ -88,7 +100,12 @@ class TagaDeed extends Component {
       cameraOpen: false,
       img:true,
       currentAddress: '',
-      dailogOpen: false
+      dailogOpen: false,
+      modalOpen: false,
+      audience: "All Groups, All individual users",
+      story: "A person is needy",
+      allGroup: true,
+      individualUser: true,
     }
     Geocode.setApiKey('AIzaSyBmiu7Ia3kJiOcNnPs_XF3HOt4RgUaO_c0')
     Geocode.setLanguage("en");
@@ -159,10 +176,58 @@ class TagaDeed extends Component {
   
   handleClose = () => {
     this.setState({
-      dailogOpen: false
+      dailogOpen: false,
+      modalOpen: false
     })
   }
   
+
+  handleOpen = async () => {
+    this.setState({
+      modalOpen: true,
+    })
+  };
+
+  handleChange = (event) => {
+    const { name, value } = event.target
+    this.setState({
+      [name] : value
+    })
+  }
+
+  handleChangebox = (event) => {
+    const {name, checked} = event.target
+    this.setState({
+      [name] : checked
+    })
+  }
+  handleSubmit = () => {
+    const { allGroup, individualUser } = this.state
+    if (allGroup && individualUser) {
+      this.setState({
+        audience: "All Groups + 1 more",
+        modalOpen: false
+      })
+    }
+    if (allGroup && !individualUser) {
+      this.setState({
+        audience: "All Groups",
+        modalOpen: false
+      })
+    }
+    if (!allGroup && individualUser) {
+      this.setState({
+        audience: "All individual users",
+        modalOpen: false
+      })
+    }
+    if (!allGroup && !individualUser) {
+      this.setState({
+        audience: "",
+        modalOpen: false
+      })
+    }
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -266,21 +331,37 @@ class TagaDeed extends Component {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-              <Autocomplete
-                      id="disable-portal"
-                      onChange={this.categoryHandleChange}
-                      options={this.data}
-                      getOptionLabel={option => option.title}
-                      defaultValue={this.data[0]}
-                      renderInput={params => <TextField {...params} label="Select audience" margin="normal" />}
-                  />
+                <TextField
+                  fullWidth
+                  value={this.state.audience}
+                  name="audience"
+                  label="Select audience"
+                  type="Country"
+                  id="country"
+                  autoComplete="country"
+                  onClick={this.handleOpen}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <ArrowDropDownIcon
+                          className={classes.dropDown}
+                          onClick={this.handleOpen}
+                          color='primary'
+                          fontSize='large'
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  fullWidth 
+                  fullWidth
+                  value={this.state.story}
+                  name="story"
                   id="input-with-icon-grid"
                   label="Story of need"
-                  // defaultValue="sitaput UP"
+                  onChange={this.handleChange}
                 />
               </Grid>
             </Grid>
@@ -311,6 +392,63 @@ class TagaDeed extends Component {
                   <LocationSearchInput address={this.address}/>
                 </DialogContent>
               </Dialog>
+              <Dialog
+                open={this.state.modalOpen}
+              >
+                <DialogContent className={classes.container} >
+                  <Grid container spacing={2} >
+                    <Grid item xs={12}>
+                      <Toolbar style={{ backgroundColor: '#eb7134', height: 30, position: 'static', minHeight: 50 }}>
+                        <Image
+                          color="inherit"
+                          src={logo}
+                          style={{ height: -70, width: -120, paddingTop: 0 }}
+                          imageStyle={{ height: 50, width: 80, left: 70 }}
+                        />
+                      </Toolbar>
+                      <Box style={{ height: theme.spacing(1) }} />
+                      <FormControl component="fieldset" className={classes.formControl}>
+                        <FormGroup>
+                          <FormControlLabel
+                            control={<Checkbox checked={this.state.allGroup} onChange={this.handleChangebox} name="allGroup" />}
+                            label="All Groups"
+                          />
+                          <FormControlLabel
+                            control={<Checkbox checked={this.state.individualUser} onChange={this.handleChangebox} name="individualUser" />}
+                            label="All individual users"
+                          />
+                        </FormGroup>
+                      </FormControl>
+                      <Grid item container>
+                        <Grid item xs={6}>
+                          <Button
+                            fullWidth
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={this.handleSubmit}
+                          >
+                            ok
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Button
+                            fullWidth
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={this.handleClose}
+                          >
+                            Cancel
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </DialogContent>
+            </Dialog>
             </div>
         </Container>
       </div>
