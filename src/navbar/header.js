@@ -108,7 +108,7 @@ class Header extends React.Component {
                   <MenuIcon />
                 </IconButton>
               </Box>
-              {this.props.isAuthenticated && (history.location['pathname'] == '/landing' || history.location['pathname'] == '/list') && (<React.Fragment>
+              {this.props.isAuthenticated && (history.location['pathname'] == '/landing' || history.location['pathname'] == '/listOfdeed') && (<React.Fragment>
                 <Typography variant="h5">
                   Tagged Deed
               </Typography>
@@ -124,7 +124,7 @@ class Header extends React.Component {
               </Typography>
               </React.Fragment>)}
               <div className={classes.root} />
-              {history.location['pathname'] == '/landing' ?
+              {history.location['pathname'] == '/landing' || history.location['pathname'] == '/listOfdeed' ?
                 <div>
                   <IconButton color="inherit">
                     <Badge color="secondary">

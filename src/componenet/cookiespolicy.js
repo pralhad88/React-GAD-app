@@ -82,10 +82,10 @@ class CookiesPolicy extends Component {
               <Typography variant="h6">What are your choices regarding cookies</Typography>
               <p>If you'd like to delete cookies or instruct your web browser to delete or refuse cookies, please visit the help pages of your web browser.</p>
               <p>Please note, however, that if you delete cookies or refuse to accept them, you might not be able to use all of the features we offer, you may not be able to store your preferences, and some of our pages might not display properly.</p>
-              <p>For the Chrome web browser, please visit this page from Google: https://support.google.com/accounts/answer/32050</p>
-              <p>For the Internet Explorer web browser, please visit this page from Microsoft: http://support.microsoft.com/kb/278835</p>
-              <p>For the Firefox web browser, please visit this page from Mozilla: https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored</p>
-              <p>For the Safari web browser, please visit this page from Apple: https://support.apple.com/kb/PH21411?locale=en_US</p>
+              <p>For the Chrome web browser, please visit this page from Google: <a href="https://support.google.com/accounts/answer/32050" target="_blank" style={{color: "blue"}}>https://support.google.com/accounts/answer/32050</a></p>
+              <p>For the Internet Explorer web browser, please visit this page from Microsoft: <a href="http://support.microsoft.com/kb/278835" target="_blank" style={{color: "blue"}}>http://support.microsoft.com/kb/278835</a></p>
+              <p>For the Firefox web browser, please visit this page from Mozilla: <a href="https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored" style={{color: "blue"}} target="_blank">https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored</a> </p>
+              <p>For the Safari web browser, please visit this page from Apple: <a href="https://support.apple.com/kb/PH21411?locale=en_US" style={{color: "blue"}} target="_blank">https://support.apple.com/kb/PH21411?locale=en_US</a></p>
               <p>For any other web browser, please visit your web browser's official web pages.</p>
             </Box>
             

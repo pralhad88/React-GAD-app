@@ -11,6 +11,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
+  "proxy": "https://kshandemo.co.in/gad3p2/api/",
   "homepage": "https://navgurukul.github.io/react-gift-a-deed.git",
   "author": "NavGurukul",
   "dependencies": {
@@ -88,6 +89,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "https://kshandemo.co.in/gad3p2/api/"
+  }
 }
