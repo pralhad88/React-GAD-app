@@ -19,6 +19,7 @@ import history from '../utils/history';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Spinner from 'react-spinner-material';
+import { getDistance } from 'geolib';
 
 const baseUrl = process.env.API_URL;
 const payload = new FormData();
@@ -54,7 +55,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
     flexDirection: 'column',
     maxWidth: 250,
-},
+  },
 });
 class ListOfDeed extends Component {
 
@@ -91,8 +92,40 @@ class ListOfDeed extends Component {
     history.push('/seeMore')
   }
 
+  getDistanceFromCureentLocation = (deedGeoPoints) => {
+    const { geoPoints } = this.props;
+    const latLog = deedGeoPoints.split(',')
+    const distance = getDistance({
+      latitude: geoPoints.lat,
+      longitude: geoPoints.lng
+    },
+      {
+        latitude: latLog[0],
+        longitude: latLog[1]
+      }
+    )
+    return <span style={{ color: "#f05f40" }}>{distance/1000} Km(s) away</span>
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => {
+    //       console.log(position.coords)
+    //       console.log(
+    //           'You are ',
+    //             getDistance({latitude: position.coords.latitude, longitude: position.coords.longitude }, {
+    //               latitude: latLog[0],
+    //               longitude: latLog[1],
+    //           }),
+    //           'meters away from 51.525, 7.4575'
+    //       );
+    //       return <p>Pralhad</p>
+    //   },
+    //   () => {
+    //       alert('Position could not be determined.');
+    //   }
+    // );
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     return (
       <div>
         <MapListButton />
@@ -141,7 +174,7 @@ class ListOfDeed extends Component {
                               </Grid>
                               <Grid item xs={12}>
                                 <Typography>
-                                  Location: <span style={{ color: "#f05f40" }}>0.01 km(s) away</span>
+                                Location: {this.getDistanceFromCureentLocation(item.Geopoint)}
                                 </Typography>
                               </Grid>
                               <Grid item xs={12}>
@@ -162,7 +195,9 @@ class ListOfDeed extends Component {
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
-                                    onClick={this.onClick}
+                                    onClick={() => {
+                                      history.push('/seeMore', item.Tagged_ID)
+                                    }}
                                   >
                                     See More
                                           </Button>
@@ -190,7 +225,8 @@ class ListOfDeed extends Component {
 
 
 const mapStateToProps = (state) => ({
-  loggedInUser: state.auth.loggedInUser
+  loggedInUser: state.auth.loggedInUser,
+  geoPoints: state.auth.geoPoints
 });
 
 export default withStyles(styles)(connect(mapStateToProps, undefined)(ListOfDeed));

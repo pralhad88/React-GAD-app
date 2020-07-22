@@ -3,6 +3,7 @@ export default (state = {
   isAuthenticated: localStorage.getItem('Email') ? true : false,
   loggedInUser: JSON.parse(localStorage.getItem('user')),
   Email: localStorage.getItem('Email'),
+  geoPoints: JSON.parse(localStorage.getItem('location')),
   currentAddress: null
 }, action) => {
   console.log("Something should come here.");
@@ -12,6 +13,7 @@ export default (state = {
       return Object.assign({}, state, {
         isAuthenticated: localStorage.getItem('Email') ? true : false,
         loggedInUser: JSON.parse(localStorage.getItem('user')),
+        geoPoints: JSON.parse(localStorage.getItem('location'))
       })
     case 'LOGOUT':
       localStorage.removeItem('Email');

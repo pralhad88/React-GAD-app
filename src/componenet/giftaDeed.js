@@ -106,7 +106,8 @@ class GiftaDeed extends Component {
             count: 1,
             textMessage: '',
             deedFulComletely: true,
-            modalOpen: false
+            modalOpen: false,
+            isFullFilled: true,
         }
 
         this.data = [
@@ -237,10 +238,14 @@ class GiftaDeed extends Component {
                                 <Grid item xs={6}>
                                     <FormGroup style={{ marginTop: -6, marginLeft: 100 }} >
                                         <Typography>
-                                            <FormControlLabel
-                                                control={<Switch style={{ color: "#eb7134" }} aria-label="login switch" />}
-                                            />
-                                        yes
+                                        <FormControlLabel
+                                            control={<Switch checked={this.state.isFullFilled} color="primary" aria-label="login switch" onClick={() => {
+                                                this.setState({
+                                                    isFullFilled: !this.state.isFullFilled
+                                                })
+                                            }} />}
+                                        />
+                                         { this.state.isFullFilled ? "Yes" : "No"}
                                         </Typography>
                                     </FormGroup>
                                 </Grid>
@@ -248,8 +253,8 @@ class GiftaDeed extends Component {
                             <Grid item container xs={12}>
                                 <Grid item xs={4}>
                                     <Typography style={{ marginTop: 10 }}>
-                                        People benefited?
-                            </Typography>
+                                        People benefited?  
+                                    </Typography>
                                 </Grid>
                                 <Grid item xs={4} style={{ marginTop: 10 }}>
                                     <InfoIcon />

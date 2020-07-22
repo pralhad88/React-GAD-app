@@ -24,9 +24,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
+import { connect } from 'react-redux';
 
 const baseUrl = process.env.API_URL;
-const payload = new FormData();
 
 const useStyles = theme => ({
     root: {
@@ -79,13 +79,13 @@ class SeeMore extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { comment } = this.state;
-        const { loggedInUser } = this.props;
-
-
+        const { loggedInUser, history } = this.props;
+        const deedId = history.location.state;
+        let payload = new FormData();
         try {
             payload.append('comment', comment)
-            payload.append('deedId', parseInt('3115'))
-            payload.append('userId', parseInt('644'))
+            payload.append('deedId', parseInt(deedId))
+            payload.append('userId', parseInt(loggedInUser.User_ID))
             if (comment) {
                 axios.post(`${baseUrl}post_comment.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
                     .then((res) => {
@@ -135,17 +135,19 @@ class SeeMore extends Component {
     }
 
     async fetchDeedDetails() {
-        const { loggedInUser } = this.props;
+        let payload = new FormData();
+        const { loggedInUser, history } = this.props;
+        const deedId = history.location.state;
         try {
-            payload.append('deedId', parseInt('3115'))
-            payload.append('userId', parseInt('644'))
+            payload.append('deedId', parseInt(deedId))
+            payload.append('userId', parseInt(loggedInUser.User_ID))
 
             const response = await axios.post(`${baseUrl}deed_details.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
             const DeedDetailsRes = response.data.deed_details[0];
             this.setState({
                 DeedDetailsList: DeedDetailsRes,
                 commentsList: DeedDetailsRes.comments,
-            })
+            });
         } catch (e) {
             console.log(e)
         }
@@ -161,6 +163,7 @@ class SeeMore extends Component {
     }
     render() {
         const { classes } = this.props;
+        const {DeedDetailsList, commentsList} = this.state;
         return (
             <div>
                 <AppBar position="fixed" style={{ marginTop: 56, height: 40, backgroundColor: "rgb(235, 113, 52) " }}>
@@ -189,29 +192,29 @@ class SeeMore extends Component {
 
                                 <Grid item xs={4}>
                                     <Typography>
-                                        {this.state.DeedDetailsList.tagName}
+                                        {DeedDetailsList.tagName}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Typography>
-                                        <Moment format="D MMM YYYY" withTitle>{this.state.DeedDetailsList.date}</Moment>
+                                        <Moment format="D MMM YYYY" withTitle>{DeedDetailsList.date}</Moment>
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    {this.state.DeedDetailsList.tagName} Preferences for person / people: Umbrella for 1
+                                    {DeedDetailsList.tagName} Preferences for person / people: Umbrella for 1
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Deed tagged by : {this.state.DeedDetailsList.fName} {this.state.DeedDetailsList.lName}
+                                    Deed tagged by : {DeedDetailsList.fName} {DeedDetailsList.lName}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} container>
                                 <Grid item xs={6}>
                                     <Typography>
-                                        Deed Location: {this.state.DeedDetailsList.address}
+                                        Deed Location: {DeedDetailsList.address}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6}>
@@ -224,9 +227,10 @@ class SeeMore extends Component {
                             <Grid item xs={12}>
                                 <TextField
                                     id="outlined-multiline-static"
-                                    label="Story of need:"
+                                    // label="Story of need:"
                                     multiline
-                                    rows="3"
+                                    rows="auto"
+                                    value={`Story of need:\n${DeedDetailsList.desc}`}
                                     variant="outlined"
                                     style={{ marginBottom: 20 }}
                                     className={classes.textField}
@@ -243,19 +247,19 @@ class SeeMore extends Component {
                                 <Grid item xs={4}>
                                     <Typography>
                                         <CheckCircleSharpIcon className={classes.listIcons} />
-                                        {this.state.DeedDetailsList.endorse}
+                                        {DeedDetailsList.endorse}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Typography>
                                         <VisibilityIcon className={classes.listIcons} />
-                                        {this.state.DeedDetailsList.views}
+                                        {DeedDetailsList.views}
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Last endorsed on: 2020-04-14 10:41:30
+                                    Last endorsed on: {DeedDetailsList.date}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
@@ -292,9 +296,9 @@ class SeeMore extends Component {
                             </Grid>
                             
                             <Grid item xs={12}>
-                                {this.state.commentsList.length > 0 &&
+                                {commentsList.length > 0 &&
                                 <List>
-                                    {this.state.commentsList.map((item, index) => (
+                                    {commentsList.map((item, index) => (
                                         <ListItem key={index}>
                                             <ListItemText>
                                                     <Typography style={{ color: "blue", background: "whitesmoke" }} >
@@ -345,4 +349,8 @@ class SeeMore extends Component {
     }
 }
 
-export default withSnackbar(withStyles(useStyles)(SeeMore)); 
+const mapStateToProps = (state) => ({
+    loggedInUser: state.auth.loggedInUser
+});
+
+export default withSnackbar(withStyles(useStyles)(connect(mapStateToProps, undefined)(SeeMore))); 

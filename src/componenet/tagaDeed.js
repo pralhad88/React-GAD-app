@@ -25,9 +25,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Geocode from "react-geocode";
+import Slider from '@material-ui/core/Slider';
 import LocationSearchInput from "./searchLocation";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import Image from 'material-ui-image';
 import Box from '@material-ui/core/Box';
+import axios from 'axios';
 import logo from "../assets/logo.png"
 import { theme } from "../theme/theme"
 
@@ -100,29 +105,37 @@ class TagaDeed extends Component {
       cameraOpen: false,
       img:true,
       currentAddress: '',
+      latLog: "",
+      PAddress: "N",
+      imagePath: "",
+      validity: 3,
       dailogOpen: false,
       modalOpen: false,
       audience: "All Groups, All individual users",
       story: "A person is needy",
       allGroup: true,
       individualUser: true,
+      container: 0,
+      containerOpen: true,
+      Title: "Food",
+      noNeedPeople: 1
     }
+    
     Geocode.setApiKey('AIzaSyBmiu7Ia3kJiOcNnPs_XF3HOt4RgUaO_c0')
     Geocode.setLanguage("en");
     Geocode.setRegion("in");
     this.data = [
-      { title: 'All', id: 1 },
-      { title: 'Food', id: 2 },
-      { title: 'Clothes', id: 3 },
-      { title: 'Shelter', id: 4 },
-      { title: 'Water', id: 5 },
-      { title: 'Medical Emergency', id: 6 },
-      { title: 'Books/Toys', id: 7 },
-      { title: 'Live Update-Coronavirus', id: 8 },
-      { title: 'Medical Supplies', id: 9 },
-      { title: 'Live Update-Fire', id: 10 },
-      { title: 'Live Update-Accident', id: 11 },
-      { title: 'Groceries', id: 12 },
+      { title: 'Food', id: 1 },
+      { title: 'Clothes', id: 2 },
+      { title: 'Shelter', id: 3 },
+      { title: 'Water', id: 4 },
+      { title: 'Medical Emergency', id: 5 },
+      { title: 'Books/Toys', id: 6 },
+      { title: 'Live Update-Coronavirus', id: 7 },
+      { title: 'Medical Supplies', id: 8 },
+      { title: 'Live Update-Fire', id: 9 },
+      { title: 'Live Update-Accident', id: 10 },
+      { title: 'Groceries', id: 11 },
     ]
   }
   
@@ -133,7 +146,8 @@ class TagaDeed extends Component {
         response => {
           const address = response.results[0].formatted_address;
           this.setState({
-            currentAddress: address
+            currentAddress: address,
+            latLog: `${lat},${lng}`
           })
         },
         error => {
@@ -157,6 +171,7 @@ class TagaDeed extends Component {
         this.setState({
           cameraOpen: false,
           img:false,
+          imagePath: blob.type
         })  
       })
   }
@@ -168,8 +183,12 @@ class TagaDeed extends Component {
   }
   
   address = (address) => {
+    const currentAddress = address.formatted_address
+    const lat = address.geometry.location.lat()
+    const log = address.geometry.location.lng()
     this.setState({
-      currentAddress: address,
+      currentAddress: currentAddress,
+      latLog: `${lat},${log}`,
       dailogOpen: false
     })
   }
@@ -228,6 +247,115 @@ class TagaDeed extends Component {
       })
     }
   }
+
+  toggleChecked = () => {
+    const {container} = this.state;
+    if(container === 0) {
+      this.setState({
+        container: 1
+      })
+    } else {
+      this.setState({
+        container: 0
+      })
+    }
+  }
+  
+  categoryHandleChange = (event) => {
+    const value = event.target.textContent;
+    if (value == "Food" || value == "Water") {
+      this.setState({
+        containerOpen: true
+      })
+    }else {
+      this.setState({
+        containerOpen: false
+      })
+    }
+    this.setState({
+      Title: value
+    })
+  }
+
+  PAddress = () => {
+    const {PAddress} = this.state
+    if (PAddress == "N") {
+      this.setState({
+        PAddress: "Y"
+      })
+    } else {
+      this.setState({
+        PAddress: "N"
+      })
+    }
+  }
+  sliderChange = (event, value) => {
+    this.setState({
+      validity: value
+    })
+  }
+  
+  decrement = () => {
+    const {noNeedPeople} = this.state;
+    if (noNeedPeople > 1) {
+      this.setState({
+        noNeedPeople: parseInt(noNeedPeople) - 1 
+      })
+    } else {
+      this.props.enqueueSnackbar('At least one person should be benefited', {
+        variant: 'error', anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        }
+      })
+    }
+  } 
+  
+  increment = () => {
+    this.setState({
+      noNeedPeople: parseInt(this.state.noNeedPeople) + 1
+    })
+  }
+  
+  postDeed = () => {
+    const { latLog, currentAddress, container, imagePath, story, PAddress, Title, validity, noNeedPeople} = this.state
+    const { User_ID } = JSON.parse(localStorage.getItem('user'))
+
+    payload.append("User_ID", parseInt(User_ID))
+    payload.append("Geopoint", latLog)
+    payload.append("Tagged_Photo_Path", imagePath)
+    payload.append("Tagged_Title", Title)
+    payload.append("Description", story)
+    payload.append("Address", currentAddress)
+    payload.append("validity", validity)
+    payload.append("container", container)
+    payload.append("PAddress", PAddress)
+    payload.append("NeedMapping_ID", 1)
+    payload.append("sub_type_pref", 1)
+    payload.append("all_groups", "Y")
+    payload.append("all_individuals", "Y")
+    payload.append("user_grp_ids", "")
+    payload.append("from_group", "")
+    
+    try {
+      if (parseInt(noNeedPeople) === 0) {
+        this.props.enqueueSnackbar('At least one person should be benefited', {
+          variant: 'error', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center',
+          }
+        })
+      } else {
+        axios.post(`${baseUrl}tag_need.php`, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
+        .then((res) => {
+          console.log(res)
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -293,20 +421,37 @@ class TagaDeed extends Component {
                       renderInput={params => <TextField {...params} label="Select Preferences" margin="normal" />}
                   />
               </Grid>
-              <Grid item xs={12}>
+
+              <Grid item container xs={12}>
+                  <Grid xs={6}>
+                    <Typography>
+                      Specify number of needy people
+                    </Typography>
+                  </Grid>
+                  <Grid xs={6}>
+                  <ButtonGroup size="small" aria-label="small outlined button group" style={{marginLeft:55}}>
+                    <Button style={{ backgroundColor: "#eb7134", color: "white" }} onClick={this.decrement}><RemoveIcon /></Button>
+                    <input onChange={this.handleChange} name="noNeedPeople" value= {this.state.noNeedPeople} style={{width: 0, padding:5, textAlign: "center"}}></input>
+                    <Button style={{ backgroundColor: "#eb7134", color: "white" }} onClick={this.increment}><AddIcon /></Button>
+                  </ButtonGroup>
+                  </Grid>
+              </Grid>
+              {this.state.containerOpen && <div><Grid item xs={12}>
                 <FormControlLabel
                   control={ <Checkbox
                     checked={this.state.checked}
-                    onChange={this.toggleChecked} 
+                    onChange={this.toggleChecked}
+                    color="primary"
                     />}
                   label="Container Available"
                 />
               </Grid>
               <Grid item xs={12}>
-                <Typography>
-                  * Whether that needy person has a food plate/water container to receive the donated food/water?
-                </Typography>
-              </Grid>
+              <Typography>
+                * Whether that needy person has a food plate/water container to receive the donated food/water?
+              </Typography>
+            </Grid></div>}
+              
               <Grid item xs={12}>
                 <TextField
                   fullWidth 
@@ -325,10 +470,33 @@ class TagaDeed extends Component {
                 <Grid xs={6}>
                   <FormGroup style={{marginTop: -6,marginLeft:146}} >
                     <FormControlLabel
-                      control={<Switch aria-label="login switch" />}
+                      control={<Switch onClick={this.PAddress} aria-label="login switch" color="primary"/>}
                     />
                   </FormGroup>
                 </Grid>
+              </Grid>
+              <Grid item container xs = {12}>
+                <Grid xs={6}> 
+                  <Typography style={{fontSize: 15}}>
+                  Deed Validity (1 to 48 Hours)
+                  </Typography>
+                </Grid>
+                <Grid xs={6}>
+                    <Typography style={{marginLeft:146, color: "#f05f40" }} >
+                      {this.state.validity}hr(s)
+                    </Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+              <Slider 
+                    min={1}
+                    step={1}
+                    max={48}
+                    onChange={this.sliderChange}
+                    valueLabelDisplay="auto"
+                    defaultValue={3}
+                    aria-labelledby="non-linear-slider"
+                  />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -371,6 +539,7 @@ class TagaDeed extends Component {
                 variant="contained"
                 justifyContent='center'
                 color="primary"
+                onClick={this.postDeed}
                 className={classes.submit}>
                 Post
               </Button>
@@ -410,11 +579,11 @@ class TagaDeed extends Component {
                       <FormControl component="fieldset" className={classes.formControl}>
                         <FormGroup>
                           <FormControlLabel
-                            control={<Checkbox checked={this.state.allGroup} onChange={this.handleChangebox} name="allGroup" />}
+                            control={<Checkbox checked={this.state.allGroup} onChange={this.handleChangebox} name="allGroup" color="primary" />}
                             label="All Groups"
                           />
                           <FormControlLabel
-                            control={<Checkbox checked={this.state.individualUser} onChange={this.handleChangebox} name="individualUser" />}
+                            control={<Checkbox checked={this.state.individualUser} onChange={this.handleChangebox} name="individualUser" color="primary" />}
                             label="All individual users"
                           />
                         </FormGroup>
